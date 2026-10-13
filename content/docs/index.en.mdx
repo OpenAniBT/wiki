@@ -92,6 +92,31 @@ Whether you are a fansub team distributing releases, an anime fan looking for hi
   </Tab>
 </Tabs>
 
+## Anime Metadata Updates
+
+Anime metadata updates automatically from its sources. If an update is delayed, you do not need to keep refreshing the page. Waiting for a retry preserves the metadata already available.
+
+<TypeTable type={{
+  "Temporary failures": {
+    "type": "Behavior",
+    "description": "A confirmed timeout, connection failure or HTTP 500/502/503 response from a Bangumi metadata query waits 1 minute, 5 minutes, 15 minutes, then 1 hour for the first four consecutive failures. Later backoff is 12, 24, 48 and 96 hours, capped at 7 days. Up to 20% extra delay may be added within that cap. A later deadline required by the source still applies."
+  },
+  "Source limits or pauses": {
+    "type": "Behavior",
+    "description": "Rate limiting follows the waiting time supplied by the source, or 15 minutes when none is supplied. A source authentication failure pauses synchronization until an administrator checks and resumes it."
+  },
+  "Unconfirmed outcomes or repeated failures": {
+    "type": "Behavior",
+    "description": "An unconfirmed request outcome retains at least 12 hours of protection from that attempt. After five actual failures in one round, the next automatic round waits at least another 12 hours. Waiting itself does not count as a failure. Manual refresh cannot bypass source limits or protection for unconfirmed outcomes."
+  },
+  "Waiting status": {
+    "type": "Behavior",
+    "description": "The admin console shows the actual error time separately from the current waiting reason, earliest next query time and most recent accepted metadata. A paused source has no confirmed recovery time. The earliest retry time is not a completion promise."
+  }
+}} />
+
+These rules cover anime metadata synchronization. For publishing releases to external sites, see [Site Sync](/en/docs/site-sync).
+
 ## Interface Languages
 
 The AniBT main site has three interface languages: Simplified Chinese, Traditional Chinese, and English. The URL alone decides the page language, and the three URLs correspond one to one.
