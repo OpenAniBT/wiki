@@ -26,6 +26,12 @@ Visit the [Tracker status page](https://tracker.anibt.net/) to view seeders, lee
 
 Data updates every minute. Outdated or unavailable snapshots are clearly marked. Missing measurements display `—`, and charts never invent missing history. Peers are counted per torrent swarm, not as unique users. Connections include idle connections and are not counts of seeders or leechers.
 
+The selected time window keeps its full span. Shaded regions mark missing samples, and lines do not bridge those gaps. Each chart shows the valid sample count and recorded time range. The announce mean includes valid samples only.
+
+The vertical axis starts at zero by default. Select **Fit data** to inspect small changes in cumulative completions or other metrics; the starting value is shown below the chart. Completed downloads remain a cumulative count.
+
+Hover over a chart or tap it on a phone to inspect the exact time and values. Tapping a gap reports that no sample is available. With the chart focused, use the arrow keys to move between samples, <kbd>Home</kbd> / <kbd>End</kbd> to jump to the first or last sample, and <kbd>Esc</kbd> to clear the selection. Expand **View sample details** to read individual records in the current window.
+
 ## Torrent Creation and Publishing Workflow
 
 <Steps>
