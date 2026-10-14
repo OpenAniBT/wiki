@@ -12,6 +12,22 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
 ## October 14, 2026
 
 <TypeTable type={{
+  "Fansub page data updates": {
+    "type": "Fix",
+    "description": "Pages now reflect refreshed group names, membership and related information instead of retaining an outdated view after the data has changed. If a save succeeds but the subsequent refresh fails, the message identifies the refresh failure to avoid resubmitting an already completed operation."
+  },
+  "Account and access changes": {
+    "type": "Fix",
+    "description": "After an account switch or confirmed loss of group access, open private pages stop showing data from the previous account or access scope. Reads and confirmations started before the switch cannot carry old data into the new account."
+  },
+  "Loading errors and retry waits": {
+    "type": "Improvement",
+    "description": "Failed page loads retain error and retry guidance. Refreshes and retries respect server-requested waiting periods and can be attempted again once the wait ends, avoiding repeated requests before the wait has expired."
+  },
+  "Clearing publishing preferences": {
+    "type": "Fix",
+    "description": "Fixed saving after clearing publishing preferences. Once cleared and saved, the previous preferences no longer appear on the next read."
+  },
   "Metadata recovery and waiting status": {
     "type": "Improvement",
     "description": "Confirmed temporary failures in Bangumi metadata queries now receive bounded retries at minute-scale intervals while respecting source deadlines. Unconfirmed outcomes retain their protection. Interrupted synchronization resumes saved progress, and the admin console separates actual error times from current waiting reasons so old errors do not appear newly triggered. See Anime Metadata Updates in Getting Started."
