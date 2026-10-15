@@ -148,11 +148,11 @@ const localeTitles: Record<
   'releases-publish': {
     en: {
       title: 'Publish anime',
-      description: 'POST /api/releases/publish — publish with an API Key. See Conventions and authentication for Idempotency-Key replay and 503 retry rules.',
+      description: 'POST /api/releases/publish — publish with an API Key. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. See Conventions and authentication for replay and 503 retry rules.',
     },
     'zh-Hant': {
       title: '釋出番劇資源',
-      description: 'POST /api/releases/publish —— 字幕組用 API Key 釋出種子。Idempotency-Key 回放與 503 重試規則見「介面約定與鑑權」。',
+      description: 'POST /api/releases/publish —— 字幕組用 API Key 釋出種子。Idempotency-Key 自首次受理起綁定完整請求。同鍵變更參數回傳 409 CONFLICT；缺少綁定的舊未完成上傳請求回傳 legacy_request_binding_missing，兩者均須使用新鍵。回放與 503 重試規則見「介面約定與鑑權」。',
     },
   },
   'other-releases-publish-whoami': {
@@ -168,11 +168,11 @@ const localeTitles: Record<
   'other-releases-publish': {
     en: {
       title: 'Publish other',
-      description: 'POST /api/other-releases/publish — non-anime categories; torrent required. See Conventions and authentication for Idempotency-Key replay and 503 retry rules.',
+      description: 'POST /api/other-releases/publish — non-anime categories; torrent required. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. See Conventions and authentication for replay and 503 retry rules.',
     },
     'zh-Hant': {
       title: '釋出其他類資源',
-      description: 'POST /api/other-releases/publish —— category 與 title 必填。Idempotency-Key 回放與 503 重試規則見「介面約定與鑑權」。',
+      description: 'POST /api/other-releases/publish —— category 與 title 必填。Idempotency-Key 自首次受理起綁定完整請求。同鍵變更參數回傳 409 CONFLICT；缺少綁定的舊未完成上傳請求回傳 legacy_request_binding_missing，兩者均須使用新鍵。回放與 503 重試規則見「介面約定與鑑權」。',
     },
   },
   'releases-delete': {

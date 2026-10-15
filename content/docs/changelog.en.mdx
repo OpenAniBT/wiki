@@ -9,6 +9,15 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   Entries are listed in reverse chronological order. If you encounter any bugs during regular use, feel free to report them via our [Support Email](/en/docs/contact).
 </Callout>
 
+## October 15, 2026
+
+<TypeTable type={{
+  "Publishing retry validation": {
+    "type": "Fix",
+    "description": "Publishing and preview requests are checked against the complete request from first acceptance. Changing parameters under the same idempotency key returns 409, preventing reuse of mismatched uploads or receipts. Unfinished legacy uploads without validation information return a specific reason and require a new key. Completed legacy requests still replay their original receipts."
+  }
+}} />
+
 ## October 14, 2026
 
 <TypeTable type={{
