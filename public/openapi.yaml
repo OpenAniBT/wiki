@@ -1669,7 +1669,7 @@ paths:
       operationId: releases-publish
       summary: 发布番剧资源
       description: >
-        番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。
+        番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。重放及 503 重试规则见「接口约定与鉴权」。
 
         animeId 按来源规范化：接受全角数字、前导零和该来源站点的番剧链接（bgm.tv / bangumi.tv / chii.in、myanimelist.net、anidb.net、anilist.co）。已合并的旧 BGM ID 发布到合并后的番剧。发布只解析站内已收录的番剧，不会新收录。
 
@@ -1842,7 +1842,7 @@ paths:
       operationId: other-releases-publish
       summary: 发布其他类资源
       description: >
-        其他类发布必须指定 category，不关联番剧。
+        其他类发布必须指定 category，不关联番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。重放及 503 重试规则见「接口约定与鉴权」。
 
         multipart 必须上传 torrent，title 省略时使用种子内部名；JSON 必须提供 title 和属于当前字幕组的 torrentStorageId。
 

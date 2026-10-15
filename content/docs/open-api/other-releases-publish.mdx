@@ -1,6 +1,8 @@
 ---
 title: 发布其他类资源
-description: 其他类发布必须指定 category，不关联番剧。
+description: 其他类发布必须指定 category，不关联番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409
+  CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。重放及 503
+  重试规则见「接口约定与鉴权」。
 full: true
 _openapi:
   preload:
@@ -12,7 +14,7 @@ _openapi:
     headings: []
     contents:
       - content: |
-          其他类发布必须指定 category，不关联番剧。
+          其他类发布必须指定 category，不关联番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。重放及 503 重试规则见「接口约定与鉴权」。
           multipart 必须上传 torrent，title 省略时使用种子内部名；JSON 必须提供 title 和属于当前字幕组的 torrentStorageId。
           成功发布返回 { ok: true, result: { releaseId, revision, torrentObjectId? } }。发布回执不包含 groupId、groupName、groupSlug、animeId 或 fileSize；发布前用 GET 同一路径核验身份。
           notes 最多 50000 字符。JSON 请求上限默认 1 MiB，multipart 默认 8 MiB，单个 .torrent 文件最多 5 MiB。
