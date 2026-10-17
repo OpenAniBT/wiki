@@ -92,6 +92,26 @@ Whether you are a fansub team distributing releases, an anime fan looking for hi
   </Tab>
 </Tabs>
 
+## Release Title Templates
+
+Title templates derive codec, bit depth, audio and source fields from the technical tags in the publishing form. Custom and built-in templates use the same spelling rules. Each template keeps its bracket, parenthesis and subtitle-label style.
+
+```text title="Put codec and bit depth in one pair of brackets"
+[{{codecBitDepth}}]
+```
+
+For example, `H.264` with `8 bit` produces `[AVC 8bit]`, and `HEVC-10bit` produces `[HEVC 10bit]`. A single space separates codec and bit depth. If only one field is present, only that field is shown; if both are missing, the empty brackets are removed. Use `codec` and `bitDepth` separately to control their layout.
+
+<TypeTable type={{
+  "codec": { type: "string", description: "The normalized video codec name, such as AVC, HEVC, AV1, VP9, MPEG4, VC-1 or ProRes." },
+  "bitDepth": { type: "string", description: "Recognized bit depth, formatted as 8bit or 10bit. Missing bit depth is not inferred from the codec." },
+  "audioCodec": { type: "string", description: "Consistent audio names, such as AAC, OPUS, TrueHD or DTS-HD MA. Channel information in the tag is retained." },
+  "source": { type: "string", description: "Consistent source names, such as WebRip, WEB-DL, BDRip or DVDRip. Hyphens within names are retained." },
+  "dimensions": { type: "string", description: "Standard dimensions for the selected resolution, matching the dimensions formatter on resolution. This is not a measurement of the video file. 480p maps to 854x480; 360p maps to 640x360." }
+}} />
+
+Formatting applies when a template generates a title. It does not rewrite saved technical tags or bulk-update published titles or original torrent filenames. Templates that include extra tags retain unrecognized custom labels.
+
 ## Anime Metadata Updates
 
 Anime metadata updates automatically from its sources. If an update is delayed, you do not need to keep refreshing the page. Waiting for a retry preserves the metadata already available.
