@@ -92,6 +92,26 @@ AniBT 是面向動漫愛好者與字幕組的 BT 資源分發、索引與檢索�
   </Tab>
 </Tabs>
 
+## 釋出標題範本
+
+標題範本根據釋出表單中的技術標籤產生編碼、位元深度、音訊與來源欄位。自訂範本和內建範本使用相同的拼寫規則；方括號、圓括號和字幕語言標籤保留各範本的樣式。
+
+```text title="將編碼與位元深度放在同一對方括號內"
+[{{codecBitDepth}}]
+```
+
+例如，`H.264` 與 `8 bit` 輸出 `[AVC 8bit]`，`HEVC-10bit` 輸出 `[HEVC 10bit]`。編碼與位元深度之間使用一個空格。只提供編碼或位元深度時僅顯示已有欄位，兩者都沒有時移除空括號。也可以分別使用 `codec` 和 `bitDepth` 自行排版。
+
+<TypeTable type={{
+  "codec": { type: "string", description: "視訊編碼的標準名稱，例如 AVC、HEVC、AV1、VP9、MPEG4、VC-1、ProRes。" },
+  "bitDepth": { type: "string", description: "已識別的位元深度，統一為 8bit 或 10bit；不根據編碼猜測缺少的位元深度。" },
+  "audioCodec": { type: "string", description: "音訊編碼採用統一拼寫，例如 AAC、OPUS、TrueHD、DTS-HD MA；保留標籤中的聲道資訊。" },
+  "source": { type: "string", description: "來源採用統一拼寫，例如 WebRip、WEB-DL、BDRip、DVDRip。名稱本身的連字號會保留。" },
+  "dimensions": { type: "string", description: "依所選解析度產生的標準尺寸，與 resolution 的 dimensions 格式化結果相同；這不是對視訊檔案的實測。480p 對應 854x480，360p 對應 640x360。" }
+}} />
+
+格式規範只用於重新產生範本標題，不回寫已儲存的技術標籤，也不會批次修改已釋出標題或原始種子檔名。無法識別的自訂標籤會保留在包含額外標籤的範本中。
+
 ## 番劇資料更新
 
 番劇資料會從來源自動更新。資料暫未更新時，無需連續重新整理頁面；等待重試不會清除已有資料。

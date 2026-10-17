@@ -92,6 +92,26 @@ AniBT 是面向动漫爱好者与字幕组的 BT 资源分发、索引与检索�
   </Tab>
 </Tabs>
 
+## 发布标题模板
+
+标题模板根据发布表单中的技术标签生成编码、位深、音频与来源字段。自定义模板和内置模板使用相同的拼写规则；方括号、圆括号和字幕语言标签保留各模板的样式。
+
+```text title="编码与位深放在同一对方括号内"
+[{{codecBitDepth}}]
+```
+
+例如，`H.264` 与 `8 bit` 输出 `[AVC 8bit]`，`HEVC-10bit` 输出 `[HEVC 10bit]`。编码与位深之间使用一个空格。只提供编码或位深时仅显示已有字段，两者都没有时移除空括号。也可以分别使用 `codec` 和 `bitDepth` 自行排版。
+
+<TypeTable type={{
+  "codec": { type: "string", description: "视频编码的规范名称，例如 AVC、HEVC、AV1、VP9、MPEG4、VC-1、ProRes。" },
+  "bitDepth": { type: "string", description: "已识别的位深，统一为 8bit 或 10bit；不根据编码猜测缺失的位深。" },
+  "audioCodec": { type: "string", description: "音频编码采用统一拼写，例如 AAC、OPUS、TrueHD、DTS-HD MA；保留标签中的声道信息。" },
+  "source": { type: "string", description: "来源采用统一拼写，例如 WebRip、WEB-DL、BDRip、DVDRip。名称自身的连字符会保留。" },
+  "dimensions": { type: "string", description: "按所选分辨率生成的标准尺寸，与 resolution 的 dimensions 格式化结果相同；这不是对视频文件的实测。480p 对应 854x480，360p 对应 640x360。" }
+}} />
+
+格式规范只用于重新生成模板标题，不回写已保存的技术标签，也不会批量修改已发布标题或原始种子文件名。无法识别的自定义标签在包含额外标签的模板中保留。
+
 ## 番剧资料更新
 
 番剧资料会从来源自动更新。资料暂未更新时，无需连续刷新页面；等待重试不会清除已有资料。
