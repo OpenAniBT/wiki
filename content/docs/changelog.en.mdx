@@ -9,6 +9,19 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   Entries are listed in reverse chronological order. If you encounter any bugs during regular use, feel free to report them via our [Support Email](/en/docs/contact).
 </Callout>
 
+## October 22, 2026
+
+<TypeTable type={{
+  "Compound tags and platforms in release titles": {
+    "type": "Fix",
+    "description": "A compound tag that still contains unknown text stays intact, for example DVD-BOX, CR版, TV版, and TV Size. Repeated annotations are emitted once. TVer, U-NEXT, d-anime, and Lemino are recognized as platforms and placed in the platform position of the classic brackets and techParens. In the classic brackets, AAC, AAC 2.0, AAC-LC, and HE-AAC combine with AVC as [AAC AVC]; with no video codec the output is [AAC]. HE-AACv2 does not join that combination. Existing published titles are not bulk-updated."
+  },
+  "Deleting an already deleted release": {
+    "type": "Fix",
+    "description": "An authorized DELETE /api/releases/{releaseId} for an already deleted release returns the original deletion operation instead of 404, and does not start another deletion. The status code still follows that operation’s current result. A release that never existed, or that this caller cannot access, still returns 404. That 404 is not proof that deletion completed."
+  }
+}} />
+
 ## October 17, 2026
 
 <TypeTable type={{

@@ -61,9 +61,13 @@ Check the URL, HTTP method, Content-Type, and response body first.
   "The same torrent remains available after deletion": {
     "type": "Shared resources",
     "description": "If another release still uses the same torrent, its download remains available. The deleted release’s own detail page and download URL are no longer available."
+  },
+  "DELETE an already deleted release": {
+    "type": "Original operation",
+    "description": "An authorized caller receives the original deletion operation, not 404, and does not start another deletion. 200, 202, and 500 still mean that operation’s current result."
   }
 }} />
 
 Application JSON errors identify the request in error.requestId, usually also in X-Request-ID. Plain text, XML, redirects, and edge responses do not guarantee this field. Report the endpoint, time, HTTP status, and available request ID; never include keys, cookies, or private RSS URLs.
 
-If DELETE returns 404, do not treat it as proof of completion. Read `/deletion` for the same releaseId.
+An authorized DELETE of an already deleted release returns the original deletion operation. If DELETE returns 404, the release never existed or this caller cannot access it. Do not treat that 404 as proof of completion. Read `/deletion` for the same releaseId.

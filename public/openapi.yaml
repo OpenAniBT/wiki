@@ -1962,7 +1962,7 @@ paths:
       description: >
         需要 releases:delete，只支持本组 rel_* 资源。无 query、无请求体。
 
-        最多等待约 2 秒：completed 返回 200，pending 返回 202；清理失败返回 500 RELEASE_DELETION_FAILED，回执在 error.details。删除受理后重复 DELETE 可能返回 404；请通过 GET /api/releases/{releaseId}/deletion 查询已有回执，404 不作为完成证明。
+        最多等待约 2 秒：completed 返回 200，pending 返回 202；清理失败返回 500 RELEASE_DELETION_FAILED，回执在 error.details。同一有权限的调用方再次 DELETE 时返回原来那一次删除操作，状态码与该操作当前结果相同，不会另开一次删除。从未存在或无权访问的资源仍返回 404；404 不是删除完成的证明，请通过 GET /api/releases/{releaseId}/deletion 查询已有回执。
 
         202 只表示已受理；只有 completed 才表示本站删除完成。其他发布仍在使用的同一种子会保留，已删除发布自己的详情页和下载地址不再可用。不会撤回已同步到外站的资源。
 

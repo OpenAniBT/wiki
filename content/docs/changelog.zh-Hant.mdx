@@ -9,6 +9,19 @@ description: 記錄 AniBT 平台面向使用者與字幕組的功能變更、最
   更新日誌按時間倒序排列。如果你在日常使用中發現了異常問題，歡迎透過 [支援信箱](/zh-Hant/docs/contact) 向我們回饋。
 </Callout>
 
+## 2026 年 10 月 22 日
+
+<TypeTable type={{
+  "釋出標題裡的複合標籤與平台": {
+    "type": "Fix",
+    "description": "複合標籤在仍含未知內容時整枚保留，例如 DVD-BOX、CR版、TV版、TV Size。重複的附加說明只輸出一次。TVer、U-NEXT、d-anime、Lemino 識別為平台，並進入經典方括號和 techParens 的平台位置。經典方括號中，AAC、AAC 2.0、AAC-LC、HE-AAC 與 AVC 組合為 [AAC AVC]；沒有視訊編碼時輸出 [AAC]，HE-AACv2 不參與組合。已有釋出標題不會批次改寫。"
+  },
+  "再次刪除已刪除的釋出": {
+    "type": "Fix",
+    "description": "對已刪除的釋出再次呼叫 DELETE /api/releases/{releaseId} 時，有權限的呼叫方收到原來那一次刪除操作，不再收到 404，也不會另開一次刪除。狀態碼仍按該操作的目前結果回傳。從未存在或無權存取的資源仍回傳 404，不能當作刪除完成。"
+  }
+}} />
+
 ## 2026 年 10 月 17 日
 
 <TypeTable type={{

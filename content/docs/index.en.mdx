@@ -112,6 +112,14 @@ For example, `H.264` with `8 bit` produces `[AVC 8bit]`, and `HEVC-10bit` produc
 
 Formatting applies when a template generates a title. It does not rewrite saved technical tags or bulk-update published titles or original torrent filenames. Templates that include extra tags retain unrecognized custom labels.
 
+A tag is split into fields only when every remaining part is a separator or a known annotation (HDR10+, HDR/HDR10, DV/Dolby Vision, HLG, Main10/Hi10P/Ma10p, DualAudio, Atmos, or PGS/SRT/ASS/SUP/IDX). Compound tags that still contain unknown text, such as `DVD-BOX`, `CR版`, `TV版`, and `TV Size`, stay intact as one tag.
+
+Repeated annotations or custom tags are emitted once. When both `HDR10+` and `HEVC HDR10+` are present, the title contains `[HDR10+]` only once.
+
+Platform names use the same vocabulary as autofill. `TVer`, `U-NEXT`, `d-anime`, and `Lemino` are placed in the platform position of the classic brackets and `techParens`.
+
+In the classic brackets, `AAC`, `AAC 2.0`, `AAC-LC`, and `HE-AAC` combine with AVC as `[AAC AVC]`. With no video codec, the output is `[AAC]`. `HE-AACv2` does not join this combination.
+
 ## Anime Metadata Updates
 
 Anime metadata updates automatically from its sources. If an update is delayed, you do not need to keep refreshing the page. Waiting for a retry preserves the metadata already available.
