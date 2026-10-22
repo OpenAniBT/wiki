@@ -44,6 +44,10 @@ description: 记录 AniBT 平台面向用户与字幕组的功能变更、优化
     "type": "Improvement",
     "description": "排序菜单删除「发布数」，该排序没有可用数据。旧链接带 sort=releases 时按默认顺序显示。"
   },
+  "RSS 发布说明清除 v2 与混合种子的哈希": {
+    "type": "Fix",
+    "description": "/rss/magnets.xml、字幕组、番剧×字幕组和分类这四类 RSS 中，发布说明里写出的本发布 v2（btmh）或混合种子哈希也会被去掉，与发布页和搜索 RSS 一致。其他输出不变。"
+  },
   "Tracker 统计批量查询的请求体上限": {
     "type": "Improvement",
     "description": "POST /api/tracker-stats/batch 的请求体超过 64 KiB 时返回 413 PAYLOAD_TOO_LARGE，在限流和解析之前拒绝。见「Tracker 规范与地址」。"

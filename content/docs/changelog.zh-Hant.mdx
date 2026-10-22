@@ -44,6 +44,10 @@ description: 記錄 AniBT 平台面向使用者與字幕組的功能變更、最
     "type": "Improvement",
     "description": "排序選單刪除「發布數」，該排序沒有可用資料。舊連結帶 sort=releases 時按預設順序顯示。"
   },
+  "RSS 釋出說明清除 v2 與混合種子的雜湊": {
+    "type": "Fix",
+    "description": "/rss/magnets.xml、字幕組、番劇×字幕組和分類這四類 RSS 中，釋出說明裡寫出的本釋出 v2（btmh）或混合種子雜湊也會被移除，與釋出頁和搜尋 RSS 一致。其他輸出不變。"
+  },
   "Tracker 統計批次查詢的請求本文上限": {
     "type": "Improvement",
     "description": "POST /api/tracker-stats/batch 的請求本文超過 64 KiB 時回傳 413 PAYLOAD_TOO_LARGE，在限流與解析之前拒絕。見「Tracker 規範與位址」。"

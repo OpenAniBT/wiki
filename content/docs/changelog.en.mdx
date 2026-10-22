@@ -44,6 +44,10 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
     "type": "Improvement",
     "description": "The sort menu no longer offers \"Release count\", which had no data behind it. An old link with sort=releases shows the default order."
   },
+  "RSS release notes drop v2 and hybrid torrent hashes": {
+    "type": "Fix",
+    "description": "In /rss/magnets.xml and the group, anime-and-group and category feeds, a v2 (btmh) or hybrid hash of the release itself is now removed from the release notes, as on the release page and in search feeds. Other output is unchanged."
+  },
   "Request size limit for tracker stats batch": {
     "type": "Improvement",
     "description": "POST /api/tracker-stats/batch returns 413 PAYLOAD_TOO_LARGE when the request body exceeds 64 KiB, before rate limiting and parsing. See Tracker Rules & Announce."
