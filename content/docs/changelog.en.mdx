@@ -34,7 +34,7 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   },
   "Lookup by Bangumi ID": {
     "type": "Fix",
-    "description": "After an administrator corrects an anime's Bangumi ID, a bgmId lookup uses the corrected ID instead of the old one."
+    "description": "After an administrator corrects an anime's Bangumi ID, the external-ID lookup (/api/anime/lookup?source=bgm) finds the anime by the corrected ID. Previously only the old ID found it."
   },
   "Relative times and release list navigation": {
     "type": "Fix",

@@ -34,7 +34,7 @@ description: 记录 AniBT 平台面向用户与字幕组的功能变更、优化
   },
   "按 Bangumi ID 查询": {
     "type": "Fix",
-    "description": "管理员修正番剧的 Bangumi ID 后，按 bgmId 查询使用修正后的 ID，不再停留在旧 ID。"
+    "description": "管理员修正番剧的 Bangumi ID 后，按外部 ID 查询番剧（/api/anime/lookup?source=bgm）用修正后的 ID 能查到该番剧。以前只能用旧 ID 查到。"
   },
   "相对时间与资源列表导航": {
     "type": "Fix",
