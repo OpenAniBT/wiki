@@ -157,6 +157,10 @@ Errors are JSON; see [Conventions and authentication](/en/docs/open-api/referenc
       type: 'HTTP 400',
       description: 'The request body is not valid JSON.',
     },
+    'PAYLOAD_TOO_LARGE': {
+      type: 'HTTP 413',
+      description: 'The request body exceeds 64 KiB. It is rejected before rate limiting and parsing.',
+    },
     'VALIDATION_ERROR': {
       type: 'HTTP 422',
       description: 'A field is invalid, or the body contains both releases and infoHashHexes.',

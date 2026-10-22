@@ -23,6 +23,34 @@ description: 記錄 AniBT 平台面向使用者與字幕組的功能變更、最
   "RSS 中的釋出說明": {
     "type": "Fix",
     "description": "RSS 條目 description 裡的釋出說明改用釋出頁同一套渲染：釋出者寫的 HTML 按 HTML 顯示，不再顯示為字面標籤；Markdown 的標題、表格、清單和程式碼區塊正常排版；內嵌樣式與指令碼屬性會被移除。說明正文中的磁力連結、種子位址和本釋出的 infoHash 不再出現，下載請使用 enclosure 或 description 末尾的下載連結。解析度、語言、容量等頭部欄位不變。Torznab 條目不含 description，不受影響。"
+  },
+  "外站同步的重試": {
+    "type": "Fix",
+    "description": "字幕組成員點選「重試同步」時，只重新提交該站失敗的那一次。該站已有任務在排隊或執行時，重試會被拒絕，連點不再重複提交，也不會把正在執行的提交改成結果待確認。結果待確認的記錄可能已經發到外站，不再提供重試；需要再次提交時，由字幕組所有者、管理員或站點管理員補發。規則見「站點同步總覽」。"
+  },
+  "成員郵箱的可見範圍": {
+    "type": "Improvement",
+    "description": "字幕組成員頁只向字幕組所有者和站點管理員顯示成員郵箱，字幕組管理員和一般成員看不到。字幕組概覽頁不再顯示成員郵箱。"
+  },
+  "按 Bangumi ID 查詢": {
+    "type": "Fix",
+    "description": "管理員修正番劇的 Bangumi ID 後，按 bgmId 查詢使用修正後的 ID，不再停留在舊 ID。"
+  },
+  "相對時間與資源列表導覽": {
+    "type": "Fix",
+    "description": "「x 小時前」一類相對時間在頁面開啟後按目前時間更新，不再停在頁面產生時的值。在資源列表頁（/magnets）內點選會改變篩選條件的連結，例如手機底部導覽的「最新資源」，頁面按新位址顯示，不再被改回原來的條件。"
+  },
+  "番劇海報牆排序": {
+    "type": "Improvement",
+    "description": "排序選單刪除「發布數」，該排序沒有可用資料。舊連結帶 sort=releases 時按預設順序顯示。"
+  },
+  "Tracker 統計批次查詢的請求本文上限": {
+    "type": "Improvement",
+    "description": "POST /api/tracker-stats/batch 的請求本文超過 64 KiB 時回傳 413 PAYLOAD_TOO_LARGE，在限流與解析之前拒絕。見「Tracker 規範與位址」。"
+  },
+  "頁面嵌入限制": {
+    "type": "Improvement",
+    "description": "AniBT 的 HTML 頁面帶 Content-Security-Policy: frame-ancestors 'self' 和 X-Frame-Options: SAMEORIGIN，其他網站不能再用 iframe 嵌入這些頁面。RSS、JSON 介面和靜態資源不受影響。授權同意頁收到無效參數時回傳請求錯誤，不再回傳 500。"
   }
 }} />
 

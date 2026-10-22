@@ -157,6 +157,10 @@ AniBT 為全站公開資源提供直接的 `.torrent` 二進位檔案下載路�
       type: 'HTTP 400',
       description: '請求本文不是有效的 JSON。',
     },
+    'PAYLOAD_TOO_LARGE': {
+      type: 'HTTP 413',
+      description: '請求本文超過 64 KiB，在限流與解析之前拒絕。',
+    },
     'VALIDATION_ERROR': {
       type: 'HTTP 422',
       description: '欄位不符合要求，或同時提供了 releases 與 infoHashHexes。',

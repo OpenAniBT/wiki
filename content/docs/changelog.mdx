@@ -23,6 +23,34 @@ description: 记录 AniBT 平台面向用户与字幕组的功能变更、优化
   "RSS 中的发布说明": {
     "type": "Fix",
     "description": "RSS 条目 description 里的发布说明改用发布页同一套渲染：发布者写的 HTML 按 HTML 显示，不再显示为字面标签；Markdown 的标题、表格、列表和代码块正常排版；内联样式与脚本属性会被去掉。说明正文中的磁力链接、种子地址和本发布的 infoHash 不再出现，下载请使用 enclosure 或 description 末尾的下载链接。分辨率、语言、容量等头部字段不变。Torznab 条目不含 description，不受影响。"
+  },
+  "外站同步的重试": {
+    "type": "Fix",
+    "description": "字幕组成员点击「重试同步」时，只重新提交该站失败的那一次。该站已有任务在排队或执行时，重试会被拒绝，连点不再重复提交，也不会把正在执行的提交改成结果待核实。结果待核实的记录可能已经发到外站，不再提供重试；需要再次提交时，由字幕组所有者、管理员或站点管理员补发。规则见「站点同步总览」。"
+  },
+  "成员邮箱的可见范围": {
+    "type": "Improvement",
+    "description": "字幕组成员页只向字幕组所有者和站点管理员显示成员邮箱，字幕组管理员和普通成员看不到。字幕组概览页不再显示成员邮箱。"
+  },
+  "按 Bangumi ID 查询": {
+    "type": "Fix",
+    "description": "管理员修正番剧的 Bangumi ID 后，按 bgmId 查询使用修正后的 ID，不再停留在旧 ID。"
+  },
+  "相对时间与资源列表导航": {
+    "type": "Fix",
+    "description": "「x 小时前」一类相对时间在页面打开后按当前时间更新，不再停在页面生成时的值。在资源列表页（/magnets）内点击会改变筛选条件的链接，例如手机底部导航的「最新资源」，页面按新地址显示，不再被改回原来的条件。"
+  },
+  "番剧海报墙排序": {
+    "type": "Improvement",
+    "description": "排序菜单删除「发布数」，该排序没有可用数据。旧链接带 sort=releases 时按默认顺序显示。"
+  },
+  "Tracker 统计批量查询的请求体上限": {
+    "type": "Improvement",
+    "description": "POST /api/tracker-stats/batch 的请求体超过 64 KiB 时返回 413 PAYLOAD_TOO_LARGE，在限流和解析之前拒绝。见「Tracker 规范与地址」。"
+  },
+  "页面嵌入限制": {
+    "type": "Improvement",
+    "description": "AniBT 的 HTML 页面带 Content-Security-Policy: frame-ancestors 'self' 和 X-Frame-Options: SAMEORIGIN，其他网站不能再用 iframe 嵌入这些页面。RSS、JSON 接口和静态资源不受影响。授权同意页收到无效参数时返回请求错误，不再返回 500。"
   }
 }} />
 

@@ -25,8 +25,10 @@ Once a release is accepted on AniBT, asynchronous tasks are queued for each enab
   </Step>
 
   <Step>
-    ### Inspect Status & One-Click Resync
-    Click the "Site Sync" status badge on any release card in your console to view real-time sync progress, external URLs, and error diagnostics. If an upload fails due to network issues, click "Resync" to retry immediately.
+    ### Inspect Status & Retry
+    Click the "Site Sync" status badge on any release card in your console to view real-time sync progress, external URLs, and error diagnostics. When a site fails, any group member can click "Retry sync" to resubmit that failed attempt. A retry is refused while the site already has a queued or running job, so repeated clicks do not submit twice.
+
+    An attempt whose outcome is uncertain (ambiguous) may already be on the external site, so it offers no retry and still shows as failed. Check the external site first. To submit again, a group owner, group admin or site administrator uses "Resend". Resending submits the release again and may create a duplicate post.
   </Step>
 </Steps>
 
@@ -53,7 +55,7 @@ When inspecting progress in the console or via the [Sync Status API](/en/docs/op
     'pending': { type: 'Status', description: 'Queued or actively uploading to the destination site.' },
     'success': { type: 'Status', description: 'Successfully published externally; response includes the external release URL.' },
     'failed': { type: 'Status', description: 'Upload failed due to bad credentials, invalid category, or external downtime.' },
-    'ambiguous': { type: 'Status', description: 'Network timeout before final confirmation; system holds for retry or manual check.' },
+    'ambiguous': { type: 'Status', description: 'No clear confirmation came back from the external site, so the release may already be there. The system does not retry it and the console offers no retry; after checking, a group owner, group admin or site administrator can resend.' },
   }}
 />
 

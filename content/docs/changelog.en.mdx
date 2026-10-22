@@ -23,6 +23,34 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   "Release notes in RSS": {
     "type": "Fix",
     "description": "Release notes in an RSS item's description now use the release page's renderer. HTML written by the publisher displays as HTML instead of literal tags; Markdown headings, tables, lists and code blocks render normally; inline styles and script attributes are removed. Magnet links, torrent addresses and the release's own infohash no longer appear in the notes; download through the enclosure or the download link at the end of the description. Header fields such as resolution, language and size are unchanged. Torznab items carry no description and are unaffected."
+  },
+  "Retrying site sync": {
+    "type": "Fix",
+    "description": "When a group member clicks \"Retry sync\", only that site's failed attempt is submitted again. A retry is refused while the site already has a queued or running job, so repeated clicks no longer submit twice or turn the running attempt into an uncertain outcome. An attempt whose outcome is uncertain may already be on the external site, so it no longer offers Retry; to submit again, a group owner, group admin or site administrator resends it. See Multi-Site Sync Overview."
+  },
+  "Who can see member emails": {
+    "type": "Improvement",
+    "description": "A group's member page shows member emails only to the group owner and site administrators. Group admins and plain members no longer see them. The group overview no longer shows member emails."
+  },
+  "Lookup by Bangumi ID": {
+    "type": "Fix",
+    "description": "After an administrator corrects an anime's Bangumi ID, a bgmId lookup uses the corrected ID instead of the old one."
+  },
+  "Relative times and release list navigation": {
+    "type": "Fix",
+    "description": "Relative times such as \"x hours ago\" now follow the current time after the page opens, instead of staying at the time the page was generated. On the release list (/magnets), a link that changes the filters, such as the phone bottom bar's Latest Releases link, now shows the new address instead of being reverted to the previous filters."
+  },
+  "Anime poster wall sorting": {
+    "type": "Improvement",
+    "description": "The sort menu no longer offers \"Release count\", which had no data behind it. An old link with sort=releases shows the default order."
+  },
+  "Request size limit for tracker stats batch": {
+    "type": "Improvement",
+    "description": "POST /api/tracker-stats/batch returns 413 PAYLOAD_TOO_LARGE when the request body exceeds 64 KiB, before rate limiting and parsing. See Tracker Rules & Announce."
+  },
+  "Embedding restriction": {
+    "type": "Improvement",
+    "description": "AniBT HTML pages carry Content-Security-Policy: frame-ancestors 'self' and X-Frame-Options: SAMEORIGIN, so other sites can no longer embed them in an iframe. RSS, JSON APIs and static assets are unaffected. The authorization consent page now answers invalid parameters with a request error instead of 500."
   }
 }} />
 
