@@ -368,16 +368,30 @@
     "Private response witnesses test HTTP handlers with substituted external boundaries.",
     "Default limits are source defaults, not live configuration measurements."
   ],
-  "catalogFactsRevision": {
-    "gitSha": "69dabc01a3df0c304610c3c080e129549d72b020",
-    "productionVersionVerified": true,
-    "fixtures": [
-      "bgm",
-      "season",
-      "bgm-invalid",
-      "season-invalid"
-    ],
-    "observedAt": "2026-09-26T01:42:09.011Z",
-    "note": "Changed endpoint evidence; all other witnesses retain their original audited baseline."
-  }
+  "fixtureRevisions": [
+    {
+      "gitSha": "69dabc01a3df0c304610c3c080e129549d72b020",
+      "productionVersionVerified": true,
+      "fixtures": [
+        "bgm",
+        "season",
+        "bgm-invalid",
+        "season-invalid"
+      ],
+      "observedAt": "2026-09-26T01:42:09.011Z",
+      "note": "Changed endpoint evidence; all other witnesses retain their original audited baseline."
+    },
+    {
+      "gitSha": "8dc13dd92281ab63da88375250162bc389dcfec8",
+      "productionVersionVerified": true,
+      "fixtures": [
+        "rss-anime",
+        "rss-group",
+        "rss-magnets",
+        "rss-other"
+      ],
+      "observedAt": "2026-10-22T09:29:45.146Z",
+      "note": "RSS item descriptions render release notes with the release page's renderer (AniBT #1354); all other witnesses retain their original audited baseline."
+    }
+  ]
 }

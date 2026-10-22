@@ -123,7 +123,8 @@ export async function checkContract() {
     }
   }
   for (const fixture of fixtures) {
-    const expectedSha = audit.catalogFactsRevision?.fixtures.includes(fixture.name) ? audit.catalogFactsRevision.gitSha : audit.sourceGitSha;
+    const revision = (audit.fixtureRevisions ?? []).find(entry => entry.fixtures.includes(fixture.name));
+    const expectedSha = revision ? revision.gitSha : audit.sourceGitSha;
     if (fixture.source.kind === 'production-read') {
       assert.equal(fixture.source.gitSha, expectedSha, `${fixture.name}: witness SHA drift`);
       assert.ok(fixture.source.requestPath, `${fixture.name}: production witness lacks request path`);

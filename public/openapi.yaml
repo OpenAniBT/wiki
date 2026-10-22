@@ -869,6 +869,7 @@ paths:
                           <anibt:torrentUrl>https://anibt.net/api/torrent/rel_u0jICKZiy5M8.torrent</anibt:torrentUrl>
                           <anibt:bgmId>543360</anibt:bgmId>
                           <anibt:animeTitle>上伊那牡丹，酒醉身姿似百合花般</anibt:animeTitle>
+                          <anibt:animeTitleEnglish>Botan Kamiina Fully Blossoms When Drunk</anibt:animeTitleEnglish>
                           <anibt:releaseTitle>[LinRip] Kamiina Botan, Yoeru Sugata wa Yuri no Hana [Vol.2][BDRemux 1080p AVC FLAC]</anibt:releaseTitle>
                           <anibt:episode>3</anibt:episode>
                           <anibt:episodeKey>3-4</anibt:episodeKey>
@@ -882,44 +883,49 @@ paths:
                           <anibt:customTag>AVC</anibt:customTag>
                           <anibt:customTag>BDRemux</anibt:customTag>
                           <anibt:customTag>FLAC</anibt:customTag>
-                          <description><![CDATA[<p><strong>上伊那牡丹，酒醉身姿似百合花般</strong> · 3-4 · v1</p>
+                          <description><![CDATA[<p><strong>上伊那牡丹，酒醉身姿似百合花般 / Botan Kamiina Fully Blossoms When Drunk</strong> · 3-4 · v1</p>
                     <hr/>
-                    ## 借物表
-                    <br/>
-                    | 项目 | 来源 |
-                    | --- | --- |
-                    | 原盘 | U2#65838 |
-                    | 字幕 | 无 |
-                    <br/>
-                    <img src="https://image.tmdb.org/t/p/w500/wpUGWITiEBNrRxLg0DoXXOZiVMA.jpg" alt="上伊那牡丹，醉姿如百合" />
-                    <br/>
-                    ❁ Title:　上伊那牡丹，醉姿如百合
-                    ❁ Original Title:　上伊那ぼたん、酔へる姿は百合の花
-                    ❁ Genres:　动画 / 喜剧 / 剧情
-                    ❁ Languages:　Japanese
-                    ❁ First Air Date:　2026-04-11
-                    ❁ Number of Episodes:　12
-                    ❁ Number of Seasons:　1
-                    ❁ Episode Runtime:　24 minutes
-                    ❁ Production Countries:　Japan
-                    ❁ Rating:　7.6 / 10 from 22 users
-                    ❁ TMDB Link:　https://www.themoviedb.org/tv/283905/
-                    ❁ IMDb Link:　https://www.imdb.com/title/tt38273912/
-                    ❁ Producers:　田中瑛 / 橋本京佳 / 古川雄太 / 井东真一 / 大和田智之 / 三浦史 / 纪东辉
-                    <br/>
-                    ❁ Cast
-                    铃代纱弓 as Botan Kamiina (voice)
-                    青山吉能 as Ibuki Tonami (voice)
-                    寿美菜子 as Kanade Gujō (voice)
-                    天海由梨奈 as Akane Yusa (voice)
-                    富田美忧 as Yaeka Kitamori (voice)
-                    河濑茉希 as Chang Chin-Lan (voice)
-                    <br/>
-                    ❁ Introduction
-                    上伊那牡丹以升入大学为契机，搬进了学生宿舍。她与宿舍的室友们一同前往秩父参加芝樱节，在长椅上发现宿舍长砺波伊吹正独自饮酒。看到伊吹喝高球酒时那副津津有味的样子，牡丹深受吸引，说道：“我也想尝尝那个”，于是品尝了人生中的第一口酒。由此领略到酒之美味的牡丹，开始与同住的宿舍同学们一起品尝烧酒、葡萄酒、威士忌等各式美酒，彼此之间的关系也日益加深。另一方面，因过去的苦涩经历而坚持“独自饮酒”的伊吹，在与那喝得开心又津津有味的牡丹相处的过程中，也逐渐萌生了想与她共饮的念头……
-                    <br/>
-                    ``<code>
-                    General
+                    <h2>借物表</h2>
+                    <table>
+                    <thead>
+                    <tr>
+                    <th>项目</th>
+                    <th>来源</th>
+                    </tr>
+                    </thead>
+                    <tbody><tr>
+                    <td>原盘</td>
+                    <td>U2#65838</td>
+                    </tr>
+                    <tr>
+                    <td>字幕</td>
+                    <td>无</td>
+                    </tr>
+                    </tbody></table>
+                    <p><img alt="上伊那牡丹，醉姿如百合" src="https://image.tmdb.org/t/p/w500/wpUGWITiEBNrRxLg0DoXXOZiVMA.jpg"></p>
+                    <p>❁ Title:　上伊那牡丹，醉姿如百合<br>
+                    ❁ Original Title:　上伊那ぼたん、酔へる姿は百合の花<br>
+                    ❁ Genres:　动画 / 喜剧 / 剧情<br>
+                    ❁ Languages:　Japanese<br>
+                    ❁ First Air Date:　2026-04-11<br>
+                    ❁ Number of Episodes:　12<br>
+                    ❁ Number of Seasons:　1<br>
+                    ❁ Episode Runtime:　24 minutes<br>
+                    ❁ Production Countries:　Japan<br>
+                    ❁ Rating:　7.6 / 10 from 22 users<br>
+                    ❁ TMDB Link:　<a href="https://www.themoviedb.org/tv/283905/">https://www.themoviedb.org/tv/283905/</a><br>
+                    ❁ IMDb Link:　<a href="https://www.imdb.com/title/tt38273912/">https://www.imdb.com/title/tt38273912/</a><br>
+                    ❁ Producers:　田中瑛 / 橋本京佳 / 古川雄太 / 井东真一 / 大和田智之 / 三浦史 / 纪东辉  </p>
+                    <p>❁ Cast<br>
+                    铃代纱弓 as Botan Kamiina (voice)<br>
+                    青山吉能 as Ibuki Tonami (voice)<br>
+                    寿美菜子 as Kanade Gujō (voice)<br>
+                    天海由梨奈 as Akane Yusa (voice)<br>
+                    富田美忧 as Yaeka Kitamori (voice)<br>
+                    河濑茉希 as Chang Chin-Lan (voice)  </p>
+                    <p>❁ Introduction<br>
+                    　　上伊那牡丹以升入大学为契机，搬进了学生宿舍。她与宿舍的室友们一同前往秩父参加芝樱节，在长椅上发现宿舍长砺波伊吹正独自饮酒。看到伊吹喝高球酒时那副津津有味的样子，牡丹深受吸引，说道：“我也想尝尝那个”，于是品尝了人生中的第一口酒。由此领略到酒之美味的牡丹，开始与同住的宿舍同学们一起品尝烧酒、葡萄酒、威士忌等各式美酒，彼此之间的关系也日益加深。另一方面，因过去的苦涩经历而坚持“独自饮酒”的伊吹，在与那喝得开心又津津有味的牡丹相处的过程中，也逐渐萌生了想与她共饮的念头……</p>
+                    <pre><code>General
                     Unique ID                                : 63796898537831721538890399507236189589 (0x2FFED5F217F2FFC0F343B454F0C6F595)
                     Complete name                            : [LinRip] Kamiina Botan, Yoeru Sugata wa Yuri no Hana - 03 [BDRemux 1080p AVC FLAC].mkv
                     Format                                   : Matroska
@@ -932,7 +938,7 @@ paths:
                     Encoded date                             : 2026-08-16 04:30:37 UTC
                     Writing application                      : mkvmerge v92.0 ('Everglow') 64-bit
                     Writing library                          : libebml v1.4.5 + libmatroska v1.7.1
-                    <br/>
+
                     Video
                     ID                                       : 1
                     Format                                   : AVC
@@ -961,7 +967,7 @@ paths:
                     Stream size                              : 5.94 GiB (93%)
                     Default                                  : Yes
                     Forced                                   : No
-                    <br/>
+
                     Audio #1
                     ID                                       : 2
                     Format                                   : FLAC
@@ -983,7 +989,7 @@ paths:
                     Default                                  : Yes
                     Forced                                   : No
                     MD5 of the unencoded content             : 33FF2E5AE99DCB9245C59A660862C02F
-                    <br/>
+
                     Audio #2
                     ID                                       : 3
                     Format                                   : FLAC
@@ -1005,7 +1011,7 @@ paths:
                     Default                                  : No
                     Forced                                   : No
                     MD5 of the unencoded content             : 0D92BDA37E2B64EE607CF6F83068C1A5
-                    <br/>
+
                     Menu
                     00:00:00.000                             : ja:Chapter 01
                     00:01:27.004                             : ja:Chapter 02
@@ -1013,7 +1019,7 @@ paths:
                     00:13:51.039                             : ja:Chapter 04
                     00:21:04.054                             : ja:Chapter 05
                     00:22:34.103                             : ja:Chapter 06
-                    </code>``
+                    </code></pre>
                     <hr/>
                     <p>🏷️ Zzz睡不醒 · 📺 1080p · 💬 NONE · 📁 MKV · 💾 12.73 GB</p>
                     <p>🔖 AVC, BDRemux, FLAC</p>
@@ -1109,77 +1115,69 @@ paths:
                         <atom:link href="https://anibt.net/rss/group/kirara-fantasia.xml?limit=1" rel="self" type="application/rss+xml" />
                         <ttl>2</ttl>
                         <item>
-                          <title>[黒ネズミたち] 花織即使是轉生也想打架 / Hanaori - 11 (ABEMA 1920x1080 AVC AAC MKV)</title>
-                          <link>https://anibt.net/release/rel_QAkPGYpD-Run</link>
-                          <guid isPermaLink="false">rel_QAkPGYpD-Run</guid>
-                          <pubDate>Fri, 25 Sep 2026 11:00:58 +0800</pubDate>
+                          <title>[黒ネズミたち] 无脑魔女（日配版） / Brainless Witch (Japanese Dub) - 01 (ABEMA 1920x1080 AVC AAC MKV)</title>
+                          <link>https://anibt.net/release/rel__pkgM5Bo03RG</link>
+                          <guid isPermaLink="false">rel__pkgM5Bo03RG</guid>
+                          <pubDate>Thu, 22 Oct 2026 12:34:52 +0800</pubDate>
                           <anibt:type>anime</anibt:type>
-                          <anibt:releaseId>rel_QAkPGYpD-Run</anibt:releaseId>
-                          <anibt:releasePageUrl>https://anibt.net/release/rel_QAkPGYpD-Run</anibt:releasePageUrl>
-                          <anibt:torrentUrl>https://anibt.net/api/torrent/rel_QAkPGYpD-Run.torrent</anibt:torrentUrl>
-                          <anibt:bgmId>587109</anibt:bgmId>
-                          <anibt:animeTitle>花织同学转生后还是想干架</anibt:animeTitle>
-                          <anibt:releaseTitle>[黒ネズミたち] 花織即使是轉生也想打架 / Hanaori - 11 (ABEMA 1920x1080 AVC AAC MKV)</anibt:releaseTitle>
-                          <anibt:episode>11</anibt:episode>
-                          <anibt:episodeKey>11</anibt:episodeKey>
+                          <anibt:releaseId>rel__pkgM5Bo03RG</anibt:releaseId>
+                          <anibt:releasePageUrl>https://anibt.net/release/rel__pkgM5Bo03RG</anibt:releasePageUrl>
+                          <anibt:torrentUrl>https://anibt.net/api/torrent/rel__pkgM5Bo03RG.torrent</anibt:torrentUrl>
+                          <anibt:bgmId>358769</anibt:bgmId>
+                          <anibt:animeTitle>无脑魔女</anibt:animeTitle>
+                          <anibt:releaseTitle>[黒ネズミたち] 无脑魔女（日配版） / Brainless Witch (Japanese Dub) - 01 (ABEMA 1920x1080 AVC AAC MKV)</anibt:releaseTitle>
+                          <anibt:episode>1</anibt:episode>
+                          <anibt:episodeKey>1</anibt:episodeKey>
                           <anibt:version>v1</anibt:version>
                           <anibt:groupName>Kirara Fantasia</anibt:groupName>
                           <anibt:groupSlug>kirara-fantasia</anibt:groupSlug>
                           <anibt:resolution>1080p</anibt:resolution>
                           <anibt:subtitle>NONE</anibt:subtitle>
                           <anibt:format>MKV</anibt:format>
-                          <anibt:fileSize>755453303</anibt:fileSize>
+                          <anibt:fileSize>745033733</anibt:fileSize>
                           <anibt:customTag>AVC</anibt:customTag>
                           <anibt:customTag>AAC</anibt:customTag>
                           <anibt:customTag>ABEMA</anibt:customTag>
-                          <description><![CDATA[<p><strong>花织同学转生后还是想干架</strong> · 11 · v1</p>
+                          <description><![CDATA[<p><strong>无脑魔女</strong> · 1 · v1</p>
                     <hr/>
-                    <img src="https://i0.wp.com/image.p-c2-x.abema-tv.com/image/programs/198-20_s1_p11/thumb006.png" alt="" />
-                    <em> </em> *
-                    ### <strong><em>Hanaori-san wa Tensei shitemo Kenka ga Shitai</em></strong> - EP 11
-                    <strong><a href="https://anilist.co/anime/199066">AniList</a> | <a href="https://bgm.tv/subject/587109">bangumi.tv</a> | <a href="https://myanimelist.net/anime/62535">MAL</a> | <a href="https://www.themoviedb.org/tv/312266">TMDB</a></strong>
-                    <br/>
-                    <em> </em> *
-                    <br/>
-                    <strong>Information:</strong>
-                    <br/>
+                    <p><img alt="" src="https://i0.wp.com/image.p-c2-x.abema-tv.com/image/programs/54-130_s1_p1/thumb001.png"></p>
+                    <hr>
+                    <h3><strong><em>Brainless Witch (Japanese Dub)</em></strong> - EP 01</h3>
+                    <p><strong><a href="https://anilist.co/anime/141914">AniList</a> | <a href="https://bgm.tv/subject/358769">bangumi.tv</a> | <a href="https://myanimelist.net/anime/55731">MAL</a> | <a href="https://www.themoviedb.org/tv/213421">TMDB</a></strong></p>
+                    <hr>
+                    <p><strong>Information:</strong></p>
                     <ul>
-                    <li><strong>Overall Bitrate:</strong> 4 196 kb/s</li>
+                    <li><strong>Overall Bitrate:</strong> 4 197 kb/s</li>
                     <li><strong>Subtitles:</strong> N/A</li>
-                    <li><strong>Duration:</strong> 00:24:00.185</li>
-                    <li><strong>CRC32:</strong> 77F102FE</li>
-                    <li><strong><a href="https://rr1---nfo.ouo.si/%5BDynamis%20One%5D%20Hanaori%20-%2011%20%28ABEMA%201920x1080%20AVC%20AAC%20MKV%29%20%5B77F102FE%5D.mkv?v=pre-20260429">MediaInfo</a></strong></li>
+                    <li><strong>Duration:</strong> 00:23:40.007</li>
+                    <li><strong>CRC32:</strong> 591E4EE3</li>
+                    <li><strong><a href="https://rr1---nfo.ouo.si/%5BDynamis%20One%5D%20Brainless%20Witch%20%28Japanese%20Dub%29%20-%2001%20%28ABEMA%201920x1080%20AVC%20AAC%20MKV%29%20%5B591E4EE3%5D.mkv?v=pre-20260429">MediaInfo</a></strong></li>
                     </ul>
-                    <br/>
-                    <em> </em> *
-                    <br/>
-                    In case of any issues with the file, please let us know via the contact details below.
-                    <strong>Xunlei has been banned by default.</strong>
-                    <strong>Seeding after downloading is appreciated.</strong>
-                    <br/>
-                    <em> </em> *
-                    <br/>
-                    <strong>Contact:</strong>
+                    <hr>
+                    <p>In case of any issues with the file, please let us know via the contact details below.<br>
+                    <strong>Xunlei has been banned by default.</strong><br>
+                    <strong>Seeding after downloading is appreciated.</strong>  </p>
+                    <hr>
+                    <p><strong>Contact:</strong></p>
                     <ul>
                     <li><strong>Rel: <a href="https://ouo.si/user/BraveSail">ouo.si</a> | <a href="https://mikanani.me/Home/PublishGroup/392">Mikan Project</a> | <a href="https://bangumi.moe/search/63e4b7585fa12c0007949b88">Bangumi Moe</a> | <a href="https://acg.rip/user/5570">ACG.RIP</a> | <a href="https://share.acgnx.se/user-529-1.html">Project AcgnX Torrent Asia</a> | <a href="https://anibt.net/group/kirara-fantasia">Anibt</a></strong></li>
                     <li>Join us on <a href="https://kirara-fantasia.moe/telegram">Telegram</a> | <a href="https://kirara-fantasia.moe/discord">Discord</a></li>
                     </ul>
-                    <br/>
-                    <img src="https://tgblf2f73yax8cc6.goatcounter.com/count?e=1&amp;p=anibt" alt="" />
+                    <p><img alt="" src="https://tgblf2f73yax8cc6.goatcounter.com/count?e=1&amp;p=anibt"></p>
                     <hr/>
-                    <p>🏷️ Kirara Fantasia · 📺 1080p · 💬 NONE · 📁 MKV · 💾 720.46 MB</p>
+                    <p>🏷️ Kirara Fantasia · 📺 1080p · 💬 NONE · 📁 MKV · 💾 710.52 MB</p>
                     <p>🔖 AVC, AAC, ABEMA</p>
                     <hr/>
-                    <p>⬇️ <a href="https://anibt.net/api/torrent/rel_QAkPGYpD-Run.torrent">下载种子</a></p>
-                    <p>🔗 <a href="https://anibt.net/release/rel_QAkPGYpD-Run">查看详情</a></p>]]></description>
+                    <p>⬇️ <a href="https://anibt.net/api/torrent/rel__pkgM5Bo03RG.torrent">下载种子</a></p>
+                    <p>🔗 <a href="https://anibt.net/release/rel__pkgM5Bo03RG">查看详情</a></p>]]></description>
                           <torrent xmlns="https://anibt.moe/xmlns/0.1/">
-                            <link>https://anibt.net/release/rel_QAkPGYpD-Run</link>
-                            <contentLength>755453303</contentLength>
-                            <pubDate>2026-09-25T11:00:58+08:00</pubDate>
-                            <infohash>817d7a9075cd509f61fe861a4d02b0e3eb2271e5</infohash>
-                            <filename>[黒ネズミたち] 花織即使是轉生也想打架 / Hanaori - 11 (ABEMA 1920x1080 AVC AAC MKV)</filename>
+                            <link>https://anibt.net/release/rel__pkgM5Bo03RG</link>
+                            <contentLength>745033733</contentLength>
+                            <pubDate>2026-10-22T12:34:52+08:00</pubDate>
+                            <infohash>551d6ab0c49ea47ad4c9d3cb93de083706e66706</infohash>
+                            <filename>[黒ネズミたち] 无脑魔女（日配版） / Brainless Witch (Japanese Dub) - 01 (ABEMA 1920x1080 AVC AAC MKV)</filename>
                           </torrent>
-                          <enclosure url="https://anibt.net/api/torrent/rel_QAkPGYpD-Run.torrent" length="755453303" type="application/x-bittorrent" />
+                          <enclosure url="https://anibt.net/api/torrent/rel__pkgM5Bo03RG.torrent" length="745033733" type="application/x-bittorrent" />
                         </item>
                       </channel>
                     </rss>
@@ -1283,86 +1281,71 @@ paths:
                         <atom:link href="https://anibt.net/rss/magnets.xml?limit=1" rel="self" type="application/rss+xml" />
                         <ttl>2</ttl>
                         <item>
-                          <title>[绿茶字幕组] 无职转生 第三季 ～到了异世界就拿出真本事～ / Mushoku Tensei S3 [09][WebRip][1080p][简繁日内封]</title>
-                          <link>https://anibt.net/release/rel_aM2SHvOtUlhx</link>
-                          <guid isPermaLink="false">rel_aM2SHvOtUlhx</guid>
-                          <pubDate>Fri, 25 Sep 2026 15:52:25 +0800</pubDate>
+                          <title>[绿茶字幕组&amp;LoliHouse] 描绘直至生命尽头 / 画完这个就去死 / 畫完這個再去死 / これ描いて死ね / Kore Kaite Shine - 08 [WebRip 1080p HEVC-10bit AAC][简繁日内封字幕]</title>
+                          <link>https://anibt.net/release/rel_IPu9iUV0odpI</link>
+                          <guid isPermaLink="false">rel_IPu9iUV0odpI</guid>
+                          <pubDate>Thu, 22 Oct 2026 17:02:26 +0800</pubDate>
                           <anibt:type>anime</anibt:type>
-                          <anibt:releaseId>rel_aM2SHvOtUlhx</anibt:releaseId>
-                          <anibt:releasePageUrl>https://anibt.net/release/rel_aM2SHvOtUlhx</anibt:releasePageUrl>
-                          <anibt:torrentUrl>https://anibt.net/api/torrent/rel_aM2SHvOtUlhx.torrent</anibt:torrentUrl>
-                          <anibt:bgmId>501963</anibt:bgmId>
-                          <anibt:animeTitle>无职转生Ⅲ ～到了异世界就拿出真本事～</anibt:animeTitle>
-                          <anibt:releaseTitle>[绿茶字幕组] 无职转生 第三季 ～到了异世界就拿出真本事～ / Mushoku Tensei S3 [09][WebRip][1080p][简繁日内封]</anibt:releaseTitle>
-                          <anibt:episode>9</anibt:episode>
-                          <anibt:episodeKey>9</anibt:episodeKey>
+                          <anibt:releaseId>rel_IPu9iUV0odpI</anibt:releaseId>
+                          <anibt:releasePageUrl>https://anibt.net/release/rel_IPu9iUV0odpI</anibt:releasePageUrl>
+                          <anibt:torrentUrl>https://anibt.net/api/torrent/rel_IPu9iUV0odpI.torrent</anibt:torrentUrl>
+                          <anibt:bgmId>545917</anibt:bgmId>
+                          <anibt:animeTitle>画完这个再去死</anibt:animeTitle>
+                          <anibt:animeTitleEnglish>Draw This, Then Die!</anibt:animeTitleEnglish>
+                          <anibt:releaseTitle>[绿茶字幕组&amp;LoliHouse] 描绘直至生命尽头 / 画完这个就去死 / 畫完這個再去死 / これ描いて死ね / Kore Kaite Shine - 08 [WebRip 1080p HEVC-10bit AAC][简繁日内封字幕]</anibt:releaseTitle>
+                          <anibt:episode>8</anibt:episode>
+                          <anibt:episodeKey>8</anibt:episodeKey>
                           <anibt:version>v1</anibt:version>
-                          <anibt:groupName>绿茶字幕组</anibt:groupName>
-                          <anibt:groupSlug>studio-greentea</anibt:groupSlug>
+                          <anibt:groupName>LoliHouse</anibt:groupName>
+                          <anibt:groupSlug>lolihouse</anibt:groupSlug>
                           <anibt:resolution>1080p</anibt:resolution>
                           <anibt:language>CHS</anibt:language>
                           <anibt:language>CHT</anibt:language>
                           <anibt:language>JP</anibt:language>
                           <anibt:subtitle>INTERNAL</anibt:subtitle>
                           <anibt:format>MKV</anibt:format>
-                          <anibt:fileSize>357873674</anibt:fileSize>
-                          <anibt:customTag>WEBRip</anibt:customTag>
+                          <anibt:fileSize>595600788</anibt:fileSize>
                           <anibt:customTag>HEVC</anibt:customTag>
                           <anibt:customTag>10bit</anibt:customTag>
+                          <anibt:customTag>WEBRip</anibt:customTag>
                           <anibt:customTag>AAC</anibt:customTag>
-                          <description><![CDATA[<p><strong>无职转生Ⅲ ～到了异世界就拿出真本事～</strong> · 9 · v1</p>
+                          <description><![CDATA[<p><strong>画完这个再去死 / Draw This, Then Die!</strong> · 8 · v1</p>
                     <hr/>
-                    <img src="https://i.anibt.net/image-host/2026/07/13/mszfZyY/image-mszfZyY.webp" alt="作品海报图" />
-                    <br/>
-                    ### <strong>资源使用指引</strong>
-                    下载建议：请勿使用迅雷、夸克、百度网盘等软件下载（易限速/失效），<strong>推荐使用<a href="https://www.qbittorrent.org/">qbittorrent</a>下载</strong>（利于种子存活）\
-                    播放建议：为了能够顺利显示字幕效果，<strong>推荐使用</strong><a href="https://mpv.io/installation/">**MPV播放器**</a>或使用<a href="https://potplayer.tv/">Potplayer播放器</a>搭载<a href="https://github.com/Masaiki/xy-VSFilter">XySubFilter with libass字幕滤镜</a>观看内封字幕源。
-                    <br/>
-                    ----
-                    <br/>
-                    ### <strong>官方渠道</strong>
-                    哔哩哔哩：<a href="https://space.bilibili.com/1007391147%20%22%E7%82%B9%E5%87%BB%E8%AE%BF%E9%97%AE%20%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%20%E4%B8%BB%E9%A1%B5%22">绿茶字幕组</a>\
-                    微博：<a href="https://weibo.com/u/8424435796%20%22%E7%82%B9%E5%87%BB%E8%AE%BF%E9%97%AE%20%E5%BE%AE%E5%8D%9A%20%E4%B8%BB%E9%A1%B5%22">绿茶字幕组</a>\
-                    GitHub字幕仓库：<a href="https://github.com/Studio-Green-Tea/Studio-GreenTea-Subtitle-Storage%20%22%E7%82%B9%E5%87%BB%E8%AE%BF%E9%97%AE%20%E7%BB%BF%E8%8C%B6%E5%AD%97%E5%B9%95%E7%BB%84%20%E5%AD%97%E5%B9%95%E5%AD%98%E5%82%A8%E4%BB%93%E5%BA%93%20%E4%B8%BB%E9%A1%B5%22">绿茶字幕组 字幕存储仓库</a>\
-                    问题反馈邮箱：studio_greentea@163.com
-                    <br/>
-                    ----
-                    <br/>
-                    ### <strong>字幕转载声明</strong>
-                    若非特别声明，本组字幕作品基于<strong>CCBY-NC-ND4.0协议</strong>共享，使用方须遵守以下默认规则：
-                    <ul>
-                    <li>禁止<strong>商用</strong>：不得用于商业目的或参与商业性质项目。</li>
-                    <li>禁止<strong>修改</strong>：不得发布任何修改版（包括但不限于内嵌、压制、调整时间轴等）。</li>
-                    <li>转载规范：可自由转载，但须<strong>保持内容完整并注明出处</strong>。</li>
-                    </ul>
-                    <br/>
-                    <strong>关于组间合作：</strong>\
-                    如有联合汉化、授权压制等合作意向，请先联系本组获取<strong>单独授权</strong>。\
-                    上述行为属例外许可，不视作对原协议中“禁止演绎”条款的放弃或变更。\
-                    联络邮箱：studio_greentea@163.com
-                    <br/>
-                    ----
-                    <br/>
-                    ### <strong>作品发布平台</strong>
-                    本组作品首发于：<a href="https://anibt.net/group/studio-greentea">Anibt</a>\
-                    同步发布于：<a href="https://mikanime.tv/Home/PublishGroup/1009">蜜柑计划</a>、<a href="https://share.dmhy.org/topics/list/team_id/867">动漫花园资源网</a>、<a href="https://acg.rip/team/212">ACG.RIP</a>、<a href="https://share.acgnx.se/team-144-1.html">末日动漫资源库</a>、<a href="https://bangumi.moe/search/693658525394e500070fbc95">萌番组</a>\
-                    平台自动搬运：<a href="https://www.comicat.org/search.php?keyword=%E7%BB%BF%E8%8C%B6%E5%AD%97%E5%B9%95%E7%BB%84">漫猫动漫</a>、<a href="https://www.kisssub.org/search.php?keyword=%E7%BB%BF%E8%8C%B6%E5%AD%97%E5%B9%95%E7%BB%84">爱恋动漫</a>、<a href="https://www.miobt.com/search.php?keyword=%E7%BB%BF%E8%8C%B6%E5%AD%97%E5%B9%95%E7%BB%84">MioBT</a>
-                    <br/>
-                    <img src="https://picbed.291277.xyz/file/%E7%BB%BF%E8%8C%B6%E5%AD%97%E5%B9%95%E7%BB%84%E5%AE%A3%E4%BC%A0%E9%A1%B5-%E6%A8%AA%E6%9D%BFv2_%E5%B0%8F%E6%96%87%E4%BB%B6%E4%BD%93%E7%A7%AF%E7%89%88%E6%9C%AC.webp" alt="招募宣传图" />
+                    <p>来源: <a href="https://nyaa.si/view/2177214">https://nyaa.si/view/2177214</a></p>
+                    <p><img alt="" src="https://files.seeusercontent.com/2026/07/12/Pen7/KoreKaiteShine.png">    </p>
+                    <p><strong>描绘直至生命尽头 / 画完这个就去死 / 畫完這個再去死 / これ描いて死ね / Kore Kaite Shine</strong>  </p>
+                    <p><strong>字幕：绿茶字幕组</strong><br>
+                    <strong>脚本：TauZolver</strong><br>
+                    <strong>压制：Judgemaid</strong><br>
+                    <strong>本片与绿茶字幕组合作，感谢字幕组的辛勤劳动。</strong>    </p>
+                    <hr>
+                    <p><strong>本组作品首发：<a href="https://nyaa.si/?f=0&amp;c=0_0&amp;q=lolihouse"><img alt="Site Status" src="https://badge.yae-sakura.moe/badge/nyaa.webp"></a></strong><br>
+                    <strong>备份发布：<a href="https://acg.rip/?term=LoliHouse"><img alt="Site Status" src="https://badge.yae-sakura.moe/badge/acgrip.webp"></a> <a href="https://share.dmhy.org/topics/list?keyword=lolihouse"><img alt="Site Status" src="https://badge.yae-sakura.moe/badge/dmhy.webp"></a> <a href="https://share.acgnx.se/team-135-1.html"><img alt="Site Status" src="https://badge.yae-sakura.moe/badge/acgnxa.webp"></a> <a href="https://bangumi.moe/search/581be821ee98e9ca20730eae"><img alt="Site Status" src="https://badge.yae-sakura.moe/badge/bangumi.webp"></a></strong><br>
+                    <strong>发布情况基于各站可用性，其余站点系自发抓取非我组正式发布，推荐移步 <a href="https://mikanani.me/Home/Search?searchstr=lolihouse"><img alt="Site Status" src="https://badge.yae-sakura.moe/badge/mikan.webp"></a> 获取统合信息。</strong></p>
+                    <hr>
+                    <p><strong>为了顺利地观看我们的作品，推荐大家使用以下播放器：</strong><br>
+                    <strong>Windows：<a href="https://mpv.io/">mpv</a>（<a href="https://vcb-s.com/archives/7594">教程</a>）</strong><br>
+                    <strong>macOS：<a href="https://iina.io/">IINA</a></strong><br>
+                    <strong>iOS/Android：<a href="https://www.videolan.org/vlc/">VLC media player</a></strong></p>
+                    <hr>
+                    <p><strong><a href="https://share.dmhy.org/topics/view/599634_LoliHouse_LoliHouse_5th_Anniversary_Announcement.html">点击查看 LoliHouse 五周年纪念公告（附往年全部礼包）</a></strong><br>
+                    <strong><a href="https://github.com/AmusementClub/OKP">点击查看 One-Key-Publish 一键发布工具包</a></strong></p>
+                    <hr>
+                    <p><strong>人人为我，我为人人，为了各位观众能快速下载，请使用 uTorrent / qBittorrent 等正规 BT 软件下载，并保持开机上传，谢谢~</strong></p>
                     <hr/>
-                    <p>🏷️ 绿茶字幕组 · 📺 1080p · 🌐 CHS+CHT+JP · 💬 INTERNAL · 📁 MKV · 💾 341.29 MB</p>
-                    <p>🔖 WEBRip, HEVC, 10bit, AAC</p>
+                    <p>🏷️ LoliHouse · 📺 1080p · 🌐 CHS+CHT+JP · 💬 INTERNAL · 📁 MKV · 💾 568.01 MB</p>
+                    <p>🔖 HEVC, 10bit, WEBRip, AAC</p>
                     <hr/>
-                    <p>⬇️ <a href="https://anibt.net/api/torrent/rel_aM2SHvOtUlhx.torrent">下载种子</a></p>
-                    <p>🔗 <a href="https://anibt.net/release/rel_aM2SHvOtUlhx">查看详情</a></p>]]></description>
+                    <p>⬇️ <a href="https://anibt.net/api/torrent/rel_IPu9iUV0odpI.torrent">下载种子</a></p>
+                    <p>🔗 <a href="https://anibt.net/release/rel_IPu9iUV0odpI">查看详情</a></p>]]></description>
                           <torrent xmlns="https://anibt.moe/xmlns/0.1/">
-                            <link>https://anibt.net/release/rel_aM2SHvOtUlhx</link>
-                            <contentLength>357873674</contentLength>
-                            <pubDate>2026-09-25T15:52:25+08:00</pubDate>
-                            <infohash>d536523c36c24a823c632015789bf60a2fcfe831</infohash>
-                            <filename>[绿茶字幕组] 无职转生 第三季 ～到了异世界就拿出真本事～ / Mushoku Tensei S3 [09][WebRip][1080p][简繁日内封]</filename>
+                            <link>https://anibt.net/release/rel_IPu9iUV0odpI</link>
+                            <contentLength>595600788</contentLength>
+                            <pubDate>2026-10-22T17:02:26+08:00</pubDate>
+                            <infohash>51f8371ff44d8c75d80ad92cce4778bddd3efdd1</infohash>
+                            <filename>[绿茶字幕组&amp;LoliHouse] 描绘直至生命尽头 / 画完这个就去死 / 畫完這個再去死 / これ描いて死ね / Kore Kaite Shine - 08 [WebRip 1080p HEVC-10bit AAC][简繁日内封字幕]</filename>
                           </torrent>
-                          <enclosure url="https://anibt.net/api/torrent/rel_aM2SHvOtUlhx.torrent" length="357873674" type="application/x-bittorrent" />
+                          <enclosure url="https://anibt.net/api/torrent/rel_IPu9iUV0odpI.torrent" length="595600788" type="application/x-bittorrent" />
                         </item>
                       </channel>
                     </rss>
@@ -1466,7 +1449,6 @@ paths:
                   summary: rss-other
                   value: >
                     <?xml version="1.0" encoding="UTF-8"?>
-
                     <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:anibt="https://anibt.net/xmlns/rss/1.0/">
                       <channel>
                         <title>AniBT 音乐 Releases</title>
@@ -1490,21 +1472,12 @@ paths:
                           <anibt:fileSize>819996918</anibt:fileSize>
                           <description><![CDATA[<p><strong>[SFSub][260722] 椎名真昼(CV.石見舞菜香)、白河千歳(CV.白石晴香)、木戸彩香(CV.高野麻里佳)/日向萌 - TVアニメ『お隣の天使様にいつの間にか駄目人間にされていた件2』キャラクターソング&amp;スコアアルバム [FLAC+LOG+BK]</strong> · 音乐</p>
                     <hr/>
-
-                    <img src="https://files.seeusercontent.com/2026/07/27/zLm7/cover.jpg" alt="cover" />
-
-                    <br/>
-
-                    Purchased by SFSub
-
+                    <p><img alt="cover" src="https://files.seeusercontent.com/2026/07/27/zLm7/cover.jpg"></p>
+                    <p>Purchased by SFSub</p>
                     <hr/>
-
                     <p>🏷️ SFSub · 📚 音乐 · 💾 782.01 MB</p>
-
                     <hr/>
-
                     <p>⬇️ <a href="https://anibt.net/api/other-torrent/orel_9-Q9nz22YSQj.torrent">下载种子</a></p>
-
                     <p>🔗 <a href="https://anibt.net/other-release/orel_9-Q9nz22YSQj">查看详情</a></p>]]></description>
                           <torrent xmlns="https://anibt.moe/xmlns/0.1/">
                             <link>https://anibt.net/other-release/orel_9-Q9nz22YSQj</link>
