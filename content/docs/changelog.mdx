@@ -19,6 +19,10 @@ description: 记录 AniBT 平台面向用户与字幕组的功能变更、优化
   "再次删除已删除的发布": {
     "type": "Fix",
     "description": "对已删除的发布再次调用 DELETE /api/releases/{releaseId} 时，有权限的调用方收到原来那一次删除操作，不再收到 404，也不会另开一次删除。状态码仍按该操作的当前结果返回。从未存在或无权访问的资源仍返回 404，不能当作删除完成。"
+  },
+  "RSS 中的发布说明": {
+    "type": "Fix",
+    "description": "RSS 条目 description 里的发布说明改用发布页同一套渲染：发布者写的 HTML 按 HTML 显示，不再显示为字面标签；Markdown 的标题、表格、列表和代码块正常排版；内联样式与脚本属性会被去掉。说明正文中的磁力链接、种子地址和本发布的 infoHash 不再出现，下载请使用 enclosure 或 description 末尾的下载链接。分辨率、语言、容量等头部字段不变。Torznab 条目不含 description，不受影响。"
   }
 }} />
 

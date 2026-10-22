@@ -19,6 +19,10 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   "Deleting an already deleted release": {
     "type": "Fix",
     "description": "An authorized DELETE /api/releases/{releaseId} for an already deleted release returns the original deletion operation instead of 404, and does not start another deletion. The status code still follows that operation’s current result. A release that never existed, or that this caller cannot access, still returns 404. That 404 is not proof that deletion completed."
+  },
+  "Release notes in RSS": {
+    "type": "Fix",
+    "description": "Release notes in an RSS item's description now use the release page's renderer. HTML written by the publisher displays as HTML instead of literal tags; Markdown headings, tables, lists and code blocks render normally; inline styles and script attributes are removed. Magnet links, torrent addresses and the release's own infohash no longer appear in the notes; download through the enclosure or the download link at the end of the description. Header fields such as resolution, language and size are unchanged. Torznab items carry no description and are unaffected."
   }
 }} />
 
