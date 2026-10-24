@@ -1,3 +1,4 @@
+import { PreloadOpenAPIPage } from '@/components/api-page-lazy';
 import { DocsHeader } from '@/components/docs-header';
 import { baseOptions } from '@/lib/layout.shared';
 import { source } from '@/lib/source';
@@ -27,6 +28,7 @@ export default async function Layout({
       tree={source.getPageTree(lang)}
     >
       {children}
+      <PreloadOpenAPIPage />
     </DocsLayout>
   );
 }

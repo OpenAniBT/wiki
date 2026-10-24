@@ -1,4 +1,4 @@
-import { OpenAPIPage } from '@/components/api-page';
+import { OpenAPIPage } from '@/components/api-page-lazy';
 import { getMDXComponents } from '@/components/mdx';
 import { languageAlternates, localizedPath } from '@/lib/i18n';
 import { openapi } from '@/lib/openapi';
@@ -40,12 +40,6 @@ export default async function Page({
         <MDX
           components={getMDXComponents({
             OpenAPIPage: async (props) => (
-              <OpenAPIPage
-                {...(await openapi.preloadOpenAPIPage(page))}
-                {...props}
-              />
-            ),
-            APIPage: async (props) => (
               <OpenAPIPage
                 {...(await openapi.preloadOpenAPIPage(page))}
                 {...props}

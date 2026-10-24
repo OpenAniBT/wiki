@@ -1,10 +1,10 @@
 'use client';
 
+import { usePathname } from 'fumadocs-core/framework';
 import { useNotebookLayout } from 'fumadocs-ui/layouts/notebook';
 import type { LinkItemType } from 'fumadocs-ui/layouts/shared';
 import { Languages, PanelLeft } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import type { ComponentProps } from 'react';
 
 type UrlItem = Extract<LinkItemType, { url: string }>;
@@ -34,7 +34,7 @@ function matches(item: UrlItem, pathname: string): boolean {
 export function DocsHeader(props: ComponentProps<'header'>) {
   const { slots, navItems, isNavTransparent } = useNotebookLayout();
   const { open } = slots.sidebar?.useSidebar?.() ?? {};
-  const pathname = usePathname() ?? '';
+  const pathname = usePathname();
 
   const links = navItems.filter(
     (item): item is UrlItem => item.type !== 'icon' && hasUrl(item),

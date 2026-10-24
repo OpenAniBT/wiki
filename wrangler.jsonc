@@ -3,7 +3,7 @@
   "name": "wiki",
   "main": ".open-next/worker.js",
   "build": {
-    "command": "pnpm opennextjs-cloudflare build --openNextConfigPath open-next.cloudflare.config.ts"
+    "command": "pnpm build:worker"
   },
   "compatibility_date": "2026-05-26",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
