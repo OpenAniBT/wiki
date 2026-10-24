@@ -41,5 +41,6 @@
 ## 构建
 
 - 提交前跑 `pnpm typecheck` 与 `pnpm next build`，确保静态页全部生成成功。
-- 部署目标 Cloudflare Workers，通过 `pnpm opennextjs-cloudflare build` 生成 worker 产物。
+- 部署目标 Cloudflare Workers，通过 `pnpm build:worker` 生成 worker 产物（`wrangler deploy` 的构建命令也是它）：先 `opennextjs-cloudflare build`，再 `populateCache local` 把预渲染页写进静态资源缓存。只跑前一步时缓存为空，每个请求都会在 Worker 里重新渲染。
+- 代码高亮用 `@pierre/highlights`（`lib/highlighter.ts`）。Workers 不允许运行时编译 WebAssembly，客户端组件里不要直接导入它，按 `lib/api-highlighter.ts` 的方式按需加载。
 - 浏览器兜底已在 `app/[lang]/layout.tsx` 注入 `__name` polyfill，处理 OpenNext 打包对 esbuild keepNames 的依赖。

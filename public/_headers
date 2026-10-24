@@ -1,0 +1,11 @@
+# Workers 静态资源的响应头：https://developers.cloudflare.com/workers/static-assets/headers/
+# 带内容哈希的构建产物：长期缓存。
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 不带哈希的图片：缓存一小时，之后先用旧图、后台再校验。
+/brand/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/images/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400

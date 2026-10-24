@@ -1,7 +1,7 @@
 import '../global.css';
+import { RootProvider } from '@/components/root-provider';
 import { translations } from '@/lib/layout.shared';
 import { i18nProvider } from 'fumadocs-ui/i18n';
-import { RootProvider } from 'fumadocs-ui/provider/next';
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 
