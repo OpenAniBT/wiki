@@ -1,3 +1,7 @@
+# 单包仓库。写上 packages，pnpm 9（Workers Builds 按 lockfile 选用）才认这个文件。
+packages:
+  - '.'
+
 allowBuilds:
   esbuild: true
   workerd: true
