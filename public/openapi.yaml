@@ -1058,7 +1058,7 @@ paths:
               schema:
                 type: string
         "429":
-          description: "请求过于频繁：超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。回源上限的 Retry-After 通常为 1 秒。响应带 Cache-Control: no-store。"
+          description: "请求过于频繁，例如超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。按 Retry-After 等待；回源上限通常只需等待 1 秒。响应带 Cache-Control: no-store。"
           content:
             text/plain:
               schema:
@@ -1209,7 +1209,7 @@ paths:
               schema:
                 type: string
         "429":
-          description: "请求过于频繁：超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。回源上限的 Retry-After 通常为 1 秒。响应带 Cache-Control: no-store。"
+          description: "请求过于频繁，例如超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。按 Retry-After 等待；回源上限通常只需等待 1 秒。响应带 Cache-Control: no-store。"
           content:
             text/plain:
               schema:
@@ -1384,7 +1384,7 @@ paths:
               schema:
                 type: string
         "429":
-          description: "请求过于频繁：超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。回源上限的 Retry-After 通常为 1 秒。响应带 Cache-Control: no-store。"
+          description: "请求过于频繁，例如超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。按 Retry-After 等待；回源上限通常只需等待 1 秒。响应带 Cache-Control: no-store。"
           content:
             text/plain:
               schema:
@@ -1532,7 +1532,7 @@ paths:
               schema:
                 type: string
         "429":
-          description: "请求过于频繁：超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。回源上限的 Retry-After 通常为 1 秒。响应带 Cache-Control: no-store。"
+          description: "请求过于频繁，例如超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。按 Retry-After 等待；回源上限通常只需等待 1 秒。响应带 Cache-Control: no-store。"
           content:
             text/plain:
               schema:
