@@ -34,7 +34,7 @@ The image library uses thumbnails. Cards show whether a thumbnail is processing,
         Includes explicit width and height attributes to prevent layout jumping across AniBT and HTML-enabled release sites:
 
         ```html title="Anti-shift HTML snippet"
-        <img src="https://i.anibt.net/images/xxx.webp" width="1920" height="1080" alt="Preview" />
+        <img src="https://i.anibt.net/image-host/2026/07/05/HbJqq/xxx.webp" width="1920" height="1080" alt="Preview" />
         ```
       </Tab>
 
@@ -42,7 +42,7 @@ The image library uses thumbnails. Cards show whether a thumbnail is processing,
         Standard Markdown format suitable for GitHub-style editors:
 
         ```markdown title="Markdown snippet"
-        ![Preview](https://i.anibt.net/images/xxx.webp)
+        ![Preview](https://i.anibt.net/image-host/2026/07/05/HbJqq/xxx.webp)
         ```
       </Tab>
 
@@ -50,7 +50,7 @@ The image library uses thumbnails. Cards show whether a thumbnail is processing,
         Suitable for legacy bulletin board BT trackers like DMHY and ACGNX:
 
         ```txt title="BBCode snippet"
-        [img]https://i.anibt.net/images/xxx.webp[/img]
+        [img]https://i.anibt.net/image-host/2026/07/05/HbJqq/xxx.webp[/img]
         ```
       </Tab>
 
@@ -58,7 +58,7 @@ The image library uses thumbnails. Cards show whether a thumbnail is processing,
         Standard HTTPS direct asset URL on the `i.anibt.net` domain:
 
         ```txt title="Direct Image URL"
-        https://i.anibt.net/images/xxx.webp
+        https://i.anibt.net/image-host/2026/07/05/HbJqq/xxx.webp
         ```
       </Tab>
     </Tabs>
@@ -95,5 +95,5 @@ If an image was uploaded by mistake or is no longer needed, the original uploade
 />
 
 <Callout type="warn">
-  Deletion only applies to AniBT-managed hosts and direct links. Local browser caches on visitor devices or copies re-hosted by third parties are not affected by this action.
+  Deletion only applies to AniBT-managed hosts and direct links. Browsers cache a direct link for up to 1 day, so a browser that already loaded the image may keep showing it for up to 1 day after deletion. Copies re-hosted or downloaded by third parties are not affected by this action.
 </Callout>
