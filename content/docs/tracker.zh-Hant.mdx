@@ -1,6 +1,6 @@
 ---
 title: Tracker 規範與位址
-description: 瞭解 AniBT 官方 Tracker announce 位址、製種設定、白名單機制、種子下載方式與做種統計介面。
+description: 瞭解 AniBT 官方 Tracker announce 位址、Scrape 查詢、製種設定、白名單機制、種子下載方式與做種統計介面。
 ---
 
 AniBT 運行著專為本站釋出的動漫資源提供高速對等連線服務的自建 BitTorrent Tracker。
@@ -18,7 +18,18 @@ https://tracker.anibt.net/announce
 ```
 
 - **通訊協定**：使用 HTTPS（連接埠 443）連線。
-- **目前無法使用**：UDP 尚未啟用；公開 `/scrape` 與歷史 `/announce/v1/*` 路徑保持關閉。
+- **目前無法使用**：UDP 尚未啟用；歷史 `/announce/v1/*` 路徑保持關閉。
+- **部分下載**：qBittorrent、Deluge 等基於 libtorrent 的客戶端只下載部分檔案時會回報 `event=paused`（BEP 21）。Tracker 視為一般回報，不再回傳錯誤。
+
+## Scrape 查詢
+
+BT 客戶端會依 announce 位址自動推導出 `https://tracker.anibt.net/scrape`，用來查詢做種數、下載數和完成數（BEP 48），不需額外設定。
+
+- 只接受 GET。每次攜帶 1–64 個 `info_hash`，每個為 20 位元組；查詢字串不超過 4608 位元組。超出這些範圍的請求會被拒絕。
+- 白名單內的種子回傳真實的 `complete`（做種）、`downloaded`（完成）和 `incomplete`（下載）計數。不在白名單的 infohash 不會回傳 `not whitelisted`，三項計數皆為 0。
+- 與 announce 共用限流。Tracker 繁忙時仍回傳 HTTP 200，內容為空的 `files` 字典和 `flags.min_request_interval`，客戶端應至少等待該秒數再查詢。
+
+依資源 ID 批次查詢請使用下文的做種統計介面。
 
 ## 檢視運作狀態
 

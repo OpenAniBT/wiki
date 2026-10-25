@@ -1,6 +1,6 @@
 ---
 title: Tracker Rules & Announce
-description: Learn about the official AniBT Tracker announce address, torrent creation setup, whitelist mechanism, torrent file downloads, and the tracker stats endpoint.
+description: Learn about the official AniBT Tracker announce address, scrape, torrent creation setup, whitelist mechanism, torrent file downloads, and the tracker stats endpoint.
 ---
 
 AniBT operates a high-speed BitTorrent tracker specifically dedicated to anime releases published on our platform.
@@ -18,7 +18,18 @@ https://tracker.anibt.net/announce
 ```
 
 - **Protocol**: Connect using HTTPS on port 443.
-- **Currently unavailable**: UDP is not enabled. Public `/scrape` and legacy `/announce/v1/*` paths remain closed.
+- **Currently unavailable**: UDP is not enabled. Legacy `/announce/v1/*` paths remain closed.
+- **Partial downloads**: libtorrent-based clients such as qBittorrent and Deluge announce `event=paused` (BEP 21) when only some files are downloaded. The tracker treats it as a regular announce instead of returning an error.
+
+## Scrape
+
+BitTorrent clients derive `https://tracker.anibt.net/scrape` from the announce URL to read seeder, leecher, and completion counts (BEP 48). No extra configuration is needed.
+
+- GET only. Send 1–64 `info_hash` values, each 20 bytes; the query string must not exceed 4608 bytes. Requests outside these bounds are rejected.
+- Whitelisted torrents return real `complete` (seeders), `downloaded` (completed), and `incomplete` (leechers) counts. A hash that is not whitelisted does not get `not whitelisted`; all three counts are 0.
+- Scrape shares the announce rate limits. When the tracker is busy it still answers HTTP 200 with an empty `files` dictionary and `flags.min_request_interval`; wait at least that many seconds before scraping again.
+
+To look up stats by release ID, use the tracker stats endpoint below.
 
 ## Check service status
 
