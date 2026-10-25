@@ -9,6 +9,23 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   Entries are listed in reverse chronological order. If you encounter any bugs during regular use, feel free to report them via our [Support Email](/en/docs/contact).
 </Callout>
 
+## October 25, 2026
+
+<TypeTable type={{
+  "RSS cache-miss limit returns 429": {
+    "type": "Fix",
+    "description": "The four public RSS feed types return 429 with Retry-After (usually 1 second) instead of 503 when requests that miss the cache exceed the limit. The default limit is 8 per second per client and 60 per second site-wide; cached answers do not count. When the backend is temporarily unavailable, feeds still return 503, now always with Retry-After: 30 and never an empty feed. Neither response is cached. See Rate limits and parameter bounds."
+  },
+  "Tracker scrape": {
+    "type": "Feature",
+    "description": "BitTorrent clients can read seeder, leecher, and completion counts for AniBT torrents from https://tracker.anibt.net/scrape. Only GET is accepted, with 1–64 info_hash values per request. A hash that is not whitelisted returns zero for all three counts. Scrape shares the announce rate limits. See Tracker Rules & Announce."
+  },
+  "Tracker announces during partial downloads": {
+    "type": "Fix",
+    "description": "When qBittorrent, Deluge, and similar clients download only some files, their event=paused announces no longer get a tracker error and are treated as regular announces."
+  }
+}} />
+
 ## October 22, 2026
 
 <TypeTable type={{

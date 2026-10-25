@@ -9,6 +9,23 @@ description: 记录 AniBT 平台面向用户与字幕组的功能变更、优化
   更新日志按时间倒序排列。如果你在日常使用中发现了异常问题，欢迎通过 [支持邮箱](/docs/contact) 向我们反馈。
 </Callout>
 
+## 2026 年 10 月 25 日
+
+<TypeTable type={{
+  "RSS 回源上限返回 429": {
+    "type": "Fix",
+    "description": "四类公开 RSS 中，未命中缓存的请求超出回源上限时返回 429 和 Retry-After（通常为 1 秒），不再返回 503。默认上限为每个客户端 8 次 / 1 秒、全站合计 60 次 / 1 秒，命中缓存的请求不计入。后端暂时不可用时仍返回 503，现在总是带 Retry-After: 30，不会返回空 feed。两种响应都不缓存。见「限流与参数上限」。"
+  },
+  "Tracker scrape": {
+    "type": "Feature",
+    "description": "BT 客户端可以通过 https://tracker.anibt.net/scrape 查询 AniBT 种子的做种数、下载数和完成数。只接受 GET，每次 1–64 个 info_hash；不在白名单的 infohash 三项计数均为 0。scrape 与 announce 共用限流。见「Tracker 规范与地址」。"
+  },
+  "部分下载时的 Tracker 汇报": {
+    "type": "Fix",
+    "description": "qBittorrent、Deluge 等客户端只下载部分文件时汇报的 event=paused 不再收到 Tracker 错误，按普通汇报处理。"
+  }
+}} />
+
 ## 2026 年 10 月 22 日
 
 <TypeTable type={{
