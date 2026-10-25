@@ -14,6 +14,10 @@ These are application defaults; deployment settings and edge rules may impose di
     "type": "120 / 60 seconds / IP",
     "description": "Anime, group, magnet and other-category feeds: limit defaults to 100, maximum 100; no pagination cursor."
   },
+  "Public RSS cache misses": {
+    "type": "8 / 1 second / client; 60 / 1 second site-wide",
+    "description": "Shared by the four public feed types. Only requests that miss the cache count; cached answers do not. Clients are usually told apart by IP. Over the limit, feeds return 429 with Retry-After (usually 1 second) and Cache-Control: no-store. Fetching several different search or filter feeds from one IP in the same second is the usual trigger; spread those requests out."
+  },
   "Personal RSS": {
     "type": "30 / 60 seconds / IP",
     "description": "limit defaults to 50, maximum 200; repeated invalid tokens have an additional limit."
@@ -56,4 +60,4 @@ Public RSS limit accepts a single decimal integer from 1 to 100 without leading 
 
 RSS q/search and Torznab q are limited to 160 UTF-8 bytes after normalization. Bangumi search, seasonal title queries, and title matching have their own character limits. Public RSS has no cursor/page pagination; Torznab uses bounded offset.
 
-For 429, honor Retry-After in seconds. Do not assume every error includes it. Poll normal RSS at intervals of at least five minutes and avoid concurrent requests. Conditional requests returning 304 may still consume rate limits.
+For 429, honor Retry-After in seconds. A public RSS 503 means the backend is temporarily unavailable; it is not a rate limit. The application's 503 carries Retry-After: 30 and Cache-Control: no-store and is never replaced by an empty feed; wait, then retry. Do not assume every error includes Retry-After. Poll normal RSS at intervals of at least five minutes and avoid concurrent requests. Conditional requests returning 304 may still consume rate limits.

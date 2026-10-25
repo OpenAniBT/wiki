@@ -796,7 +796,7 @@ paths:
 
         非法 `limit` 返回应用 `400`，生产边缘可能先 `403`。与默认值等价的写法会 `308` 到规范 URL。
 
-        bgm.tv 合并过的旧 `bgmId` 会 `308` 到把 `bgmId` 换成新 ID 的同一 URL，`groupSlug` 等其他参数不变。恰好只有 `bgmId` 与 `groupSlug` 的订阅链接同样跳转，跟随即可，不必重新订阅。目标番剧暂时无法解析时返回 `503`（`Cache-Control: no-store`），不返回 `404`。
+        bgm.tv 合并过的旧 `bgmId` 会 `308` 到把 `bgmId` 换成新 ID 的同一 URL，`groupSlug` 等其他参数不变。恰好只有 `bgmId` 与 `groupSlug` 的订阅链接同样跳转，跟随即可，不必重新订阅。目标番剧暂时无法解析时返回 `503`（`Cache-Control: no-store`，`Retry-After: 30`），不返回 `404`。
 
         每个 `<item>`：`<title>`、`<link>`（`/release/<id>`）、`<guid>`、`<pubDate>`（RFC 822，`+0800`）、`<enclosure>` 种子下载链接、`<torrent>` infoHash、已绑定时 `<anibt:bgmId>`。
 
@@ -1058,7 +1058,7 @@ paths:
               schema:
                 type: string
         "429":
-          description: 请求过于频繁
+          description: "请求过于频繁：超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。回源上限的 Retry-After 通常为 1 秒。响应带 Cache-Control: no-store。"
           content:
             text/plain:
               schema:
@@ -1070,11 +1070,18 @@ paths:
                 type: integer
                 minimum: 1
         "503":
-          description: 暂不可用；不保证提供 Retry-After
+          description: "后端暂时不可用，不是限流。应用返回的 503 带 Retry-After: 30 与 Cache-Control: no-store，不会以空 feed 代替；等待后重试。"
           content:
             text/plain:
               schema:
                 type: string
+          headers:
+            Retry-After:
+              description: 重试前等待秒数，当前为 30。
+              schema:
+                type: integer
+                minimum: 1
+                example: 30
 
   /rss/group/{slug}.xml:
     get:
@@ -1202,7 +1209,7 @@ paths:
               schema:
                 type: string
         "429":
-          description: 请求过于频繁
+          description: "请求过于频繁：超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。回源上限的 Retry-After 通常为 1 秒。响应带 Cache-Control: no-store。"
           content:
             text/plain:
               schema:
@@ -1214,11 +1221,18 @@ paths:
                 type: integer
                 minimum: 1
         "503":
-          description: 暂不可用；不保证提供 Retry-After
+          description: "后端暂时不可用，不是限流。应用返回的 503 带 Retry-After: 30 与 Cache-Control: no-store，不会以空 feed 代替；等待后重试。"
           content:
             text/plain:
               schema:
                 type: string
+          headers:
+            Retry-After:
+              description: 重试前等待秒数，当前为 30。
+              schema:
+                type: integer
+                minimum: 1
+                example: 30
 
   /rss/magnets.xml:
     get:
@@ -1370,7 +1384,7 @@ paths:
               schema:
                 type: string
         "429":
-          description: 请求过于频繁
+          description: "请求过于频繁：超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。回源上限的 Retry-After 通常为 1 秒。响应带 Cache-Control: no-store。"
           content:
             text/plain:
               schema:
@@ -1382,11 +1396,18 @@ paths:
                 type: integer
                 minimum: 1
         "503":
-          description: 暂不可用；不保证提供 Retry-After
+          description: "后端暂时不可用，不是限流。应用返回的 503 带 Retry-After: 30 与 Cache-Control: no-store，不会以空 feed 代替；等待后重试。"
           content:
             text/plain:
               schema:
                 type: string
+          headers:
+            Retry-After:
+              description: 重试前等待秒数，当前为 30。
+              schema:
+                type: integer
+                minimum: 1
+                example: 30
 
   /rss/other/{category}.xml:
     get:
@@ -1511,7 +1532,7 @@ paths:
               schema:
                 type: string
         "429":
-          description: 请求过于频繁
+          description: "请求过于频繁：超出每 IP 请求限流，或未命中缓存的请求超出回源上限（默认每个客户端 8 次 / 1 秒，全站合计 60 次 / 1 秒；命中缓存的请求不计入）。回源上限的 Retry-After 通常为 1 秒。响应带 Cache-Control: no-store。"
           content:
             text/plain:
               schema:
@@ -1523,11 +1544,18 @@ paths:
                 type: integer
                 minimum: 1
         "503":
-          description: 暂不可用；不保证提供 Retry-After
+          description: "后端暂时不可用，不是限流。应用返回的 503 带 Retry-After: 30 与 Cache-Control: no-store，不会以空 feed 代替；等待后重试。"
           content:
             text/plain:
               schema:
                 type: string
+          headers:
+            Retry-After:
+              description: 重试前等待秒数，当前为 30。
+              schema:
+                type: integer
+                minimum: 1
+                example: 30
 
   /rss/subscriptions.xml:
     get:

@@ -115,7 +115,8 @@
       ],
       "sources": [
         "src/lib/public-delivery/rss/routes/anime.server.ts",
-        "src/lib/public-delivery/rss/request-policy.ts"
+        "src/lib/public-delivery/rss/request-policy.ts",
+        "src/lib/public-delivery/rss/origin-refusal.server.ts"
       ]
     },
     {
@@ -131,7 +132,8 @@
       ],
       "sources": [
         "src/lib/public-delivery/rss/routes/group.server.ts",
-        "src/lib/public-delivery/rss/fixed-feed.server.ts"
+        "src/lib/public-delivery/rss/fixed-feed.server.ts",
+        "src/lib/public-delivery/rss/origin-refusal.server.ts"
       ]
     },
     {
@@ -147,7 +149,8 @@
       ],
       "sources": [
         "src/lib/public-delivery/rss/routes/magnets.server.ts",
-        "src/lib/public-delivery/rss/request-policy.ts"
+        "src/lib/public-delivery/rss/request-policy.ts",
+        "src/lib/public-delivery/rss/origin-refusal.server.ts"
       ]
     },
     {
@@ -163,7 +166,8 @@
       ],
       "sources": [
         "src/lib/public-delivery/rss/routes/other.server.ts",
-        "src/lib/public-delivery/rss/request-policy.ts"
+        "src/lib/public-delivery/rss/request-policy.ts",
+        "src/lib/public-delivery/rss/origin-refusal.server.ts"
       ]
     },
     {

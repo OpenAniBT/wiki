@@ -14,6 +14,10 @@ description: "各端點的預設限額、參數範圍與退避方式。"
     "type": "120 次 / 60 秒 / IP",
     "description": "番劇、字幕組、磁力、其他類 RSS；limit 預設 100，上限 100，沒有分頁游標。"
   },
+  "公開 RSS 回源上限": {
+    "type": "8 次 / 1 秒 / 用戶端，全站 60 次 / 1 秒",
+    "description": "四類公開 RSS 共用，只計未命中快取的請求，命中快取的請求不計入；用戶端通常依 IP 區分。超出時回傳 429，帶 Retry-After（通常為 1 秒）與 Cache-Control: no-store。同一 IP 在同一秒內拉取多個不同的搜尋或篩選訂閱最容易觸發，錯開請求即可。"
+  },
   "個人訂閱 RSS": {
     "type": "30 次 / 60 秒 / IP",
     "description": "limit 預設 50，上限 200；重複無效 key 另有限制。"
@@ -56,4 +60,4 @@ description: "各端點的預設限額、參數範圍與退避方式。"
 
 RSS 的 q/search 與 Torznab 的 q 正規化後最多 160 個 UTF-8 位元組。Bangumi 搜尋、季度標題查詢與標題匹配各有字元數限制，不能共用長度規則。公開 RSS 沒有 cursor/page 分頁；Torznab 使用有界 offset。
 
-收到 429 時依 Retry-After 等待，單位為秒。沒有此欄位的錯誤不能假定 2 秒後成功。普通 RSS 建議至少間隔 5 分鐘並避免並行請求；304 仍可能消耗額度。
+收到 429 時依 Retry-After 等待，單位為秒。公開 RSS 的 503 表示後端暫時無法使用，不是限流：應用程式回傳的 503 帶 Retry-After: 30 與 Cache-Control: no-store，不會以空 feed 代替，等待後重試即可。沒有此欄位的錯誤不能假定 2 秒後成功。普通 RSS 建議至少間隔 5 分鐘並避免並行請求；304 仍可能消耗額度。

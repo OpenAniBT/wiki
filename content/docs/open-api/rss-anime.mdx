@@ -21,7 +21,7 @@ _openapi:
 
           bgm.tv 合并过的旧 `bgmId` 会 `308` 到把 `bgmId` 换成新 ID 的同一 URL，`groupSlug`
           等其他参数不变。恰好只有 `bgmId` 与 `groupSlug` 的订阅链接同样跳转，跟随即可，不必重新订阅。目标番剧暂时无法解析时返回
-          `503`（`Cache-Control: no-store`），不返回 `404`。
+          `503`（`Cache-Control: no-store`，`Retry-After: 30`），不返回 `404`。
 
           每个
           `<item>`：`<title>`、`<link>`（`/release/<id>`）、`<guid>`、`<pubDate>`（RFC
