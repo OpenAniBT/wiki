@@ -30,6 +30,14 @@ description: "各端點的預設限額、參數範圍與退避方式。"
     "type": "60 次 / 60 秒 / IP",
     "description": "limit 預設 5，1–25；q 去除首尾空白後最多 100 字元。"
   },
+  "番劇搜尋": {
+    "type": "120 次 / 60 秒 / IP",
+    "description": "/api/animes/search；limit 預設 24，1–50。翻頁只接受上一頁回傳的 continueCursor。"
+  },
+  "資源搜尋詞數": {
+    "type": "16 個正向詞 / 8 個排除詞",
+    "description": "/magnets、番劇頁的資源搜尋、其他類資源、關鍵字 RSS 與 Torznab 共用。引號短語與含數字的詞算 1 個，a/b/c 算 3 個，分隔符與純符號不計，每個排除詞算 1 個。超出時 RSS 回傳 400，Torznab 回傳錯誤 201，其餘回傳 422 VALIDATION_ERROR。"
+  },
   "字幕組目錄": {
     "type": "60 次 / 60 秒 / IP",
     "description": "完整目錄，不支援 limit 或分頁。"
@@ -58,6 +66,6 @@ description: "各端點的預設限額、參數範圍與退避方式。"
 
 公開 RSS 的 limit 只接受無前導零的整數 1..100，重複、空值或格式錯誤回傳 400；預設 limit=100 會正規化為省略參數的 URL。個人 RSS 使用獨立規則。
 
-RSS 的 q/search 與 Torznab 的 q 正規化後最多 160 個 UTF-8 位元組。Bangumi 搜尋、季度標題查詢與標題匹配各有字元數限制，不能共用長度規則。公開 RSS 沒有 cursor/page 分頁；Torznab 使用有界 offset。
+RSS 的 q/search 與 Torznab 的 q 正規化後最多 160 個 UTF-8 位元組，`/magnets` 的 q 最多 300 字元。比對規則見[資源搜尋](/zh-Hant/docs/open-api#資源搜尋)。Bangumi 搜尋、季度標題查詢與標題匹配各有字元數限制，不能共用長度規則。公開 RSS 沒有 cursor/page 分頁；Torznab 使用有界 offset。
 
 收到 429 時依 Retry-After 等待，單位為秒。公開 RSS 的 503 表示後端暫時無法使用，不是限流：應用程式回傳的 503 帶 Retry-After: 30 與 Cache-Control: no-store，不會以空 feed 代替，等待後重試即可。沒有此欄位的錯誤不能假定 2 秒後成功。普通 RSS 建議至少間隔 5 分鐘並避免並行請求；304 仍可能消耗額度。

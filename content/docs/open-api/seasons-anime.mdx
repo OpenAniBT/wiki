@@ -20,6 +20,10 @@ _openapi:
           季度浏览最多 200 条，超过时按人气档位、再按评分取前 200；query 最多 50 条。`total`
           是本次返回数，`truncated` 表示仍有结果。完整翻页请用 /api/animes/search。
 
+          query 的匹配规则见「开放 API 总览」的「番剧搜索」。搜索排名只决定哪些番剧进入最多 50
+          条的结果；响应仍按星期分组，组内按播出时间和标题排序。暂时无法完成读取时返回 503 SEARCH_UNAVAILABLE，带
+          Retry-After。
+
           已合并的旧 bgmId 返回合并后的番剧：`scope.bgmId` 保持请求值，条目的 `bgmId` 是合并后的 ID。管理员隐藏或
           bgm.tv 标记为 NSFW 的番剧不出现在任何结果里。
 

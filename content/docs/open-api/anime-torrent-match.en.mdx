@@ -1,6 +1,6 @@
 ---
 title: "Torrent match"
-description: "POST /api/animes/torrent-match — preserve official bracketed subtitles, romaji and English aliases, and distinguish seasons from episodes. Conflicting titles require manual confirmation. Numeric title terms are not corrected or ignored; relaxed matching may ignore at most one ordinary word and cannot authorize auto on its own."
+description: "POST /api/animes/torrent-match — preserve official bracketed subtitles, romaji and English aliases, and distinguish seasons from episodes. Conflicting titles require manual confirmation. Numeric title terms are not corrected or ignored; relaxed matching may ignore at most one ordinary word and cannot authorize auto on its own. When matching cannot complete, the response is 200 with decision.kind=unavailable, reason=search_unavailable, and no candidates; retry later or choose the anime manually."
 full: true
 _openapi:
   preload:

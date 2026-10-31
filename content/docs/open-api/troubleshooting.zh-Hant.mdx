@@ -30,6 +30,26 @@ description: "依回應類型、狀態碼與欄位定位問題。"
     "type": "欄位",
     "description": "番劇 JSON 的 anime 與 bgmId 不是相容欄位；使用 animeIdType 與 animeId。"
   },
+  "番劇搜尋回傳 422 / VALIDATION_ERROR": {
+    "type": "cursor",
+    "description": "cursor 不是上一頁為相同查詢與篩選條件回傳的 continueCursor，例如自行拼接的 ts_page:N 或更新前儲存的值。去掉 cursor，從第一頁重新開始。"
+  },
+  "資源搜尋回傳 422 / 400 / 錯誤 201": {
+    "type": "詞數上限",
+    "description": "一次查詢最多 16 個正向詞與 8 個排除詞。減少詞數；原樣重試不會成功。"
+  },
+  "/magnets 或關鍵字 RSS 搜不到預期資源": {
+    "type": "比對規則",
+    "description": "每個詞都必須命中，不校正、不補全前綴：1080 找不到 1080p，多一個資源沒有的詞結果就為空。規則見開放 API 總覽的「資源搜尋」。"
+  },
+  "搜尋回傳 503": {
+    "type": "暫時無法使用",
+    "description": "搜尋逾時或暫時無法完成，不代表沒有結果。依 Retry-After 等待後重試。"
+  },
+  "標題匹配回傳 decision.kind=unavailable": {
+    "type": "暫時無法使用",
+    "description": "HTTP 200，candidates 為空，不代表番劇不存在。稍後重試，或手動選擇番劇。"
+  },
   "308": {
     "type": "正規 URL",
     "description": "讀取並儲存 Location；公開 RSS 會移除預設值、別名和不支援的參數。"

@@ -102,12 +102,15 @@ AniBT provides a Torznab API. Sonarr, Radarr, and Prowlarr can add AniBT directl
 
 ## Search rules
 
+- Keywords follow the rules of [Release search](/en/docs/open-api#release-search): every term must hit the release's title and spec or a title or alias of its anime, Latin letters and digits must be whole words, and there is no typo tolerance or prefix completion. One split/join retry runs only when the strict search finds nothing.
+- `-word` excludes releases whose own title or spec holds that word. A keyword with only separators, symbols, or exclusions returns an empty list.
+- Results are always sorted by publish time, newest first.
 - A trailing 2- to 4-digit number is matched as the episode, for example `Frieren 05`. A single digit is not treated as an episode.
 - A trailing year from 1900 to 2099 is ignored, for example `Suzume 2022`.
 - Episodes match the number the fansub group used. For shows that restart numbering each season, the absolute episode numbers Sonarr sends may not match later seasons.
-- Some releases have only Chinese titles and can't be found with English or romaji keywords.
+- Releases titled only in Chinese can be found with an English or romaji alias of their anime. Without a matching alias, they can't be found.
 - Searching by TVDB, TMDB, or IMDb ID is not supported yet; such requests return an empty result.
-- Keyword searches for movies filter only the top 100 matching releases. If many series share the title, a movie may not appear.
+- When an episode or the movie category (`cat` contains `2000` or `2020` and neither `5000` nor `5070`) is given, those conditions filter first, and then the newest 100 are taken.
 
 ## Limits
 
@@ -124,6 +127,14 @@ AniBT provides a Torznab API. Sonarr, Radarr, and Prowlarr can add AniBT directl
     'offset': {
       type: 'Up to item 300',
       description: 'Without a keyword, offset + limit can reach 300; with a keyword, 100. Beyond that, the list is empty.',
+    },
+    'Keyword terms': {
+      type: '16 positive terms, 8 exclusions',
+      description: 'A quoted phrase or a word with a digit counts as 1, a/b/c counts as 3, and each exclusion counts as 1. Past the limit you get error code 201. A request with limit=0, past the offset window, with an ID parameter, or with only unknown categories returns an empty list first, without checking terms.',
+    },
+    'total': {
+      type: 'At most 100 with a keyword',
+      description: 'With a keyword, this counts the results of that search, at most 100. It is not every match, and inside the offset window it does not change with limit or offset. Without a keyword, it may be an estimate. A request answered early with an empty list reports 0.',
     },
     'Freshness': {
       type: 'About 2.5 minutes',
@@ -146,6 +157,6 @@ AniBT provides a Torznab API. Sonarr, Radarr, and Prowlarr can add AniBT directl
     Music and book searches are not supported.
   </Accordion>
   <Accordion title="Response is error code 201">
-    A parameter is malformed, for example `cat` is not a comma-separated list of numbers, or the keyword exceeds 160 UTF-8 bytes.
+    A parameter is malformed, for example `cat` is not a comma-separated list of numbers, or the keyword exceeds 160 UTF-8 bytes, 16 positive terms, or 8 exclusions.
   </Accordion>
 </Accordions>

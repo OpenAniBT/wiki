@@ -1,6 +1,6 @@
 ---
 title: "Bangumi search"
-description: "GET /api/bgm/search — map a title to bgmId. Text queries must match complete standalone years (1000–2999); ordinary spelling correction and unfinished numeric prefixes remain supported. A digits-only q still looks up a Bangumi ID."
+description: "GET /api/bgm/search — map a title to bgmId. Results are ranked by match tier, then popularity. Spelling tolerance comes from similarity; a year has no special rule and matches like any other term. A digits-only q still looks up a Bangumi ID."
 full: true
 _openapi:
   preload:

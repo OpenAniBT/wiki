@@ -12,6 +12,30 @@ description: 記錄 AniBT 平台面向使用者與字幕組的功能變更、最
 ## 2026 年 10 月 31 日
 
 <TypeTable type={{
+  "番劇搜尋翻頁（需要調整）": {
+    "type": "Improvement",
+    "description": "呼叫 /api/animes/search 翻頁時必須原樣傳回上一頁的 continueCursor，不能再自行拼接 ts_page:N。continueCursor 現在是不透明權杖，最後一頁仍為空字串。ts_page:N 與不是為相同查詢、篩選條件與搜尋規則簽發的 cursor 現在也回傳 422 VALIDATION_ERROR，更新前儲存的 cursor 全部失效。收到 422 時從第一頁重新開始。見「開放 API 總覽」。"
+  },
+  "資源搜尋改為整詞比對": {
+    "type": "Improvement",
+    "description": "/magnets?q、其他類資源分類與番劇頁的資源搜尋不再校正或補全前綴，HEV 找不到 HEVC。番劇資源的每個詞都必須是資源標題與規格或所屬番劇任一標題、別名中的完整詞，中日文按連續字元比對；關鍵字 RSS 與 Torznab 現在也能透過番劇的標題與別名命中。資源搜尋不再按相關度排序，只按所選排序列出，預設最新在前。"
+  },
+  "資源搜尋詞數上限": {
+    "type": "Improvement",
+    "description": "一次資源搜尋最多 16 個正向詞與 8 個排除詞。超出時 RSS 回傳 400，Torznab 回傳錯誤 201，/magnets 回傳 422 VALIDATION_ERROR。只有獨立橫線（-）的查詢不再列出全部資源，和只有符號或排除詞的查詢一樣回傳空頁。"
+  },
+  "Torznab 搜尋": {
+    "type": "Fix",
+    "description": "劇場版分類成為搜尋條件，同名的較新劇集不會再把劇場版擠出結果。只有中文標題的資源也能用所屬番劇的英文或羅馬音別名搜到。"
+  },
+  "番劇搜尋排序與容錯": {
+    "type": "Improvement",
+    "description": "番劇搜尋（含 /api/bgm/search）改為分級排序：完全相等、前綴、子字串、多詞、字序、相似度，同級按熱度。季度番劇的 query 用同一排名選出最多 50 部，回應仍按星期分組。平假名現在能找到片假名標題。拼寫容錯改為相似度：長標題保留容錯，短單字的拼寫錯誤可能找不到。"
+  },
+  "標題匹配繁忙時的回應": {
+    "type": "Improvement",
+    "description": "標題匹配繁忙時也可能回傳 200、decision.kind=unavailable 與 reason=search_unavailable，candidates 為空。這不表示番劇不存在；稍後重試或手動選擇番劇。"
+  },
   "信箱註冊與寄信保護": {
     "type": "Improvement",
     "description": "新註冊限定常見信箱網域；同信箱至少間隔 60 秒、滾動 24 小時最多 5 次寄信申請，同來源 IP 滾動 1 小時最多 10 次。受到頻率限制的重新寄送不會覆蓋原驗證碼。既有自訂網域信箱帳號仍可驗證及重設密碼，詳見「帳號與認證」。"

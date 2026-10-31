@@ -18,6 +18,10 @@ _openapi:
 
           `limit` 默认 100，上限 100。速率限制默认 120 次 / 60 秒 / IP。
 
+          q 的规则与全站磁力 RSS 相同，但只比较资源自身的标题和分类，不涉及番剧别名；规则见「开放 API 总览」的「资源搜索」。q 最多 16
+          个正向词和 8 个排除词，超出返回 400（正文 Invalid search，no-store）。只有分隔符、符号或排除词的 q 返回空
+          channel。结果按所选排序，默认发布时间倒序。
+
           成功响应为 application/xml，enclosure 指向 .torrent 文件；错误正文通常为纯文本。GET 与 HEAD
           支持 If-None-Match。
 ---

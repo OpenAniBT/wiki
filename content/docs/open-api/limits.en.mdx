@@ -30,6 +30,14 @@ These are application defaults; deployment settings and edge rules may impose di
     "type": "60 / 60 seconds / IP",
     "description": "limit defaults to 5, range 1–25; trimmed q is at most 100 characters."
   },
+  "Anime search": {
+    "type": "120 / 60 seconds / IP",
+    "description": "/api/animes/search: limit defaults to 24, range 1–50. Pagination accepts only the continueCursor from the previous page."
+  },
+  "Release search terms": {
+    "type": "16 positive terms / 8 exclusions",
+    "description": "Shared by /magnets, an anime page's release search, other releases, keyword RSS, and Torznab. A quoted phrase or a word with a digit counts as 1, a/b/c counts as 3, separators and symbol-only tokens don't count, and each exclusion counts as 1. Past the limit, RSS returns 400, Torznab returns error 201, and the others return 422 VALIDATION_ERROR."
+  },
   "Group directory": {
     "type": "60 / 60 seconds / IP",
     "description": "Returns the full directory without limit or pagination."
@@ -58,6 +66,6 @@ These are application defaults; deployment settings and edge rules may impose di
 
 Public RSS limit accepts a single decimal integer from 1 to 100 without leading zeros. Duplicate, empty, or malformed values return 400. Explicit limit=100 is normalized to a URL without the default parameter. Personal RSS has separate defaults and rules.
 
-RSS q/search and Torznab q are limited to 160 UTF-8 bytes after normalization. Bangumi search, seasonal title queries, and title matching have their own character limits. Public RSS has no cursor/page pagination; Torznab uses bounded offset.
+RSS q/search and Torznab q are limited to 160 UTF-8 bytes after normalization, and `/magnets` q to 300 characters. For matching rules, see [Release search](/en/docs/open-api#release-search). Bangumi search, seasonal title queries, and title matching have their own character limits. Public RSS has no cursor/page pagination; Torznab uses bounded offset.
 
 For 429, honor Retry-After in seconds. A public RSS 503 means the backend is temporarily unavailable; it is not a rate limit. The application's 503 carries Retry-After: 30 and Cache-Control: no-store and is never replaced by an empty feed; wait, then retry. Do not assume every error includes Retry-After. Poll normal RSS at intervals of at least five minutes and avoid concurrent requests. Conditional requests returning 304 may still consume rate limits.

@@ -12,6 +12,30 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
 ## October 31, 2026
 
 <TypeTable type={{
+  "Anime search pagination (action required)": {
+    "type": "Improvement",
+    "description": "When paging /api/animes/search, pass back the previous page's continueCursor unchanged; don't build ts_page:N yourself. continueCursor is now an opaque token and is still an empty string on the last page. ts_page:N and cursors not issued for the same query, filters, and search policy now also return 422 VALIDATION_ERROR, and cursors saved before this update no longer work. On 422, start again from the first page. See the Open API overview."
+  },
+  "Whole-word release search": {
+    "type": "Improvement",
+    "description": "/magnets?q, other-release categories, and an anime page's release search no longer correct typos or complete prefixes: HEV doesn't find HEVC. For anime releases, every term must be a whole word of the release's title and spec or of a title or alias of its anime, and Chinese and Japanese match as contiguous characters; keyword RSS and Torznab can now also hit through the anime's titles and aliases. Release search no longer ranks by relevance and lists by the chosen sort, newest first by default."
+  },
+  "Release search term limit": {
+    "type": "Improvement",
+    "description": "A release search carries at most 16 positive terms and 8 exclusions. Past that, RSS returns 400, Torznab returns error 201, and /magnets returns 422 VALIDATION_ERROR. A query of only standalone dashes (-) no longer lists every release; like a symbol-only or exclusion-only query, it returns an empty page."
+  },
+  "Torznab search": {
+    "type": "Fix",
+    "description": "The movie category is now a condition of the search, so newer series releases of the same title no longer push movies out of the results. Releases titled only in Chinese can be found with an English or romaji alias of their anime."
+  },
+  "Anime search ranking and tolerance": {
+    "type": "Improvement",
+    "description": "Anime search, including /api/bgm/search, now ranks by tier: exact, prefix, substring, multi-word, ordered characters, similarity, with ties going to popularity. The season query uses the same ranking to choose up to 50 anime; its response is still grouped by weekday. Hiragana now finds katakana titles. Spelling tolerance now comes from similarity: long titles keep it, while a typo in a short word may find nothing."
+  },
+  "Title matching when busy": {
+    "type": "Improvement",
+    "description": "When title matching is busy, it can now also return 200 with decision.kind=unavailable, reason=search_unavailable, and empty candidates. This doesn't mean the anime doesn't exist; retry later or choose the anime manually."
+  },
   "Registration and email abuse protection": {
     "type": "Improvement",
     "description": "New registrations require a supported email domain. Email requests share a 60-second mailbox cooldown, a limit of 5 per rolling 24 hours per mailbox and 10 per rolling hour per source IP. Rejected resends preserve the previous code. Existing custom-domain accounts can still verify their email and reset passwords. See Account & Authentication."

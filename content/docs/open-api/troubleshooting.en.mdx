@@ -30,6 +30,26 @@ Check the URL, HTTP method, Content-Type, and response body first.
     "type": "Fields",
     "description": "anime and bgmId are not accepted aliases in anime publish JSON. Use animeIdType and animeId."
   },
+  "Anime search returns 422 / VALIDATION_ERROR": {
+    "type": "cursor",
+    "description": "The cursor is not the continueCursor the previous page returned for the same query and filters, for example a self-built ts_page:N or a value saved before the update. Drop cursor and start again from the first page."
+  },
+  "Release search returns 422 / 400 / error 201": {
+    "type": "Term limit",
+    "description": "A query carries at most 16 positive terms and 8 exclusions. Use fewer terms; retrying unchanged won't succeed."
+  },
+  "/magnets or keyword RSS misses an expected release": {
+    "type": "Matching rules",
+    "description": "Every term must hit, with no typo tolerance or prefix completion: 1080 doesn't find 1080p, and one word a release lacks empties the result. See Release search in the Open API overview."
+  },
+  "Search returns 503": {
+    "type": "Temporarily unavailable",
+    "description": "The search timed out or couldn't complete; this doesn't mean there are no results. Wait for Retry-After, then retry."
+  },
+  "Title matching returns decision.kind=unavailable": {
+    "type": "Temporarily unavailable",
+    "description": "HTTP 200 with empty candidates; this doesn't mean the anime doesn't exist. Retry later, or choose the anime manually."
+  },
   "308": {
     "type": "Canonical URL",
     "description": "Follow and save Location. Public RSS removes defaults, aliases, and unsupported parameters."

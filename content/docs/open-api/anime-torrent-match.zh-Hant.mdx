@@ -1,6 +1,6 @@
 ---
 title: "種子標題匹配番劇"
-description: "POST /api/animes/torrent-match —— 保留正式括號副標題、羅馬音與英文別名，分別識別季數與集數。標題衝突時須人工確認。數字標題詞不自動校正或忽略；寬鬆匹配最多忽略一個一般詞，不能單獨授權 auto。"
+description: "POST /api/animes/torrent-match —— 保留正式括號副標題、羅馬音與英文別名，分別識別季數與集數。標題衝突時須人工確認。數字標題詞不自動校正或忽略；寬鬆匹配最多忽略一個一般詞，不能單獨授權 auto。匹配暫時無法完成時仍回傳 200，decision.kind=unavailable，reason=search_unavailable，candidates 為空；稍後重試或手動選擇番劇。"
 full: true
 _openapi:
   preload:

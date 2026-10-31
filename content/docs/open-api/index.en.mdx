@@ -40,9 +40,131 @@ The machine-readable contract is [/openapi.yaml](/openapi.yaml). Endpoint pages 
 
 `scope.kind` on `/api/seasons/anime` distinguishes season browsing, title search, and exact ID lookup. A global title search returns `requestedSeason: null`; each anime carries its own season. Premiere dates remain separate from season classification. `premiere.precision` is `day`, `month`, `season`, or `year`; a coarse date uses the start of that period.
 
-Season browsing returns at most 200 items; title search returns at most 50. `total` counts the returned items and `truncated=true` means more results exist. Use `/api/animes/search` for pagination. `rating` uses a 0–10 scale and defaults to `5.0` when no valid rating is available; `averageScore` uses 0–100 and defaults to `50`. Existing ani-rss can sort these scores. Older versions ignore truncation indicators and still display at most 50 search results.
+Season browsing returns at most 200 items; title search returns at most 50. `total` counts the returned items and `truncated=true` means more results exist. Use `/api/animes/search` for pagination; see [Anime search](#anime-search). `rating` uses a 0–10 scale and defaults to `5.0` when no valid rating is available; `averageScore` uses 0–100 and defaults to `50`. Existing ani-rss can sort these scores. Older versions ignore truncation indicators and still display at most 50 search results.
 
 Default ratings update automatically when a later sync obtains a valid source rating. Manually locked ratings remain unchanged. Metadata follows the existing sync frequency; page views and RSS subscriptions do not refresh upstream records individually.
+
+## Anime search
+
+`/api/animes/search`, `/search`, `/api/bgm/search`, and the `query` of `/api/seasons/anime` share one title search. It compares every title and alias of an anime.
+
+Before comparing, case and full-width forms are normalized, katakana folds to hiragana, and Traditional and Japanese shinjitai characters fold to Simplified. Spaces and punctuation are then ignored. `ふりーれん` finds katakana titles, and `進擊` finds Simplified titles.
+
+Matches are ranked by tier, then by popularity (descending), then by anime ID (ascending):
+
+1. **Exact**: a title or alias equals the query.
+2. **Prefix**: a title or alias starts with the query.
+3. **Substring**: a title or alias contains the query.
+4. **Multi-word**: every term hits some title or alias of the same anime, in any order and possibly across different titles. Used only for 2–16 terms; with more terms this tier is skipped, without an error.
+5. **Ordered characters**: 2–4 Chinese or Japanese characters appear in order in one title or alias, not necessarily next to each other. `进巨` finds 进击的巨人.
+6. **Similarity**: titles or aliases spelled similarly.
+
+`/api/animes/search`, `/search`, and `/api/bgm/search` return results in this order. `/api/seasons/anime` uses it only to choose up to 50 anime; its response is still grouped by weekday and ordered by air time and title within each group.
+
+Limits:
+
+- Spelling tolerance comes only from similarity. Long titles tolerate small differences, such as `kimetu no yaiba`; a transposition in a short word, such as `freiren`, may find nothing.
+- All punctuation separates terms, so `Re:Zero` and `Re Zero` are the same query. A year has no special rule; it matches like any other term.
+- A query of 1–2 characters uses no substring or similarity matching. Whether it matches a given title or alias depends on how the two relate:
+  - A query equal to the whole title or alias, ignoring spaces and punctuation, always matches.
+  - Latin letters and digits must be a whole word or the start of a word in it. `rk` and `or` don't match letters inside a word.
+  - Chinese and Japanese must be a single character in it or two adjacent characters. Punctuation in the query is removed first, so `ス・ダ` matches a title or alias with those two kana next to each other, not one that writes them apart with punctuation (unless the whole title or alias is just those two kana). Two characters with no space or punctuation between them can also match by ordered characters, as above.
+  - A mix of Chinese or Japanese with letters or digits, such as `人0`, matches only an identical whole fragment: a piece set off by spaces or punctuation.
+- A query that folds to nothing, such as `☆★`, returns an empty last page.
+
+### Anime search pagination
+
+`/api/animes/search` accepts `q`, `format`, `status`, `seasonYear`, `limit` (default 24, range 1–50), and `cursor`. It returns `page`, `isDone`, and `continueCursor` directly, without an `ok` or `data` wrapper.
+
+<Callout type="warn">
+  `continueCursor` is an opaque token and an empty string on the last page. Pass it back unchanged; don't parse it or build your own.
+</Callout>
+
+These `cursor` values return 422 `VALIDATION_ERROR`:
+
+- A self-built `ts_page:N` or any other malformed value.
+- A value not issued for the same query, filters, and search policy.
+- A value sent with an empty query.
+
+Cursors issued before the October 31, 2026 update no longer work. On 422, drop `cursor` and start again from the first page.
+
+## Release search
+
+`/magnets?q`, an anime page's release search, other-release categories, `/rss/magnets.xml?q=`, `/rss/other/<category>.xml?q=`, and `/torznab/api?q=` follow these rules. Every term must hit, with no typo tolerance, no prefix completion, and no dropped terms:
+
+- An anime release is compared on its own title and spec (episode label, resolution, format, subtitle type, language) and on every title and alias of its anime. Different terms can hit different places, so any alias of the anime finds releases titled only in another language.
+- An other-category release is compared only on its own title and category.
+- Latin letters and digits must be whole words: `HEV` doesn't find `HEVC`, `1080` doesn't find `1080p`, and `LoliHous` doesn't find `LoliHouse`.
+- Chinese and Japanese match as contiguous characters and need not be a whole word: `鬼灭` finds releases of 鬼灭之刃.
+- Letters and digits ignore case and width on every surface, and kana and Traditional/Simplified characters fold as in anime search.
+
+Results are listed only by the chosen sort, newest first by default, with no relevance ranking. Torznab always sorts by publish time, newest first.
+
+Only when the strict first page is empty does one split/join fallback run: `Loli Hose` finds `LoliHose`, `rezero` finds `Re:ZERO`, and `Re:Zero` finds `ReZero`. The fallback relaxes only the boundary between adjacent words, never exclusions, and later pages keep the first page's matching mode.
+
+### Punctuation, quotes, and exclusions
+
+- A term with no digit splits at its punctuation, and each part matches on its own: `Nix-Raws`, `Re:Zero`, and `鬼灭/第二季` are two terms each, so one can hit an anime alias and the other a release title.
+- A term with a digit and several parts is one phrase: the parts of `HEVC-10bit`, `x264-AAC`, and `第2期` must be adjacent and in order within one text (the release's own title and spec, or one title or alias of its anime). `HEVC-10bit` doesn't find `10bit x264 HEVC`, and `第2` doesn't match `第20期`.
+- A complete quoted phrase standing as its own term is one phrase and may contain spaces: `"25 1080p"`. A quote attached to other characters, or left unclosed, is ignored and its words are ordinary terms.
+- `-word` excludes, and reads only the release's own title and spec, never anime aliases. `-web-dl` needs `web` and `dl` adjacent and in order, so it doesn't exclude `WebDL` written as one word. `-"25 1080p"` excludes that phrase.
+- A `-` with whitespace on both sides is a separator: `Title - 25` searches for `25`, and `Title -25` excludes `25`.
+- Use the half-width `-` and `"` for exclusions and quoted phrases. Full-width operators can behave differently between surfaces and should not be relied on.
+
+### Term limits and empty queries
+
+A query carries at most 16 positive terms and 8 exclusions. A quoted phrase or a word with a digit counts as 1, `a/b/c` counts as 3, separators and symbol-only tokens don't count, and each exclusion counts as 1. Past the limit, each surface answers:
+
+<TypeTable type={{
+  "/magnets and other search pages": {
+    "type": "422",
+    "description": "Error code VALIDATION_ERROR."
+  },
+  "/rss/magnets.xml, /rss/other/<category>.xml": {
+    "type": "400",
+    "description": "Plain text Invalid search; no-store."
+  },
+  "/torznab/api": {
+    "type": "200 + error 201",
+    "description": "XML error Incorrect parameter. A request with limit=0, past the offset window, with an ID parameter, or with only unknown categories returns an empty list first, without checking terms."
+  }
+}} />
+
+A query with no positive term (`-`, `☆`, or only exclusions such as `-25`) is not an error. Pages return an empty page, RSS returns a valid empty channel, and Torznab returns an empty list with `total` 0. Such a query issues no cursor, and a cursor sent with it is treated as invalid.
+
+When an empty `q=` is sent, `/magnets` lists all releases, Torznab lists the latest releases, and RSS returns 400.
+
+### Release search pagination
+
+- A stale `/magnets` page link returns to the first page of the current view, including search page links saved before the October 31, 2026 update.
+- RSS has no pagination. Torznab uses a bounded `offset`.
+
+## When search is unavailable
+
+When a search times out or can't complete, a surface never returns partial results or substitutes an empty result.
+
+<TypeTable type={{
+  "/api/animes/search, /api/bgm/search, /api/seasons/anime": {
+    "type": "503",
+    "description": "JSON error with error.code SEARCH_UNAVAILABLE and Retry-After."
+  },
+  "/magnets, /search, and other search pages": {
+    "type": "503",
+    "description": "Error page with Retry-After."
+  },
+  "/rss/magnets.xml, /rss/other/<category>.xml": {
+    "type": "503",
+    "description": "Plain text with Retry-After: 30 and Cache-Control: no-store."
+  },
+  "/torznab/api": {
+    "type": "503",
+    "description": "Plain text with Retry-After and Cache-Control: no-store. Not an empty result or an XML error."
+  },
+  "/api/animes/torrent-match": {
+    "type": "200",
+    "description": "When matching can't complete, decision.kind is unavailable, decision.reason is search_unavailable, and candidates is empty. Retry later, or choose the anime manually."
+  }
+}} />
 
 ## Airing status
 

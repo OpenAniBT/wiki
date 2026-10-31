@@ -1,6 +1,6 @@
 ---
 title: "Bangumi 搜尋"
-description: "GET /api/bgm/search —— 把番劇名對應為 bgmId。文字查詢中的獨立完整年份（1000–2999）必須符合；一般文字校正與尚未輸入完整的數字前綴仍可使用。純數字 q 仍依 Bangumi ID 查詢。"
+description: "GET /api/bgm/search —— 把番劇名對應為 bgmId。結果按比對層級排序，同級按熱度排序。拼寫容錯來自相似度；年份沒有單獨的規則，與其他詞一樣比對。純數字 q 仍依 Bangumi ID 查詢。"
 full: true
 _openapi:
   preload:

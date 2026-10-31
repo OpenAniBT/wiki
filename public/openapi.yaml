@@ -147,8 +147,8 @@ paths:
       summary: Bangumi 搜索
       description: |
         把番剧名映射为 `bgmId`。站内未收录的作品搜不到。
-        不保证第一条就是目标作品。结果按相关度排序。
-        文字查询中的独立完整年份（1000–2999）必须匹配；普通文字纠错和未输入完整的数字前缀仍可使用。纯数字 q 仍按 Bangumi ID 查询。
+        不保证第一条就是目标作品。结果按匹配程度分级：完全相等、前缀、子串、多词、字序、相似度；同级按热度排序。规则见「开放 API 总览」的「番剧搜索」。
+        拼写容错来自相似度：长标题能容忍少量拼写差异，短单词的字母换位可能找不到。1–2 个字符的查询不做相似度匹配，也不匹配词中间的字母。年份没有单独的规则，与其他词一样匹配。纯数字 q 仍按 Bangumi ID 查询。
         `limit` 默认 5，上限 25。速率限制默认 60 次 / 60 秒 / IP。
         q、limit 均只允许出现一次；无效查询返回 422。
         支持 GET、HEAD、OPTIONS；条件请求仍可能消耗限流额度。
@@ -210,7 +210,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "503":
-          description: 搜索暂不可用
+          description: 搜索暂不可用，返回 SEARCH_UNAVAILABLE。按 Retry-After 等待后重试
           content:
             application/json:
               schema:
@@ -226,6 +226,7 @@ paths:
         季度浏览、全库标题搜索或精确 ID 查询。`bgmId` 优先于 `season`，不能与 `query` 同时使用。
         `scope.kind` 区分 season、query、bgmId；全库 query 的 `requestedSeason` 为 null，不代表首条结果的季度。
         季度浏览最多 200 条，超过时按人气档位、再按评分取前 200；query 最多 50 条。`total` 是本次返回数，`truncated` 表示仍有结果。完整翻页请用 /api/animes/search。
+        query 的匹配规则见「开放 API 总览」的「番剧搜索」。搜索排名只决定哪些番剧进入最多 50 条的结果；响应仍按星期分组，组内按播出时间和标题排序。暂时无法完成读取时返回 503 SEARCH_UNAVAILABLE，带 Retry-After。
         已合并的旧 bgmId 返回合并后的番剧：`scope.bgmId` 保持请求值，条目的 `bgmId` 是合并后的 ID。管理员隐藏或 bgm.tv 标记为 NSFW 的番剧不出现在任何结果里。
         每部作品携带自己的年季与首播精度。季度分类不改变实际首播日期；未知值为 null。
         `weekday` 来自番剧的放送规则，依次取管理员设置、bangumi-data 放送区间、bgm.tv 分集播出日、精确到日的首播日；0=周日 … 6=周六，按北京时间。null 表示没有放送规则，归入「未排播」。
@@ -411,6 +412,12 @@ paths:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "429":
           $ref: "#/components/responses/RateLimited"
+        "503":
+          description: 暂时无法完成读取，返回 SEARCH_UNAVAILABLE。按 Retry-After 等待后重试
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
 
   /api/anime/groups:
     get:
@@ -586,6 +593,8 @@ paths:
         成功响应直接返回 version、content、decision、candidates 等字段，没有 ok 或 data 包装。
 
         未提供 infoHashHex 时 decisionToken 和 decisionTokenExpiresAt 为 null。只有 decision.kind=auto 时才可采用已列入 candidates 的决定；manual 必须由调用方确认。
+
+        匹配暂时无法完成时仍返回 200：`decision.kind=unavailable`，`decision.reason=search_unavailable`，`candidates` 为空。这不表示番剧不存在；稍后重试，或由调用方手动选择番剧。
       requestBody:
         required: true
         content:
@@ -1243,6 +1252,8 @@ paths:
       description: |
         全站最近番剧资源；已绑定的条目带 anibt:bgmId。limit 默认及上限均为 100。
         q 与 search 只能提供一个值；规范化后最多 160 UTF-8 字节，不允许空值或控制字符。
+        q 的每个词都必须命中，不纠错、不补全前缀、不丢词：拉丁字母和数字是资源标题与规格或所属番剧任一标题、别名中的完整词，中日文是其中的连续字符。`-词` 只排除资源自身标题与规格中含该词的资源。严格匹配的结果为空时才尝试一次拆词或合词。规则见「开放 API 总览」的「资源搜索」。
+        q 最多 16 个正向词和 8 个排除词，超出返回 400（正文 Invalid search，no-store）。只有分隔符、符号或排除词的 q 返回空 channel。结果按所选排序，默认发布时间倒序。
         支持 resolution、language、format、sortField、sortOrder；不支持 cursor 或 page 分页，多余参数会被规范化重定向移除。
         成功响应为 application/xml，enclosure 指向 .torrent 文件；错误正文通常为纯文本。GET 与 HEAD 支持 If-None-Match。
       parameters:
@@ -1419,6 +1430,7 @@ paths:
         不混入番剧 RSS。空分类仍返回有效空 channel。无 `<anibt:bgmId>`。
         详情页路径：`/other-release/<id>`。
         `limit` 默认 100，上限 100。速率限制默认 120 次 / 60 秒 / IP。
+        q 的规则与全站磁力 RSS 相同，但只比较资源自身的标题和分类，不涉及番剧别名；规则见「开放 API 总览」的「资源搜索」。q 最多 16 个正向词和 8 个排除词，超出返回 400（正文 Invalid search，no-store）。只有分隔符、符号或排除词的 q 返回空 channel。结果按所选排序，默认发布时间倒序。
         成功响应为 application/xml，enclosure 指向 .torrent 文件；错误正文通常为纯文本。GET 与 HEAD 支持 If-None-Match。
       parameters:
         - name: category
@@ -2416,9 +2428,13 @@ paths:
 
         t=caps 返回能力 XML；search、tvsearch、movie 返回 RSS XML。协议参数错误仍返回 HTTP 200 的 <error> XML，不能只按 HTTP 状态判断成功。
 
-        不支持 TVDB/TMDB/IMDb/rid/tvmazeid 检索，提供这些 ID 会返回空列表。关键词最多 160 UTF-8 字节。search/tvsearch 的尾部 2–4 位数字可作为集数；尾部 1900–2099 按年份移除。movie 仅移除年份。
+        不支持 TVDB/TMDB/IMDb/rid/tvmazeid 检索，提供这些 ID 会返回空列表。关键词最多 160 UTF-8 字节、16 个正向词和 8 个排除词，超出时返回错误 201。search/tvsearch 的尾部 2–4 位数字可作为集数；尾部 1900–2099 按年份移除。movie 仅移除年份。
+
+        关键词按「开放 API 总览」的「资源搜索」匹配，结果固定按发布时间倒序。指定集数或剧场版分类（cat 含 2000 或 2020 且不含 5000 或 5070）时，先按这些条件过滤，再取最新的 100 条。只有分隔符、符号或排除词的 q 返回空列表。
 
         limit 默认 100，上限 100；最新列表 offset + limit 最多 300，关键词搜索最多 100；超出窗口返回空列表。默认 60 次 / 60 秒 / IP。
+
+        带关键词时 total 是这次搜索最多 100 条结果的条数，不是全部匹配数，在窗口内不随 limit 和 offset 变化。不带关键词时 total 可能是估算值。limit=0、超出窗口、提供 ID 或分类全部未知的请求先返回 total 为 0 的空列表，不检查词数。
       parameters:
         - name: t
           in: query
@@ -2435,7 +2451,7 @@ paths:
           in: query
           schema:
             type: string
-          description: 关键词，规范化后最多 160 UTF-8 字节。
+          description: 关键词，规范化后最多 160 UTF-8 字节，最多 16 个正向词和 8 个排除词。
         - name: cat
           in: query
           schema:
@@ -2626,7 +2642,7 @@ components:
     SearchQ:
       name: q
       in: query
-      description: 关键词。UTF-8 最多 160 bytes。不能空、不能含控制字符
+      description: 关键词。UTF-8 最多 160 bytes，最多 16 个正向词和 8 个排除词。不能空、不能含控制字符
       schema:
         type: string
     AnimeReleaseId:

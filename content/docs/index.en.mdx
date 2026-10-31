@@ -45,6 +45,8 @@ Whether you are a fansub team distributing releases, an anime fan looking for hi
         ### Search and Download
         Search anime titles by Chinese, Japanese, Bangumi subject ID, or fansub group tags. Each release detail page offers magnet links and standard `.torrent` downloads.
 
+        Every `/magnets` keyword must appear in the release title, spec, or a title or alias of its anime, with no typo tolerance or prefix completion. Latin letters and digits must be whole words (`1080` doesn't find `1080p`); Chinese and Japanese match as contiguous characters (`鬼灭` finds releases of 鬼灭之刃). Results list newest first by default, and `-word` excludes releases you don't want. Anime search ranks by how closely a title matches, tolerates small spelling differences in long titles, and treats hiragana and katakana, and Traditional and Simplified characters, as the same. See the [Open API overview](/en/docs/open-api#release-search) for the rules.
+
         Release detail pages, `/magnets`, anime pages, and the release panel that opens when you click an anime poster fetch download addresses only when you click a button:
 
         - **Copy magnet link** and **Open magnet link** fetch the magnet link on click. If it cannot be fetched, you see "Download URL is unavailable". If the browser refuses to write to the clipboard, click **Copy again** in the notice. If the browser cannot open the magnet link directly, click **Open again** in the notice.

@@ -30,6 +30,26 @@ description: "按响应类型、状态码和字段定位问题。"
     "type": "字段",
     "description": "番剧 JSON 的 anime 和 bgmId 不是兼容字段；使用 animeIdType 与 animeId。其他字段按端点 Schema 校验。"
   },
+  "番剧搜索返回 422 / VALIDATION_ERROR": {
+    "type": "cursor",
+    "description": "cursor 不是上一页为相同查询和过滤条件返回的 continueCursor，例如自行拼接的 ts_page:N 或更新前保存的值。去掉 cursor，从第一页重新开始。"
+  },
+  "资源搜索返回 422 / 400 / 错误 201": {
+    "type": "词数上限",
+    "description": "一次查询最多 16 个正向词和 8 个排除词。减少词数；原样重试不会成功。"
+  },
+  "/magnets 或关键词 RSS 搜不到预期资源": {
+    "type": "匹配规则",
+    "description": "每个词都必须命中，不纠错、不补全前缀：1080 找不到 1080p，多一个资源没有的词结果就为空。规则见开放 API 总览的「资源搜索」。"
+  },
+  "搜索返回 503": {
+    "type": "暂不可用",
+    "description": "搜索超时或暂时无法完成，不代表没有结果。按 Retry-After 等待后重试。"
+  },
+  "标题匹配返回 decision.kind=unavailable": {
+    "type": "暂不可用",
+    "description": "HTTP 200，candidates 为空，不代表番剧不存在。稍后重试，或手动选择番剧。"
+  },
   "308": {
     "type": "规范 URL",
     "description": "读取 Location 并保存目标 URL；公开 RSS 会移除默认值、别名和不支持的参数。"
