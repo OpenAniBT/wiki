@@ -14,6 +14,20 @@ AniBT provides modern email OTP and session authentication to support anime trac
 - **Register New Account**: [anibt.net/auth/sign-up](https://anibt.net/auth/sign-up)
 - **Sign In to Account**: [anibt.net/auth/sign-in](https://anibt.net/auth/sign-in)
 
+## Registration domains and email limits
+
+New email registrations accept these exact domains, excluding their subdomains:
+
+`qq.com`, `foxmail.com`, `163.com`, `126.com`, `yeah.net`, `gmail.com`, `googlemail.com`, `outlook.com`, `hotmail.com`, `live.com`, `msn.com`, `icloud.com`, `me.com`, `mac.com`, `yahoo.com`, `yahoo.co.jp`, `proton.me`, `protonmail.com`, `pm.me`, `fastmail.com`, `sina.com`, `sina.cn`, `sohu.com`, `aliyun.com`, `139.com`, `189.cn`.
+
+Existing accounts can still verify their original address and reset their password, including addresses on custom domains outside this list. Third-party sign-in is unaffected.
+
+- Requests for the same mailbox must be at least **60 seconds apart**, with at most **5 in any rolling 24-hour period**. Registration, verification and password-reset requests share this allowance.
+- A source IP can make at most **10 eligible email requests in any rolling hour**. People sharing an office, school or home network may share this allowance.
+- Gmail dot variants, plus aliases and `googlemail.com` share one allowance without changing the account address.
+- Wait before retrying a limited request. A rejected resend does not invalidate the previously sent code; expired or already used codes remain invalid.
+- Failed or unconfirmed sends can still consume the allowance. A successful request does not guarantee delivery.
+
 ## Registration Steps
 
 <Steps>
