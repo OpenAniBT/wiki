@@ -40,7 +40,7 @@ Check the URL, HTTP method, Content-Type, and response body first.
   },
   "/magnets or keyword RSS misses an expected release": {
     "type": "Matching rules",
-    "description": "Every term must hit, with no typo tolerance or prefix completion: 1080 doesn't find 1080p, and one word a release lacks empties the result. See Release search in the Open API overview."
+    "description": "Every term must hit, with no typo tolerance or prefix completion: 1080 doesn't find 1080p, and one word a release lacks empties the result. Only /magnets?q runs once more with relaxed matching when the strict result is empty; RSS and Torznab don't. See Release search in the Open API overview."
   },
   "Search returns 503": {
     "type": "Temporarily unavailable",

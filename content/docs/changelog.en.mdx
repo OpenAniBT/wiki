@@ -12,6 +12,10 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
 ## October 31, 2026
 
 <TypeTable type={{
+  "/magnets search relaxes once when nothing matches": {
+    "type": "Improvement",
+    "description": "When the strict result for anime releases on /magnets?q is empty, the search runs once more by word prefix and anime title similarity, and the page says so: HEV finds HEVC, LoliHous finds LoliHouse, and kimetu no yaiba finds releases of Kimetsu no Yaiba. No term is dropped, terms with a digit must still hit, and the sort stays the same. Searches with strict results don't change, and RSS, Torznab, an anime page's release search, and other-release categories stay strict."
+  },
   "Anime search pagination (action required)": {
     "type": "Improvement",
     "description": "When paging /api/animes/search, pass back the previous page's continueCursor unchanged; don't build ts_page:N yourself. continueCursor is now an opaque token and is still an empty string on the last page. ts_page:N and cursors not issued for the same query, filters, and search policy now also return 422 VALIDATION_ERROR, and cursors saved before this update no longer work. On 422, start again from the first page. See the Open API overview."

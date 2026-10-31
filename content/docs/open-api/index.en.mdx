@@ -90,7 +90,7 @@ Cursors issued before the October 31, 2026 update no longer work. On 422, drop `
 
 ## Release search
 
-`/magnets?q`, an anime page's release search, other-release categories, `/rss/magnets.xml?q=`, `/rss/other/<category>.xml?q=`, and `/torznab/api?q=` follow these rules. Every term must hit, with no typo tolerance, no prefix completion, and no dropped terms:
+`/magnets?q`, an anime page's release search, other-release categories, `/rss/magnets.xml?q=`, `/rss/other/<category>.xml?q=`, and `/torznab/api?q=` follow these rules. Every term must hit, with no typo tolerance, no prefix completion, and no dropped terms (for the `/magnets?q` exception, see [Relaxed search](#relaxed-search-on-magnets)):
 
 - An anime release is compared on its own title and spec (episode label, resolution, format, subtitle type, language) and on every title and alias of its anime. Different terms can hit different places, so any alias of the anime finds releases titled only in another language.
 - An other-category release is compared only on its own title and category.
@@ -101,6 +101,15 @@ Cursors issued before the October 31, 2026 update no longer work. On 422, drop `
 Results are listed only by the chosen sort, newest first by default, with no relevance ranking. Torznab always sorts by publish time, newest first.
 
 Only when the strict first page is empty does one split/join fallback run: `Loli Hose` finds `LoliHose`, `rezero` finds `Re:ZERO`, and `Re:Zero` finds `ReZero`. The fallback relaxes only the boundary between adjacent words, never exclusions, and later pages keep the first page's matching mode.
+
+### Relaxed search on `/magnets`
+
+For anime releases, when the first page of `/magnets?q` is still empty after strict matching and the split/join fallback above, the search runs once more with relaxed matching, and the page says the results are relaxed. The sort stays the same and no term is dropped. The steps run in order, and the first with results wins:
+
+1. **Word prefix:** the last part of a term may be just the start of a word if it has no digit and at least 3 characters: `HEV` finds `HEVC`, and `LoliHous` finds `LoliHouse`. A part with a digit isn't completed, so `1080` still doesn't find `1080p`.
+2. **Anime title similarity:** a single spelling difference in an anime title may match: `kimetu no yaiba` finds releases of Kimetsu no Yaiba. The terms with no digit must total at least 6 characters (4 if all Chinese or Japanese); a term with a digit doesn't count, and a shorter query skips this step. Terms with a digit, terms of 1–3 characters, and multi-part terms such as quoted phrases must still hit strictly: `kimetu no yaiba 1080p` lists only 1080p releases, `kimetsu no yaiba 2160p` stays empty when no 2160p release exists, and `"kimetu no yaiba"` in quotes is empty too. A release's own text, such as a group name, gets no such tolerance.
+
+If the relaxed read fails on the first page, the answer is the strict search's empty result, not an error; if it fails while paging through relaxed results, the answer is a 503 like any other search. An anime page's release search, other-release categories, RSS, and Torznab always match strictly, so a term that only finds results on `/magnets` through relaxed matching may be empty in RSS.
 
 ### Punctuation, quotes, and exclusions
 
@@ -141,7 +150,7 @@ When an empty `q=` is sent, `/magnets` lists all releases, Torznab lists the lat
 
 ## When search is unavailable
 
-When a search times out or can't complete, a surface never returns partial results or substitutes an empty result.
+When a search times out or can't complete, a surface never returns partial results or substitutes an empty result. The one exception is a failed relaxed read on the first page of `/magnets?q`: the strict search has already found nothing, and that empty result stands.
 
 <TypeTable type={{
   "/api/animes/search, /api/bgm/search, /api/seasons/anime": {

@@ -12,6 +12,10 @@ description: 記錄 AniBT 平台面向使用者與字幕組的功能變更、最
 ## 2026 年 10 月 31 日
 
 <TypeTable type={{
+  "/magnets 搜尋在沒有結果時放寬一次": {
+    "type": "Improvement",
+    "description": "/magnets?q 的番劇資源嚴格結果為空時，會再按詞前綴和番劇標題相似度搜尋一次，並在頁面上提示：HEV 能找到 HEVC，LoliHous 能找到 LoliHouse，kimetu no yaiba 能找到《鬼滅之刃》的資源。不丟詞，含數字的詞仍必須命中，排序不變。嚴格搜尋有結果時不變；RSS、Torznab、番劇頁的資源搜尋和其他類資源仍是嚴格比對。"
+  },
   "番劇搜尋翻頁（需要調整）": {
     "type": "Improvement",
     "description": "呼叫 /api/animes/search 翻頁時必須原樣傳回上一頁的 continueCursor，不能再自行拼接 ts_page:N。continueCursor 現在是不透明權杖，最後一頁仍為空字串。ts_page:N 與不是為相同查詢、篩選條件與搜尋規則簽發的 cursor 現在也回傳 422 VALIDATION_ERROR，更新前儲存的 cursor 全部失效。收到 422 時從第一頁重新開始。見「開放 API 總覽」。"
