@@ -118,7 +118,7 @@ If the relaxed read fails on the first page, the answer is the strict search's e
 - A complete quoted phrase standing as its own term is one phrase and may contain spaces: `"25 1080p"`. A quote attached to other characters, or left unclosed, is ignored and its words are ordinary terms.
 - `-word` excludes, and reads only the release's own title and spec, never anime aliases. `-web-dl` needs `web` and `dl` adjacent and in order, so it doesn't exclude `WebDL` written as one word. `-"25 1080p"` excludes that phrase.
 - A `-` with whitespace on both sides is a separator: `Title - 25` searches for `25`, and `Title -25` excludes `25`.
-- Use the half-width `-` and `"` for exclusions and quoted phrases. Full-width operators can behave differently between surfaces and should not be relied on.
+- Use `-` and `"` for exclusions and quoted phrases. The full-width `－`, `﹣`, and `＂` act as these two on every surface. `−` and curly quotes are not operators.
 
 ### Term limits and empty queries
 
