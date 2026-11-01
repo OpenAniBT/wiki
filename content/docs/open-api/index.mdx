@@ -169,6 +169,10 @@ AniBT 提供公开查询与订阅接口，以及通过字幕组 API Key 调用�
     "type": "503",
     "description": "纯文本，带 Retry-After 和 Cache-Control: no-store。不是空结果，也不是 XML 错误。"
   },
+  "/anime/<id>、/release/<id>、/api/anime/groups、/api/subtitle-groups、/api/anime/lookup、/api/mikan/group-lookup": {
+    "type": "503",
+    "description": "站点饱和且没有可用的缓存副本时，带 Retry-After: 15 和 Cache-Control: no-store。API 的 error.code 为 SEARCH_UNAVAILABLE。"
+  },
   "/api/animes/torrent-match": {
     "type": "200",
     "description": "匹配暂时无法完成时，decision.kind 为 unavailable，decision.reason 为 search_unavailable，candidates 为空。稍后重试，或手动选择番剧。"

@@ -169,6 +169,10 @@ When a search times out or can't complete, a surface never returns partial resul
     "type": "503",
     "description": "Plain text with Retry-After and Cache-Control: no-store. Not an empty result or an XML error."
   },
+  "/anime/<id>, /release/<id>, /api/anime/groups, /api/subtitle-groups, /api/anime/lookup, /api/mikan/group-lookup": {
+    "type": "503",
+    "description": "When the site is saturated and no cached copy is available, with Retry-After: 15 and Cache-Control: no-store. API responses have error.code SEARCH_UNAVAILABLE."
+  },
   "/api/animes/torrent-match": {
     "type": "200",
     "description": "When matching can't complete, decision.kind is unavailable, decision.reason is search_unavailable, and candidates is empty. Retry later, or choose the anime manually."

@@ -12,6 +12,10 @@ description: 記錄 AniBT 平台面向使用者與字幕組的功能變更、最
 ## 2026 年 11 月 1 日
 
 <TypeTable type={{
+  "站點飽和時的回應": {
+    "type": "Fix",
+    "description": "站點飽和且沒有可用的快取副本時，/anime/<id> 與 /release/<id> 回傳 503 與 Retry-After: 15，不再是 500。/api/anime/groups、/api/seasons/anime、/api/subtitle-groups（原 500）與 /api/bgm/search、/api/anime/lookup、/api/mikan/group-lookup（原 502）回傳 503 SEARCH_UNAVAILABLE。公開 RSS、Torznab 與 /api/animes/search 因排隊逾時回傳 503 時，排隊等待從約 5 秒縮短到約 2 秒。"
+  },
   "全形的排除與引號符號在所有資源搜尋介面含義一致": {
     "type": "Fix",
     "description": "全形的 －、﹣ 與 ＂ 在 /magnets?q、番劇頁的資源搜尋與其他類資源分類上，現在和 RSS、Torznab 一樣按半形符號處理：Title －RAW 表示排除 RAW，不再要求命中 RAW。RSS 與 Torznab 的結果不變。"

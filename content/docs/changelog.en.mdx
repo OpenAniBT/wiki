@@ -12,6 +12,10 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
 ## November 1, 2026
 
 <TypeTable type={{
+  "Responses when the site is saturated": {
+    "type": "Fix",
+    "description": "When the site is saturated and no cached copy is available, /anime/<id> and /release/<id> return 503 with Retry-After: 15 instead of 500. /api/anime/groups, /api/seasons/anime, and /api/subtitle-groups (previously 500) and /api/bgm/search, /api/anime/lookup, and /api/mikan/group-lookup (previously 502) return 503 SEARCH_UNAVAILABLE. When public RSS, Torznab, and /api/animes/search return 503 because the queue timed out, the wait in the queue is now about 2 seconds instead of about 5."
+  },
   "Full-width exclusion and quote symbols mean the same on every release search surface": {
     "type": "Fix",
     "description": "The full-width －, ﹣, and ＂ on /magnets?q, an anime page's release search, and other-release categories now act as their half-width symbols, as they do on RSS and Torznab: Title －RAW excludes RAW instead of requiring it. RSS and Torznab results don't change."
