@@ -321,10 +321,12 @@
     "status": 200,
     "contentType": "application/json",
     "source": {
-      "kind": "production-read",
-      "gitSha": "0bf93349aa0826c7d6067ff2a3854a6012877038",
-      "requestPath": "/api/animes/torrent-match",
-      "arraySampleLimit": 2
+      "kind": "isolated-http-handler",
+      "boundaries": "Matcher DB reads substituted by an in-memory snapshot of two anime whose alias rows come from the real projector (catalogue facts from the earlier production witness); limiter, logger and session substituted; real route, parser, evidence adapter, policy, ranking and envelope",
+      "gitSha": "6565756131d15c4fff339ac9e30dce2cd9be4729"
+    },
+    "request": {
+      "rawTitle": "Sousou no Frieren - 01 [1080p]"
     },
     "body": {
       "version": 3,
@@ -335,7 +337,7 @@
           "content.anime_episode"
         ]
       },
-      "identityKey": "example || sousou no frieren|s-|c-|p-|q-|f-",
+      "identityKey": "sousou no frieren|s-|c-|p-|q-|f-",
       "structure": {
         "season": null,
         "cour": null,
@@ -401,15 +403,13 @@
           "matchScore": 100,
           "textMatch": 0,
           "matchedHypothesisIds": [
-            "release_title_hyp_2",
             "release_title_hyp_3"
           ],
           "matchedInputs": [
             "release_title"
           ],
           "retrieval": [
-            "exact",
-            "strict_recall"
+            "exact"
           ],
           "evidenceSummary": {
             "source": "anidb",
@@ -472,15 +472,13 @@
           "matchScore": 80,
           "textMatch": 0,
           "matchedHypothesisIds": [
-            "release_title_hyp_2",
             "release_title_hyp_3"
           ],
           "matchedInputs": [
             "release_title"
           ],
           "retrieval": [
-            "exact",
-            "strict_recall"
+            "exact"
           ],
           "evidenceSummary": {
             "source": "bgm_tv",
@@ -497,7 +495,7 @@
         }
       ],
       "search": {
-        "branchCount": 3,
+        "branchCount": 2,
         "exactOverflow": false,
         "recallOverflow": false,
         "candidateOverflow": false,
@@ -507,9 +505,9 @@
         "generationMismatch": false,
         "projectionMismatch": false,
         "candidateSetComplete": true,
-        "strictRecallUsed": true,
-        "fuzzyRecallUsed": true,
-        "generation": "t15_20260909"
+        "strictRecallUsed": false,
+        "fuzzyRecallUsed": false,
+        "generation": "postgres-search-v1-recall-v1"
       },
       "diagnostics": null,
       "decisionToken": null,

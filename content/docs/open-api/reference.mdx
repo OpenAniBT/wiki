@@ -45,6 +45,8 @@ description: "按端点识别鉴权、响应包装和错误正文。"
 
 成功响应按端点解析：目录、查询、/me 和同步状态使用 `data`；发布、whoami、删除使用 `result`；标题匹配直接返回 `version`、`decision`、`candidates`。番剧预览使用顶层 `previewUrl`，不能按普通发布回执读取。
 
+标题匹配的 `candidates[].matchScore` 只能比较大小，不是百分比。`evidenceSummary.matchClass` 为 exact、structured_exact、compact、base 时分别为 100、95、90、80；只由召回（`strict_recall`、`fuzzy_recall`）找到的候选为 1–70，有拼写差异或忽略了一个词时更低；只因系列补全加入的候选为 0。召回候选同分时由 `textMatch` 区分先后，它同样只能比较大小。
+
 应用 JSON 错误包含 `ok: false` 和 `error.code`、`error.message`、`error.requestId`；`reason`、`retryable`、`retryAfterMs`、`details` 为可选字段。缺少 `retryable` 不表示可以重试。公开 RSS 的错误通常是纯文本；Torznab 协议错误是 XML，HTTP 状态仍可能为 200；边缘拦截还可能返回 HTML。先检查 HTTP 状态与 Content-Type，再解析正文。
 
 发布前用 GET 同一路径核验 `groupSlug` 和 `scopes`。发布成功回执只保证 `releaseId`、`revision`，可能含 `torrentObjectId`，不包含字幕组身份或 `fileSize`。资源 ID 使用端点要求的 `rel_*` 或 `orel_*`；字幕组通常用 `slug`，但其他类 RSS 的 `groupId` 使用组织 ID。

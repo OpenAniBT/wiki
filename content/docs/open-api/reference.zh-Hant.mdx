@@ -45,6 +45,8 @@ description: "依端點辨識鑑權、回應包裝和錯誤正文。"
 
 成功回應依端點解析：目錄、查詢、/me 和同步狀態使用 data；釋出、whoami、刪除使用 result；標題匹配直接回傳 version、decision、candidates。番劇預覽使用頂層 previewUrl。
 
+標題匹配的 `candidates[].matchScore` 只能比較大小，不是百分比。`evidenceSummary.matchClass` 為 exact、structured_exact、compact、base 時分別為 100、95、90、80；只由召回（`strict_recall`、`fuzzy_recall`）找到的候選為 1–70，有拼寫差異或忽略了一個詞時更低；只因系列補全加入的候選為 0。召回候選同分時由 `textMatch` 區分先後，它同樣只能比較大小。
+
 應用程式 JSON 錯誤包含 ok: false 和 error.code、error.message、error.requestId；reason、retryable、retryAfterMs、details 為選填欄位。缺少 retryable 不表示可以重試。公開 RSS 錯誤通常是純文字；Torznab 協定錯誤是 XML，HTTP 仍可能為 200；邊緣攔截可能回傳 HTML。先檢查 HTTP 狀態與 Content-Type，再解析正文。
 
 釋出前用 GET 同一路徑核驗 groupSlug 與 scopes。釋出回執只保證 releaseId、revision，可能包含 torrentObjectId，不包含字幕組身份或 fileSize。資源 ID 使用端點要求的 rel_* 或 orel_*；字幕組通常用 slug，但其他類 RSS 的 groupId 使用組織 ID。

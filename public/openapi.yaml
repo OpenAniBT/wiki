@@ -610,7 +610,7 @@ paths:
                 $ref: "#/components/schemas/TorrentMatchResponse"
               examples:
                 match:
-                  summary: 结构示例（数组节选）
+                  summary: 结构示例
                   value:
                     version: 3
                     content:
@@ -618,7 +618,7 @@ paths:
                       confidence: high
                       reasonCodes:
                         - content.anime_episode
-                    identityKey: example || sousou no frieren|s-|c-|p-|q-|f-
+                    identityKey: sousou no frieren|s-|c-|p-|q-|f-
                     structure:
                       season: null
                       cour: null
@@ -671,13 +671,11 @@ paths:
                         matchScore: 100
                         textMatch: 0
                         matchedHypothesisIds:
-                          - release_title_hyp_2
                           - release_title_hyp_3
                         matchedInputs:
                           - release_title
                         retrieval:
                           - exact
-                          - strict_recall
                         evidenceSummary:
                           source: anidb
                           kind: primary
@@ -726,13 +724,11 @@ paths:
                         matchScore: 80
                         textMatch: 0
                         matchedHypothesisIds:
-                          - release_title_hyp_2
                           - release_title_hyp_3
                         matchedInputs:
                           - release_title
                         retrieval:
                           - exact
-                          - strict_recall
                         evidenceSummary:
                           source: bgm_tv
                           kind: alternate
@@ -745,7 +741,7 @@ paths:
                           seasonNumber: 2
                           matchedQueryVariant: Sousou no Frieren
                     search:
-                      branchCount: 3
+                      branchCount: 2
                       exactOverflow: false
                       recallOverflow: false
                       candidateOverflow: false
@@ -755,9 +751,9 @@ paths:
                       generationMismatch: false
                       projectionMismatch: false
                       candidateSetComplete: true
-                      strictRecallUsed: true
-                      fuzzyRecallUsed: true
-                      generation: t15_20260909
+                      strictRecallUsed: false
+                      fuzzyRecallUsed: false
+                      generation: postgres-search-v1-recall-v1
                     diagnostics: null
                     decisionToken: null
                     decisionTokenExpiresAt: null
@@ -3356,6 +3352,7 @@ components:
               type:
                 - string
                 - "null"
+              description: 检索规则版本。不透明字符串，不要解析。没有读取匹配证据时为 null，例如终止决定或匹配暂时无法完成。
         diagnostics:
           type: "null"
           description: 公开接口不返回诊断数据。
@@ -4429,8 +4426,10 @@ components:
             - "null"
         matchScore:
           type: number
+          description: 排名分，只能比较大小，不是百分比。精确命中时按 `evidenceSummary.matchClass` 取值：exact 为 100，structured_exact 为 95，compact 为 90，base 为 80。只由 `strict_recall` 或 `fuzzy_recall` 找到的候选按召回排名取 1–70，不会达到精确命中的分数：不改不丢词为 65–70，有拼写差异为 31–59，忽略了一个词为 1–30。只因系列补全加入的候选（`family_completion`）为 0。
         textMatch:
           type: number
+          description: 召回排名键。越大越靠前，相等即并列，只能比较大小，不是比例。召回候选的 matchScore 相同时用它区分先后。精确命中和系列补全的候选为 0。
         matchedHypothesisIds:
           type: array
           items:

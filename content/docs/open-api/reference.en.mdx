@@ -45,6 +45,8 @@ Check each endpoint’s authentication and response shape before integrating.
 
 Parse success responses per endpoint: catalog queries, /me, and sync status use `data`; publishing, whoami, and deletion use `result`; title matching directly returns `version`, `decision`, and `candidates`. Anime preview returns a top-level `previewUrl`.
 
+In title-match responses, `candidates[].matchScore` is an ordinal rank score, not a percentage. When `evidenceSummary.matchClass` is exact, structured_exact, compact or base, it is 100, 95, 90 or 80. A candidate found only by recall (`strict_recall`, `fuzzy_recall`) scores 1–70, lower when a word differs in spelling or one word is ignored. A candidate added only for series completion scores 0. Recall candidates with equal scores are ordered by `textMatch`, which is also ordinal only.
+
 Application JSON errors contain `ok: false` and `error.code`, `error.message`, and `error.requestId`. `reason`, `retryable`, `retryAfterMs`, and `details` are optional. A missing retryable flag does not authorize retries. Public RSS errors are usually plain text. Torznab protocol errors are XML and may have HTTP 200. Edge blocks may be HTML. Check status and Content-Type before parsing.
 
 Before publishing, GET the same endpoint and check groupSlug and scopes. A publish receipt guarantees releaseId and revision, with an optional torrentObjectId; it does not include group identity or fileSize. Use rel_* or orel_* as required. Group filters usually take a slug; other-category RSS groupId takes an organization ID.

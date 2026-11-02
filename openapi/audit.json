@@ -99,7 +99,14 @@
       "sources": [
         "src/routes/api/animes/torrent-match.ts",
         "shared/anime-match/torrentMatchRequest.ts",
-        "shared/anime-match/torrentMatchV3.ts"
+        "shared/anime-match/torrentMatchV3.ts",
+        "src/lib/anime-torrent-match/service.ts",
+        "src/lib/anime-torrent-match/service-policy.ts",
+        "src/lib/anime-torrent-match/candidates.ts",
+        "src/lib/anime-torrent-match/server-postgres.ts",
+        "src/lib/public-catalog-query/matcher-recall-evaluator.ts",
+        "src/lib/public-catalog-query/matcher-recall-query.ts",
+        "shared/anime-match/torrentDecision_impl/buildResult.ts"
       ]
     },
     {
@@ -396,6 +403,15 @@
       ],
       "observedAt": "2026-10-22T09:29:45.146Z",
       "note": "RSS item descriptions render release notes with the release page's renderer (AniBT #1354); all other witnesses retain their original audited baseline."
+    },
+    {
+      "gitSha": "6565756131d15c4fff339ac9e30dce2cd9be4729",
+      "productionVersionVerified": true,
+      "fixtures": [
+        "match"
+      ],
+      "observedAt": "2026-11-02T11:46:07.000Z",
+      "note": "Title-match evidence reads PostgreSQL (AniBT #1410, #1413, #1414): search.generation is now the recall-rules version (postgres-search-v1-recall-v1), not the retired index generation, and a recall candidate's matchScore maps its rank into 1-70. The POST witness is re-captured from the isolated route handler, not from production. Production Web 33c3348bc differs from this SHA only in comments and tests. All other witnesses retain their original audited baseline."
     }
   ]
 }
