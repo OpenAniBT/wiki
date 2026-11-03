@@ -27,6 +27,7 @@ Existing accounts can still verify their original address and reset their passwo
 - Gmail dot variants, plus aliases and `googlemail.com` share one allowance without changing the account address.
 - Wait before retrying a limited request. A rejected resend does not invalidate the previously sent code; expired or already used codes remain invalid.
 - Failed or unconfirmed sends can still consume the allowance. A successful request does not guarantee delivery.
+- Emails use the language of the page you sent the request from: English pages (`/en/…`) send English, Traditional Chinese pages (`/zh-hant/…`) send Traditional Chinese, and every other page sends Simplified Chinese.
 
 ## Registration Steps
 
@@ -71,7 +72,7 @@ Existing accounts can still verify their original address and reset their passwo
   <Tab value="Forgot Password">
     If you forget your password, click "Forgot password" on the sign-in page.
 
-    - Enter your registered email to receive a password reset link.
+    - Enter your registered email to receive a password reset link. The link works **for 1 hour** and only once. Setting a new password signs you out on every other device.
     - An accepted request does not confirm email delivery. Check your spam folder. If the email still has not arrived, wait for the countdown to end before requesting another code.
   </Tab>
 </Tabs>
