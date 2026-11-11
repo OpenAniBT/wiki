@@ -18,11 +18,15 @@ description: 記錄 AniBT 平台面向使用者與字幕組的功能變更、最
   },
   "/magnets 的 RSS 連結帶上集數": {
     "type": "Improvement",
-    "description": "/magnets 的查詢以 第5集、EP05、E05、#5 這類集數寫法結尾時，頁面提供的 RSS 連結改為 /rss/magnets.xml?limit=100&q=<去掉寫法後的文字>&episode=5，訂閱與頁面按相同的關鍵字和集數篩選，例如 無職轉生 第5集 的連結是 q=無職轉生&episode=5。沒有集數寫法時連結不變。兩種情況下訂閱仍與頁面不同：頁面在嚴格比對沒有結果時顯示放寬搜尋（前綴、近似拼寫）的結果，訂閱從不放寬，這時訂閱為空；去掉寫法後剩下的文字沒有可以搜尋的詞時（. EP05），頁面按原文搜尋，連結仍是轉換後的形式，訂閱為空。見「開放 API 總覽」的「資源搜尋」。"
+    "description": "/magnets 的查詢以 第5集、EP05、E05、#5 這類集數寫法結尾時，頁面提供的 RSS 連結改為 /rss/magnets.xml?q=<去掉寫法後的文字>&episode=5，訂閱與頁面按相同的關鍵字和集數篩選，例如 無職轉生 第5集 的連結是 q=無職轉生&episode=5。沒有集數寫法時連結不變。兩種情況下訂閱仍與頁面不同：頁面在嚴格比對沒有結果時顯示放寬搜尋（前綴、近似拼寫）的結果，訂閱從不放寬，這時訂閱為空；去掉寫法後剩下的文字沒有可以搜尋的詞時（. EP05），頁面按原文搜尋，連結仍是轉換後的形式，訂閱為空。見「開放 API 總覽」的「資源搜尋」。"
   },
   "關鍵字 RSS 可以按字幕類型篩選": {
     "type": "Feature",
     "description": "全站磁力 RSS（/rss/magnets.xml）新增可選參數 subtitle，按字幕類型篩選：EXTERNAL（外掛字幕）、INTERNAL（內封字幕）、EMBEDDED（內嵌字幕）、NONE（無字幕），與 /magnets 頁面和番劇 RSS 的字幕類型篩選相同。可重複或以逗號分隔，列出字幕類型是其中任一種的資源；與 q、resolution、language、format、episode 同用時要同時符合，帶不帶 q 都可以，例如 /rss/magnets.xml?q=無職轉生&subtitle=INTERNAL&episode=5。與 resolution、language、format 一樣不區分大小寫；小寫、逗號分隔、同一個值寫了兩次、不認識的值或空值 308 到規範網址，不認識的值會被去掉（subtitle=FOO 到不帶 subtitle 的網址），不會回傳 400。在 /magnets 選了字幕類型時，頁面提供的 RSS 連結帶上 subtitle（在 format 之後、episode 之前），訂閱與頁面按相同的字幕類型篩選，不再多出其他字幕類型的資源。先前關鍵字 RSS 不認識這個參數，這樣的連結會被重新導向到去掉字幕類型篩選的網址，有些閱讀器儲存的就是這個網址，舊的重新導向也可能被快取最多一天，所以以前在選了字幕類型的頁面上複製的 RSS 連結，請重新複製一次。不帶 subtitle 的訂閱網址和結果不變。見「全站磁力 RSS」。"
+  },
+  "頁面複製的 RSS 連結不再帶 limit=100": {
+    "type": "Improvement",
+    "description": "/magnets 和其他類資源頁面上複製的 RSS 連結不再帶 limit=100。100 本來就是訂閱的預設筆數，參數都是規範寫法時訂閱直接回傳，不再先 308 一次；已有訂閱裡的 limit=100 仍然有效。"
   },
 }} />
 
