@@ -2,7 +2,8 @@
 title: 发布番剧资源
 description: 番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。 Idempotency-Key
   从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回
-  legacy_request_binding_missing，两者均须使用新键。重放及 503 重试规则见「接口约定与鉴权」。
+  legacy_request_binding_missing，两者均须使用新键。本组已有的同一版本再次发布返回 409
+  CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS。重放及 503 重试规则见「接口约定与鉴权」。
 full: true
 _openapi:
   preload:
@@ -14,13 +15,14 @@ _openapi:
     headings: []
     contents:
       - content: |
-          番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。重放及 503 重试规则见「接口约定与鉴权」。
+          番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。本组已有的同一版本再次发布返回 409 CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS。重放及 503 重试规则见「接口约定与鉴权」。
           animeId 按来源规范化：接受全角数字、前导零和该来源站点的番剧链接（bgm.tv / bangumi.tv / chii.in、myanimelist.net、anidb.net、anilist.co）。已合并的旧 BGM ID 发布到合并后的番剧。发布只解析站内已收录的番剧，不会新收录。
           bgm 的 animeId 不是 ID 时返回 422；mal、anidb、anilist 的 animeId 不是 ID、站内没有，或只有被管理员隐藏、被 bgm.tv 标记为 NSFW 的番剧持有该 ID 时返回 404；同一个外部 ID 对应多部公开番剧时返回 422（Anime identifier is ambiguous），请改用 bgm ID。
           multipart 必须上传 torrent，title 省略时使用种子内部名；JSON 必须提供 title 和属于当前字幕组的 torrentStorageId。JSON 还必须提供 magnetBase64。
           成功发布返回 { ok: true, result: { releaseId, revision, torrentObjectId? } }。发布回执不包含 groupId、groupName、groupSlug、animeId 或 fileSize；发布前用 GET 同一路径核验身份。
           preview=true 返回顶层 previewUrl、previewToken、expiresAt 和 Key 身份信息，10 分钟后过期；不创建公开发布。
           未显式提供的集数、画质、语言、字幕、格式和版本先从标题、再从种子内部名推断；无法推断集数时需传 episode 或 episodeKey。
+          集数键的推断：标题只写了一个集数范围的合集存为该范围，[01-13 合集] 为 1-13，[01-12 Fin] 为 1-12；标题写了两个不同范围（[01-12][13-24]）时为 BATCH。括号外两侧带空格的横线后面的数字是单集：Season 2 - 05 为 5，Part 3 - 26 为 26。S03E05 为 5；S01E01-E12 是标题里唯一的范围时为 1-12；第 0 季的特别篇（S00E..）不按这种写法推断。传入的 episodeKey 为 BATCH、合集或全集，而标题只写了一个集数范围时，存为该范围。范围的 episode 是它的第一集。
           notes 最多 50000 字符。JSON 请求上限默认 1 MiB，multipart 默认 8 MiB，单个 .torrent 文件最多 5 MiB。
           Nyaa 需要字幕组白名单和有效分类，种子必须包含 http://nyaa.tracker.wf:7777/announce。Nyaa 代发应使用 multipart，确保从上传种子提取 tracker。
           Nyaa 的结构化 sitePublish.nyaa 仅用于 JSON；multipart 使用 nyaa、nyaaCategory、nyaaComplete 等独立字段。

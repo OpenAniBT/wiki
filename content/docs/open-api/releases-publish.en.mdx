@@ -1,6 +1,6 @@
 ---
 title: "Publish anime"
-description: "POST /api/releases/publish — publish with an API Key. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. See Conventions and authentication for replay and 503 retry rules."
+description: "POST /api/releases/publish — publish with an API Key. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. Publishing a version the group already has returns 409 CONFLICT with error.reason RELEASE_VERSION_EXISTS. See Conventions and authentication for replay and 503 retry rules."
 full: true
 _openapi:
   preload:

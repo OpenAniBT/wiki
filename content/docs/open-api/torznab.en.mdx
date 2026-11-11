@@ -102,10 +102,11 @@ AniBT provides a Torznab API. Sonarr, Radarr, and Prowlarr can add AniBT directl
 
 ## Search rules
 
-- Keywords follow the rules of [Release search](/en/docs/open-api#release-search): every term must hit the release's title and spec or a title or alias of its anime, Latin letters and digits must be whole words, and there is no typo tolerance or prefix completion. One split/join retry runs only when the strict search finds nothing.
-- `-word` excludes releases whose own title or spec holds that word. A keyword with only separators, symbols, or exclusions returns an empty list.
+- Keywords follow the rules of [Release search](/en/docs/open-api#release-search): every term must hit the release's title and spec, a title or alias of its anime, or the name or slug of its subtitle group, Latin letters and digits must be whole words, and there is no typo tolerance or prefix completion. One split/join retry runs only when the strict search finds nothing.
+- A keyword that is a subtitle group's name or slug also returns that group's releases whose titles don't carry the name. Since November 10, 2026, such searches return more results than before. A group whose status is Suspended produces no hit.
+- `-word` excludes releases whose own title or spec holds that word; it doesn't read group names. A keyword with only separators, symbols, or exclusions returns an empty list.
 - Results are always sorted by publish time, newest first.
-- A trailing 2- to 4-digit number is matched as the episode, for example `Frieren 05`. A single digit is not treated as an episode.
+- A trailing 2- to 4-digit number is matched as the episode, for example `Frieren 05`. A single digit is not treated as an episode. Notations such as `第5集` and `EP05` are not read as an episode; they match as text.
 - A trailing year from 1900 to 2099 is ignored, for example `Suzume 2022`.
 - Episodes match the number the fansub group used. For shows that restart numbering each season, the absolute episode numbers Sonarr sends may not match later seasons.
 - Releases titled only in Chinese can be found with an English or romaji alias of their anime. Without a matching alias, they can't be found.

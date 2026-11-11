@@ -187,111 +187,127 @@
     "contentType": "application/json",
     "source": {
       "kind": "production-read",
-      "gitSha": "0bf93349aa0826c7d6067ff2a3854a6012877038",
-      "requestPath": "/api/anime/groups?bgmId=543360",
-      "arraySampleLimit": 2
+      "gitSha": "f7e25633c8ade76ea04861934fb6e9ede53a977c",
+      "requestPath": "/api/anime/groups?bgmId=568244",
+      "observedAt": "2026-11-10T10:46:22.000Z",
+      "sample": "groups kirara-fantasia and studio-greentea of 6, the first 2 items of each; other arrays whole"
     },
     "body": {
       "ok": true,
-      "ts": 1790325498619,
+      "ts": 1794306349409,
       "data": {
-        "bgmId": 543360,
-        "animeId": "nh73r0ernee7s0afv9s82f763983gcz7",
+        "bgmId": 568244,
+        "animeId": "nh747vr7kpep5jwresdqc5yhph87zs4d",
         "title": {
-          "primary": "上伊那牡丹，酒醉身姿似百合花般",
-          "chinese": "上伊那牡丹，酒醉身姿似百合花般",
-          "japanese": "上伊那ぼたん、酔へる姿は百合の花"
+          "primary": "药屋少女的呢喃 第三季",
+          "chinese": "药屋少女的呢喃 第三季",
+          "chineseTraditional": "藥師少女的獨語 第三季",
+          "japanese": "薬屋のひとりごと 第3期"
         },
+        "seriesNumberMap": [
+          {
+            "seriesFrom": 49,
+            "seriesTo": 60,
+            "episodeFrom": 1
+          }
+        ],
         "groups": [
           {
-            "groupId": "org_q0kdyFpr9SHP",
-            "slug": "zzz123",
-            "name": "Zzz睡不醒",
+            "groupId": "org_HCFDS3FmwXnP",
+            "slug": "kirara-fantasia",
+            "name": "Kirara Fantasia",
             "status": "ACTIVE",
-            "lastUpdatedAt": 1786863045049,
-            "totalReleases": 2,
+            "lastUpdatedAt": 1793979072357,
+            "totalReleases": 12,
             "publishedEpisodes": [
+              49,
+              50,
+              51,
+              52,
+              53,
+              54
+            ],
+            "progressEpisodes": [
               1,
-              2
+              2,
+              3,
+              4,
+              5,
+              6
             ],
             "items": [
               {
-                "releaseId": "rel_u0jICKZiy5M8",
-                "title": "[LinRip] Kamiina Botan, Yoeru Sugata wa Yuri no Hana [Vol.2][BDRemux 1080p AVC FLAC]",
-                "size": 13671734121,
-                "magnet": "magnet:?xt=urn:btih:e491c256a899e01cfd158a78dbaec212b428a240&dn=%5BLinRip%5D%20Kamiina%20Botan%2C%20Yoeru%20Sugata%20wa%20Yuri%20no%20Hana%20%5BVol.2%5D%5BBDRemux%201080p%20AVC%20FLAC%5D&xl=13671734121&tr=http%3A%2F%2Fipv4announce.sktorrent.eu%3A6969%2Fannounce&tr=http%3A%2F%2Fnyaa.tracker.wf%3A7777%2Fannounce&tr=https%3A%2F%2Ft.213891.xyz%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.7471.top%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce&tr=https%3A%2F%2Ftracker.foreverpirates.co%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.leechshield.link%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.nekomi.cn%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.pmman.tech%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=http%3A%2F%2Ftracker.renfei.net%3A8080%2Fannounce&tr=http%3A%2F%2Fwegkxfcivgx.ydns.eu%3A80%2Fannounce&tr=udp%3A%2F%2Farchive.torrentonline.cc%3A42069%2Fannounce&tr=udp%3A%2F%2Fbittorrent-tracker.e-n-c-r-y-p-t.net%3A1337%2Fannounce&tr=udp%3A%2F%2Fevan.im%3A6969%2Fannounce&tr=udp%3A%2F%2Fobey.torrentonline.cc%3A42069%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=udp%3A%2F%2Fopen.ftorrent.com%3A443%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftorrentclub.online%3A1984%2Fannounce&tr=udp%3A%2F%2Ftracker.breizh.pm%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.corpscorp.online%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.gmi.gd%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.teambelgium.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Ftracker-udp.gbitt.info%3A80%2Fannounce&tr=udp%3A%2F%2Fwhybother.torrentonline.cc%3A42069%2Fannounce",
-                "episodeKey": "3-4",
+                "releaseId": "rel_I7S9GKeRKheU",
+                "title": "[黒ネズミたち] 藥師少女的獨語 第三季 / Kusuriya no Hitorigoto 3rd Season - 54 (CR 1920x1080 AVC AAC MKV)",
+                "size": 931909928,
+                "magnet": "magnet:?xt=urn:btih:19ba415700cfc96ac5919100dac169b0b8e0c817&dn=%5BDynamis+One%5D+Kusuriya+no+Hitorigoto+3rd+Season+-+54+%28CR+1920x1080+AVC+AAC+MKV%29+%5B340098E2%5D.mkv&xl=931909928&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce",
+                "episodeKey": "54",
                 "resolution": "1080p",
                 "format": "MKV",
-                "language": [],
-                "subtitle": "NONE",
+                "language": [
+                  "EN"
+                ],
+                "subtitle": "INTERNAL",
                 "customTags": [
                   "AVC",
-                  "BDRemux"
+                  "AAC",
+                  "CR"
                 ],
                 "version": "v1",
-                "torrentStorageId": "torrents/org_q0kdyFpr9SHP/Fg5TNIu4CD5yxqF92FZFS__LinRip__Kamiina_Botan__Yoeru_Sugata_wa_Yuri_no_Hana__Vol.2__BDRemux_1080p_AVC_FLAC_.torrent",
-                "publishedAt": 1786863045049
+                "torrentStorageId": "torrents/canonical/org_HCFDS3FmwXnP/Oc8thlO4GUxKEbnhFVFtkQ__Dynamis_One__Kusuriya_no_Hitorigoto_3rd_Season_-_54__CR_1920x1080_AVC_AAC_MKV___340098E2_.mkv.torrent",
+                "publishedAt": 1793979072357
               },
               {
-                "releaseId": "rel_RmwVrFUqRUAz",
-                "title": "[LinRip] Kamiina Botan, Yoeru Sugata wa Yuri no Hana [Vol.1][BDRemux 1080p AVC FLAC]",
-                "size": 13671497994,
-                "magnet": "magnet:?xt=urn:btih:a8f8b34deae89282e1c866ec794f413f71f262da&dn=%5BLinRip%5D%20Kamiina%20Botan%2C%20Yoeru%20Sugata%20wa%20Yuri%20no%20Hana%20%5BVol.1%5D%5BBDRemux%201080p%20AVC%20FLAC%5D&xl=13671497994&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker-udp.gbitt.info%3A80%2Fannounce&tr=http%3A%2F%2Fipv4announce.sktorrent.eu%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=udp%3A%2F%2Fevan.im%3A6969%2Fannounce&tr=udp%3A%2F%2Fbittorrent-tracker.e-n-c-r-y-p-t.net%3A1337%2Fannounce&tr=https%3A%2F%2Ft.213891.xyz%3A443%2Fannounce&tr=udp%3A%2F%2Fns575949.ip-51-222-82.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.corpscorp.online%3A80%2Fannounce&tr=https%3A%2F%2Ftracker.nekomi.cn%3A443%2Fannounce&tr=https%3A%2F%2F004430.xyz%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.7471.top%3A443%2Fannounce&tr=udp%3A%2F%2Fanime-tracker.aruku.kro.kr%3A8081%2Fannounce&tr=https%3A%2F%2Ftracker.foreverpirates.co%3A443%2Fannounce&tr=udp%3A%2F%2Fmartin-gebhardt.eu%3A25%2Fannounce&tr=http%3A%2F%2Ftracker.waaa.moe%3A6969%2Fannounce&tr=https%3A%2F%2Ftracker.leechshield.link%3A443%2Fannounce&tr=udp%3A%2F%2Ftorrentclub.online%3A1984%2Fannounce&tr=udp%3A%2F%2Ftracker.nexusstream.eu%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.dhitechnical.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.gmi.gd%3A6969%2Fannounce&tr=http%3A%2F%2Fbt2.archive.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.aruku.ovh%3A8081%2Fannounce&tr=udp%3A%2F%2Ftracker.peerfect.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.ftorrent.com%3A443%2Fannounce&tr=udp%3A%2F%2Ftracker.ilibr.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.com%3A6969%2Fannounce&tr=http%3A%2F%2Fwegkxfcivgx.ydns.eu%3A80%2Fannounce&tr=udp%3A%2F%2Farchive.torrentonline.cc%3A42069%2Fannounce&tr=udp%3A%2F%2Ftracker.teambelgium.net%3A6969%2Fannounce&tr=http%3A%2F%2Fbt1.archive.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fmail.segso.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fwhybother.torrentonline.cc%3A42069%2Fannounce&tr=udp%3A%2F%2Fobey.torrentonline.cc%3A42069%2Fannounce&tr=udp%3A%2F%2Ft.overflow.biz%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.nyaa.vc%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.renfei.net%3A8080%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=https%3A%2F%2Fht.therarbg.to%3A443%2Fannounce&tr=http%3A%2F%2Ftracker.xn--djrq4gl4hvoi.top%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A6969%2Fannounce",
-                "episodeKey": "1-2",
+                "releaseId": "rel_4BAFsWjylUC-",
+                "title": "[黒ネズミたち] 藥師少女的獨語 第三季 / Kusuriya no Hitorigoto 3rd Season - 54 (ABEMA 1920x1080 AVC AAC MKV)",
+                "size": 755911646,
+                "magnet": "magnet:?xt=urn:btih:d233873b6529170f0e890d681c9626a6e871c7a1&dn=%5BDynamis+One%5D+Kusuriya+no+Hitorigoto+3rd+Season+-+54+%28ABEMA+1920x1080+AVC+AAC+MKV%29+%5B8709344F%5D.mkv&xl=755911646&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce",
+                "episodeKey": "54",
                 "resolution": "1080p",
                 "format": "MKV",
-                "language": [],
-                "subtitle": "NONE",
+                "language": [
+                  "JP"
+                ],
+                "subtitle": "INTERNAL",
                 "customTags": [
                   "AVC",
-                  "BDRemux"
+                  "AAC",
+                  "ABEMA"
                 ],
                 "version": "v1",
-                "torrentStorageId": "torrents/org_q0kdyFpr9SHP/XQM1bj6Zr2V_SmINf0K8x__LinRip__Kamiina_Botan__Yoeru_Sugata_wa_Yuri_no_Hana__Vol.1__BDRemux_1080p_AVC_FLAC_.torrent",
-                "publishedAt": 1785944242765
+                "torrentStorageId": "torrents/canonical/org_HCFDS3FmwXnP/t7laacPZ28I_yqeK_JDdeC__Dynamis_One__Kusuriya_no_Hitorigoto_3rd_Season_-_54__ABEMA_1920x1080_AVC_AAC_MKV___8709344F_.mkv.torrent",
+                "publishedAt": 1793979063401
               }
             ]
           },
           {
-            "groupId": "org_aagmgM9i0ZyR",
-            "slug": "kitauji-sub",
-            "name": "北宇治字幕组",
+            "groupId": "org_FCOg536LTw4s",
+            "slug": "studio-greentea",
+            "name": "绿茶字幕组",
             "status": "ACTIVE",
-            "lastUpdatedAt": 1784573904863,
-            "totalReleases": 33,
+            "lastUpdatedAt": 1793463328031,
+            "totalReleases": 11,
             "publishedEpisodes": [
+              1,
               2,
-              3
+              49,
+              50,
+              51,
+              52
+            ],
+            "progressEpisodes": [
+              1,
+              2,
+              3,
+              4
             ],
             "items": [
               {
-                "releaseId": "rel_NmlRbreQ9kiE",
-                "title": "[北宇治字幕组] 上伊那牡丹，酒醉身姿似百合 / Kamiina Botan, Yoeru Sugata wa Yuri no Hana [12][WebRip][HEVC_AAC][简繁日内封]",
-                "size": 567779714,
-                "magnet": "magnet:?xt=urn:btih:e22cbf3b23a7e07a797064a45588375e785a31b3&dn=%5BKitaujiSub%5D%20Kamiina%20Botan%2C%20Yoeru%20Sugata%20wa%20Yuri%20no%20Hana%20%5B12%5D%5BWebRip%5D%5BHEVC_AAC%5D%5BCHS_JP%26CHT_JP%5D.mkv&xl=567779714&tr=http%3A%2F%2Fnyaa.tracker.wf%3A7777%2Fannounce&tr=http%3A%2F%2Fopen.acgtracker.com%3A1096%2Fannounce&tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=http%3A%2F%2Ft.acg.rip%3A6699%2Fannounce&tr=http%3A%2F%2Fshare.hkg-fansub.info%3A80%2Fannounce.php&tr=http%3A%2F%2Ftracker.sbsub.com%3A2710%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce",
-                "episodeKey": "12",
-                "resolution": "1080p",
-                "format": "MKV",
-                "language": [
-                  "CHS",
-                  "CHT"
-                ],
-                "subtitle": "INTERNAL",
-                "customTags": [
-                  "HEVC",
-                  "WEBRip"
-                ],
-                "version": "v1",
-                "torrentStorageId": "torrents/org_aagmgM9i0ZyR/IVW6_cp5Z9AS7urtk0_n7_release.torrent",
-                "publishedAt": 1784573904863
-              },
-              {
-                "releaseId": "rel_grFiHtIN8UId",
-                "title": "[北宇治字幕组] 上伊那牡丹，酒醉身姿似百合 / Kamiina Botan, Yoeru Sugata wa Yuri no Hana [12][WebRip][HEVC_AAC][繁日內嵌]",
-                "size": 576702087,
-                "magnet": "magnet:?xt=urn:btih:fe11206712883903d191d5316b7992dacdbb862c&dn=%5BKitaujiSub%5D%20Kamiina%20Botan%2C%20Yoeru%20Sugata%20wa%20Yuri%20no%20Hana%20%5B12%5D%5BWebRip%5D%5BHEVC_AAC%5D%5BCHT_JP%5D.mp4&xl=576702087&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce&tr=http%3A%2F%2Fnyaa.tracker.wf%3A7777%2Fannounce&tr=http%3A%2F%2Fopen.acgtracker.com%3A1096%2Fannounce&tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=http%3A%2F%2Ft.acg.rip%3A6699%2Fannounce&tr=http%3A%2F%2Fshare.hkg-fansub.info%3A80%2Fannounce.php&tr=http%3A%2F%2Ftracker.sbsub.com%3A2710%2Fannounce",
-                "episodeKey": "12",
+                "releaseId": "rel_JP8oY4YUzPuc",
+                "title": "[綠茶字幕組] 藥屋少女的呢喃 第三季 / Kusuriya no Hitorigoto [52][WebRip][1080p][繁日內嵌]",
+                "size": 481313944,
+                "magnet": "magnet:?xt=urn:btih:45123cfd8d30d1a4d3e8b52647d0c0a18726a18a&dn=%5BStudio%20GreenTea%5D%20Kusuriya%20no%20Hitorigoto%20%5B52%5D%5BWebRip%5D%5BHEVC-10bit%201080p%20AAC%5D%5BJPTC%5D.mp4&xl=481313944&tr=http%3A%2F%2Fopen.acgtracker.com%3A1096%2Fannounce&tr=http%3A%2F%2Fnyaa.tracker.wf%3A7777%2Fannounce&tr=http%3A%2F%2Fopentracker.acgnx.se%2Fannounce&tr=udp%3A%2F%2Ftr.bangumi.moe%3A6969%2Fannounce&tr=http%3A%2F%2Ftr.bangumi.moe%3A6969%2Fannounce&tr=udp%3A%2F%2F208.67.16.113%3A8000%2Fannounce&tr=http%3A%2F%2F208.67.16.113%3A8000%2Fannounce&tr=http%3A%2F%2Ftracker.ktxp.com%3A6868%2Fannounce&tr=http%3A%2F%2Ftracker.ktxp.com%3A7070%2Fannounce&tr=udp%3A%2F%2Fbt.sc-ol.com%3A2710%2Fannounce&tr=http%3A%2F%2Fshare.camoe.cn%3A8080%2Fannounce&tr=http%3A%2F%2F61.154.116.205%3A8000%2Fannounce&tr=http%3A%2F%2Fbt.rghost.net%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=http%3A%2F%2Ft.acg.rip%3A6699%2Fannounce&tr=http%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2F104.238.198.186%3A8000%2Fannounce&tr=http%3A%2F%2F104.238.198.186%3A8000%2Fannounce&tr=http%3A%2F%2F94.228.192.98%2Fannounce&tr=http%3A%2F%2Ftracker.btcake.com%2Fannounce&tr=http%3A%2F%2Fbtfile.sdo.com%3A6961%2Fannounce&tr=http%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker3.torrentino.com%2Fannounce&tr=http%3A%2F%2Ftracker2.torrentino.com%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=http%3A%2F%2Fpubt.net%3A2710%2Fannounce&tr=http%3A%2F%2Fbigfoot1942.sektori.org%3A6969%2Fannounce&tr=http%3A%2F%2Ft.nyaatracker.com%2Fannounce&tr=http%3A%2F%2Fbt.sc-ol.com%3A2710%2Fannounce&tr=udp%3A%2F%2Fzer0day.ch%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.publictracker.xyz%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Fwepzone.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Ftracker.theoks.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.srv00.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.auctor.tv%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.004430.xyz%3A1337%2Fannounce&tr=udp%3A%2F%2Ftorrents.tmtime.dev%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Fbittorrent-tracker.e-n-c-r-y-p-t.net%3A1337%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.yemekyedim.com%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.nekomi.cn%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.moeking.me%3A443%2Fannounce&tr=https%3A%2F%2Ftorrents.tmtime.dev%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce",
+                "episodeKey": "52",
                 "resolution": "1080p",
                 "format": "MP4",
                 "language": [
@@ -300,17 +316,42 @@
                 ],
                 "subtitle": "EMBEDDED",
                 "customTags": [
+                  "WEBRip",
                   "HEVC",
-                  "WEBRip"
+                  "10bit",
+                  "AAC"
                 ],
                 "version": "v1",
-                "torrentStorageId": "torrents/org_aagmgM9i0ZyR/iT_kzianPY7NZ882xxmWl_release.torrent",
-                "publishedAt": 1783969090308
+                "torrentStorageId": "torrents/canonical/org_FCOg536LTw4s/lRlXvfGFubx6fwHDzo8ApJ__5BStudio_20GreenTea_5D_20Kusuriya_20no_20Hitorigoto_20_5B52_5D_5BWebRip_5D_5BHEVC-10bit_201080p_20AAC_5D_5BJPTC_5D.torrent",
+                "publishedAt": 1793463328031
+              },
+              {
+                "releaseId": "rel_kHanoER5Z_V5",
+                "title": "[绿茶字幕组] 药屋少女的呢喃 第三季 / Kusuriya no Hitorigoto [52][WebRip][1080p][简日内嵌]",
+                "size": 480931781,
+                "magnet": "magnet:?xt=urn:btih:bf6b8d239a364859c987fa55769af72e1356bdf7&dn=%5BStudio%20GreenTea%5D%20Kusuriya%20no%20Hitorigoto%20%5B52%5D%5BWebRip%5D%5BHEVC-10bit%201080p%20AAC%5D%5BJPSC%5D.mp4&xl=480931781&tr=http%3A%2F%2Fopen.acgtracker.com%3A1096%2Fannounce&tr=http%3A%2F%2Fnyaa.tracker.wf%3A7777%2Fannounce&tr=http%3A%2F%2Fopentracker.acgnx.se%2Fannounce&tr=udp%3A%2F%2Ftr.bangumi.moe%3A6969%2Fannounce&tr=http%3A%2F%2Ftr.bangumi.moe%3A6969%2Fannounce&tr=udp%3A%2F%2F208.67.16.113%3A8000%2Fannounce&tr=http%3A%2F%2F208.67.16.113%3A8000%2Fannounce&tr=http%3A%2F%2Ftracker.ktxp.com%3A6868%2Fannounce&tr=http%3A%2F%2Ftracker.ktxp.com%3A7070%2Fannounce&tr=udp%3A%2F%2Fbt.sc-ol.com%3A2710%2Fannounce&tr=http%3A%2F%2Fshare.camoe.cn%3A8080%2Fannounce&tr=http%3A%2F%2F61.154.116.205%3A8000%2Fannounce&tr=http%3A%2F%2Fbt.rghost.net%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=http%3A%2F%2Ft.acg.rip%3A6699%2Fannounce&tr=http%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2F104.238.198.186%3A8000%2Fannounce&tr=http%3A%2F%2F104.238.198.186%3A8000%2Fannounce&tr=http%3A%2F%2F94.228.192.98%2Fannounce&tr=http%3A%2F%2Ftracker.btcake.com%2Fannounce&tr=http%3A%2F%2Fbtfile.sdo.com%3A6961%2Fannounce&tr=http%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker3.torrentino.com%2Fannounce&tr=http%3A%2F%2Ftracker2.torrentino.com%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=http%3A%2F%2Fpubt.net%3A2710%2Fannounce&tr=http%3A%2F%2Fbigfoot1942.sektori.org%3A6969%2Fannounce&tr=http%3A%2F%2Ft.nyaatracker.com%2Fannounce&tr=http%3A%2F%2Fbt.sc-ol.com%3A2710%2Fannounce&tr=udp%3A%2F%2Fzer0day.ch%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.publictracker.xyz%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Fwepzone.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Ftracker.theoks.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.srv00.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.auctor.tv%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.004430.xyz%3A1337%2Fannounce&tr=udp%3A%2F%2Ftorrents.tmtime.dev%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Fbittorrent-tracker.e-n-c-r-y-p-t.net%3A1337%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.yemekyedim.com%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.nekomi.cn%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.moeking.me%3A443%2Fannounce&tr=https%3A%2F%2Ftorrents.tmtime.dev%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce",
+                "episodeKey": "52",
+                "resolution": "1080p",
+                "format": "MP4",
+                "language": [
+                  "CHS",
+                  "JP"
+                ],
+                "subtitle": "EMBEDDED",
+                "customTags": [
+                  "WEBRip",
+                  "HEVC",
+                  "10bit",
+                  "AAC"
+                ],
+                "version": "v1",
+                "torrentStorageId": "torrents/canonical/org_FCOg536LTw4s/FQmSdyDv0zbkPeNJyl8Nai__5BStudio_20GreenTea_5D_20Kusuriya_20no_20Hitorigoto_20_5B52_5D_5BWebRip_5D_5BHEVC-10bit_201080p_20AAC_5D_5BJPSC_5D.torrent",
+                "publishedAt": 1793463322022
               }
             ]
           }
         ],
-        "total": 8
+        "total": 6
       }
     }
   },

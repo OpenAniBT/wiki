@@ -426,7 +426,11 @@ paths:
       operationId: anime-groups
       summary: 单番剧字幕组
       description: >
-        按 bgmId 查询字幕组，每组返回最近 30 条资源，并提供 publishedEpisodes 和 totalReleases。
+        按 bgmId 查询字幕组，每组返回最近 30 条资源，并提供 publishedEpisodes、progressEpisodes 和 totalReleases；data.seriesNumberMap 是番剧的系列编号对照。
+
+        publishedEpisodes 是字幕组标注的正片集数，原样列出。progressEpisodes 是 AniBT 发布进度为该组点亮的本季集数：按系列编号标注后续季的字幕组（第三季写 49–54）在这里是 1–6。
+
+        seriesNumberMap 的每一项 { seriesFrom, seriesTo, episodeFrom } 表示系列编号 seriesFrom 到 seriesTo 依次是本季从 episodeFrom 开始的各集，对照来自 bgm.tv；番剧没有这种编号时为 []。
 
         magnet、size、episodeKey、resolution、format、subtitle、lastUpdatedAt 可为 null。subtitle 通常为 EXTERNAL / INTERNAL / EMBEDDED / NONE。
 
@@ -458,87 +462,99 @@ paths:
                   summary: 结构示例（数组节选）
                   value:
                     ok: true
-                    ts: 1790325498619
+                    ts: 1794306349409
                     data:
-                      bgmId: 543360
-                      animeId: nh73r0ernee7s0afv9s82f763983gcz7
+                      bgmId: 568244
+                      animeId: nh747vr7kpep5jwresdqc5yhph87zs4d
                       title:
-                        primary: 上伊那牡丹，酒醉身姿似百合花般
-                        chinese: 上伊那牡丹，酒醉身姿似百合花般
-                        japanese: 上伊那ぼたん、酔へる姿は百合の花
+                        primary: 药屋少女的呢喃 第三季
+                        chinese: 药屋少女的呢喃 第三季
+                        chineseTraditional: 藥師少女的獨語 第三季
+                        japanese: 薬屋のひとりごと 第3期
+                      seriesNumberMap:
+                        - seriesFrom: 49
+                          seriesTo: 60
+                          episodeFrom: 1
                       groups:
-                        - groupId: org_q0kdyFpr9SHP
-                          slug: zzz123
-                          name: Zzz睡不醒
+                        - groupId: org_HCFDS3FmwXnP
+                          slug: kirara-fantasia
+                          name: Kirara Fantasia
                           status: ACTIVE
-                          lastUpdatedAt: 1786863045049
-                          totalReleases: 2
+                          lastUpdatedAt: 1793979072357
+                          totalReleases: 12
                           publishedEpisodes:
+                            - 49
+                            - 50
+                            - 51
+                            - 52
+                            - 53
+                            - 54
+                          progressEpisodes:
                             - 1
                             - 2
-                          items:
-                            - releaseId: rel_u0jICKZiy5M8
-                              title: "[LinRip] Kamiina Botan, Yoeru Sugata wa Yuri no Hana [Vol.2][BDRemux 1080p AVC FLAC]"
-                              size: 13671734121
-                              magnet: magnet:?xt=urn:btih:e491c256a899e01cfd158a78dbaec212b428a240&dn=%5BLinRip%5D%20Kamiina%20Botan%2C%20Yoeru%20Sugata%20wa%20Yuri%20no%20Hana%20%5BVol.2%5D%5BBDRemux%201080p%20AVC%20FLAC%5D&xl=13671734121&tr=http%3A%2F%2Fipv4announce.sktorrent.eu%3A6969%2Fannounce&tr=http%3A%2F%2Fnyaa.tracker.wf%3A7777%2Fannounce&tr=https%3A%2F%2Ft.213891.xyz%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.7471.top%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce&tr=https%3A%2F%2Ftracker.foreverpirates.co%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.leechshield.link%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.nekomi.cn%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.pmman.tech%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=http%3A%2F%2Ftracker.renfei.net%3A8080%2Fannounce&tr=http%3A%2F%2Fwegkxfcivgx.ydns.eu%3A80%2Fannounce&tr=udp%3A%2F%2Farchive.torrentonline.cc%3A42069%2Fannounce&tr=udp%3A%2F%2Fbittorrent-tracker.e-n-c-r-y-p-t.net%3A1337%2Fannounce&tr=udp%3A%2F%2Fevan.im%3A6969%2Fannounce&tr=udp%3A%2F%2Fobey.torrentonline.cc%3A42069%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=udp%3A%2F%2Fopen.ftorrent.com%3A443%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftorrentclub.online%3A1984%2Fannounce&tr=udp%3A%2F%2Ftracker.breizh.pm%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.corpscorp.online%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.gmi.gd%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.teambelgium.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Ftracker-udp.gbitt.info%3A80%2Fannounce&tr=udp%3A%2F%2Fwhybother.torrentonline.cc%3A42069%2Fannounce
-                              episodeKey: 3-4
-                              resolution: 1080p
-                              format: MKV
-                              language: []
-                              subtitle: NONE
-                              customTags:
-                                - AVC
-                                - BDRemux
-                              version: v1
-                              torrentStorageId: torrents/org_q0kdyFpr9SHP/Fg5TNIu4CD5yxqF92FZFS__LinRip__Kamiina_Botan__Yoeru_Sugata_wa_Yuri_no_Hana__Vol.2__BDRemux_1080p_AVC_FLAC_.torrent
-                              publishedAt: 1786863045049
-                            - releaseId: rel_RmwVrFUqRUAz
-                              title: "[LinRip] Kamiina Botan, Yoeru Sugata wa Yuri no Hana [Vol.1][BDRemux 1080p AVC FLAC]"
-                              size: 13671497994
-                              magnet: magnet:?xt=urn:btih:a8f8b34deae89282e1c866ec794f413f71f262da&dn=%5BLinRip%5D%20Kamiina%20Botan%2C%20Yoeru%20Sugata%20wa%20Yuri%20no%20Hana%20%5BVol.1%5D%5BBDRemux%201080p%20AVC%20FLAC%5D&xl=13671497994&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker-udp.gbitt.info%3A80%2Fannounce&tr=http%3A%2F%2Fipv4announce.sktorrent.eu%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=udp%3A%2F%2Fevan.im%3A6969%2Fannounce&tr=udp%3A%2F%2Fbittorrent-tracker.e-n-c-r-y-p-t.net%3A1337%2Fannounce&tr=https%3A%2F%2Ft.213891.xyz%3A443%2Fannounce&tr=udp%3A%2F%2Fns575949.ip-51-222-82.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.corpscorp.online%3A80%2Fannounce&tr=https%3A%2F%2Ftracker.nekomi.cn%3A443%2Fannounce&tr=https%3A%2F%2F004430.xyz%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.7471.top%3A443%2Fannounce&tr=udp%3A%2F%2Fanime-tracker.aruku.kro.kr%3A8081%2Fannounce&tr=https%3A%2F%2Ftracker.foreverpirates.co%3A443%2Fannounce&tr=udp%3A%2F%2Fmartin-gebhardt.eu%3A25%2Fannounce&tr=http%3A%2F%2Ftracker.waaa.moe%3A6969%2Fannounce&tr=https%3A%2F%2Ftracker.leechshield.link%3A443%2Fannounce&tr=udp%3A%2F%2Ftorrentclub.online%3A1984%2Fannounce&tr=udp%3A%2F%2Ftracker.nexusstream.eu%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.dhitechnical.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.gmi.gd%3A6969%2Fannounce&tr=http%3A%2F%2Fbt2.archive.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.aruku.ovh%3A8081%2Fannounce&tr=udp%3A%2F%2Ftracker.peerfect.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.ftorrent.com%3A443%2Fannounce&tr=udp%3A%2F%2Ftracker.ilibr.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.com%3A6969%2Fannounce&tr=http%3A%2F%2Fwegkxfcivgx.ydns.eu%3A80%2Fannounce&tr=udp%3A%2F%2Farchive.torrentonline.cc%3A42069%2Fannounce&tr=udp%3A%2F%2Ftracker.teambelgium.net%3A6969%2Fannounce&tr=http%3A%2F%2Fbt1.archive.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fmail.segso.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fwhybother.torrentonline.cc%3A42069%2Fannounce&tr=udp%3A%2F%2Fobey.torrentonline.cc%3A42069%2Fannounce&tr=udp%3A%2F%2Ft.overflow.biz%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.nyaa.vc%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.renfei.net%3A8080%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=https%3A%2F%2Fht.therarbg.to%3A443%2Fannounce&tr=http%3A%2F%2Ftracker.xn--djrq4gl4hvoi.top%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A6969%2Fannounce
-                              episodeKey: 1-2
-                              resolution: 1080p
-                              format: MKV
-                              language: []
-                              subtitle: NONE
-                              customTags:
-                                - AVC
-                                - BDRemux
-                              version: v1
-                              torrentStorageId: torrents/org_q0kdyFpr9SHP/XQM1bj6Zr2V_SmINf0K8x__LinRip__Kamiina_Botan__Yoeru_Sugata_wa_Yuri_no_Hana__Vol.1__BDRemux_1080p_AVC_FLAC_.torrent
-                              publishedAt: 1785944242765
-                        - groupId: org_aagmgM9i0ZyR
-                          slug: kitauji-sub
-                          name: 北宇治字幕组
-                          status: ACTIVE
-                          lastUpdatedAt: 1784573904863
-                          totalReleases: 33
-                          publishedEpisodes:
-                            - 2
                             - 3
+                            - 4
+                            - 5
+                            - 6
                           items:
-                            - releaseId: rel_NmlRbreQ9kiE
-                              title: "[北宇治字幕组] 上伊那牡丹，酒醉身姿似百合 / Kamiina Botan, Yoeru Sugata wa Yuri no Hana [12][WebRip][HEVC_AAC][简繁日内封]"
-                              size: 567779714
-                              magnet: magnet:?xt=urn:btih:e22cbf3b23a7e07a797064a45588375e785a31b3&dn=%5BKitaujiSub%5D%20Kamiina%20Botan%2C%20Yoeru%20Sugata%20wa%20Yuri%20no%20Hana%20%5B12%5D%5BWebRip%5D%5BHEVC_AAC%5D%5BCHS_JP%26CHT_JP%5D.mkv&xl=567779714&tr=http%3A%2F%2Fnyaa.tracker.wf%3A7777%2Fannounce&tr=http%3A%2F%2Fopen.acgtracker.com%3A1096%2Fannounce&tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=http%3A%2F%2Ft.acg.rip%3A6699%2Fannounce&tr=http%3A%2F%2Fshare.hkg-fansub.info%3A80%2Fannounce.php&tr=http%3A%2F%2Ftracker.sbsub.com%3A2710%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce
-                              episodeKey: "12"
+                            - releaseId: rel_I7S9GKeRKheU
+                              title: "[黒ネズミたち] 藥師少女的獨語 第三季 / Kusuriya no Hitorigoto 3rd Season - 54 (CR 1920x1080 AVC AAC MKV)"
+                              size: 931909928
+                              magnet: magnet:?xt=urn:btih:19ba415700cfc96ac5919100dac169b0b8e0c817&dn=%5BDynamis+One%5D+Kusuriya+no+Hitorigoto+3rd+Season+-+54+%28CR+1920x1080+AVC+AAC+MKV%29+%5B340098E2%5D.mkv&xl=931909928&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce
+                              episodeKey: "54"
                               resolution: 1080p
                               format: MKV
                               language:
-                                - CHS
-                                - CHT
+                                - EN
                               subtitle: INTERNAL
                               customTags:
-                                - HEVC
-                                - WEBRip
+                                - AVC
+                                - AAC
+                                - CR
                               version: v1
-                              torrentStorageId: torrents/org_aagmgM9i0ZyR/IVW6_cp5Z9AS7urtk0_n7_release.torrent
-                              publishedAt: 1784573904863
-                            - releaseId: rel_grFiHtIN8UId
-                              title: "[北宇治字幕组] 上伊那牡丹，酒醉身姿似百合 / Kamiina Botan, Yoeru Sugata wa Yuri no Hana [12][WebRip][HEVC_AAC][繁日內嵌]"
-                              size: 576702087
-                              magnet: magnet:?xt=urn:btih:fe11206712883903d191d5316b7992dacdbb862c&dn=%5BKitaujiSub%5D%20Kamiina%20Botan%2C%20Yoeru%20Sugata%20wa%20Yuri%20no%20Hana%20%5B12%5D%5BWebRip%5D%5BHEVC_AAC%5D%5BCHT_JP%5D.mp4&xl=576702087&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce&tr=http%3A%2F%2Fnyaa.tracker.wf%3A7777%2Fannounce&tr=http%3A%2F%2Fopen.acgtracker.com%3A1096%2Fannounce&tr=http%3A%2F%2Fsukebei.tracker.wf%3A8888%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=http%3A%2F%2Ft.acg.rip%3A6699%2Fannounce&tr=http%3A%2F%2Fshare.hkg-fansub.info%3A80%2Fannounce.php&tr=http%3A%2F%2Ftracker.sbsub.com%3A2710%2Fannounce
-                              episodeKey: "12"
+                              torrentStorageId: torrents/canonical/org_HCFDS3FmwXnP/Oc8thlO4GUxKEbnhFVFtkQ__Dynamis_One__Kusuriya_no_Hitorigoto_3rd_Season_-_54__CR_1920x1080_AVC_AAC_MKV___340098E2_.mkv.torrent
+                              publishedAt: 1793979072357
+                            - releaseId: rel_4BAFsWjylUC-
+                              title: "[黒ネズミたち] 藥師少女的獨語 第三季 / Kusuriya no Hitorigoto 3rd Season - 54 (ABEMA 1920x1080 AVC AAC MKV)"
+                              size: 755911646
+                              magnet: magnet:?xt=urn:btih:d233873b6529170f0e890d681c9626a6e871c7a1&dn=%5BDynamis+One%5D+Kusuriya+no+Hitorigoto+3rd+Season+-+54+%28ABEMA+1920x1080+AVC+AAC+MKV%29+%5B8709344F%5D.mkv&xl=755911646&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce
+                              episodeKey: "54"
+                              resolution: 1080p
+                              format: MKV
+                              language:
+                                - JP
+                              subtitle: INTERNAL
+                              customTags:
+                                - AVC
+                                - AAC
+                                - ABEMA
+                              version: v1
+                              torrentStorageId: torrents/canonical/org_HCFDS3FmwXnP/t7laacPZ28I_yqeK_JDdeC__Dynamis_One__Kusuriya_no_Hitorigoto_3rd_Season_-_54__ABEMA_1920x1080_AVC_AAC_MKV___8709344F_.mkv.torrent
+                              publishedAt: 1793979063401
+                        - groupId: org_FCOg536LTw4s
+                          slug: studio-greentea
+                          name: 绿茶字幕组
+                          status: ACTIVE
+                          lastUpdatedAt: 1793463328031
+                          totalReleases: 11
+                          publishedEpisodes:
+                            - 1
+                            - 2
+                            - 49
+                            - 50
+                            - 51
+                            - 52
+                          progressEpisodes:
+                            - 1
+                            - 2
+                            - 3
+                            - 4
+                          items:
+                            - releaseId: rel_JP8oY4YUzPuc
+                              title: "[綠茶字幕組] 藥屋少女的呢喃 第三季 / Kusuriya no Hitorigoto [52][WebRip][1080p][繁日內嵌]"
+                              size: 481313944
+                              magnet: magnet:?xt=urn:btih:45123cfd8d30d1a4d3e8b52647d0c0a18726a18a&dn=%5BStudio%20GreenTea%5D%20Kusuriya%20no%20Hitorigoto%20%5B52%5D%5BWebRip%5D%5BHEVC-10bit%201080p%20AAC%5D%5BJPTC%5D.mp4&xl=481313944&tr=http%3A%2F%2Fopen.acgtracker.com%3A1096%2Fannounce&tr=http%3A%2F%2Fnyaa.tracker.wf%3A7777%2Fannounce&tr=http%3A%2F%2Fopentracker.acgnx.se%2Fannounce&tr=udp%3A%2F%2Ftr.bangumi.moe%3A6969%2Fannounce&tr=http%3A%2F%2Ftr.bangumi.moe%3A6969%2Fannounce&tr=udp%3A%2F%2F208.67.16.113%3A8000%2Fannounce&tr=http%3A%2F%2F208.67.16.113%3A8000%2Fannounce&tr=http%3A%2F%2Ftracker.ktxp.com%3A6868%2Fannounce&tr=http%3A%2F%2Ftracker.ktxp.com%3A7070%2Fannounce&tr=udp%3A%2F%2Fbt.sc-ol.com%3A2710%2Fannounce&tr=http%3A%2F%2Fshare.camoe.cn%3A8080%2Fannounce&tr=http%3A%2F%2F61.154.116.205%3A8000%2Fannounce&tr=http%3A%2F%2Fbt.rghost.net%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=http%3A%2F%2Ft.acg.rip%3A6699%2Fannounce&tr=http%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2F104.238.198.186%3A8000%2Fannounce&tr=http%3A%2F%2F104.238.198.186%3A8000%2Fannounce&tr=http%3A%2F%2F94.228.192.98%2Fannounce&tr=http%3A%2F%2Ftracker.btcake.com%2Fannounce&tr=http%3A%2F%2Fbtfile.sdo.com%3A6961%2Fannounce&tr=http%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker3.torrentino.com%2Fannounce&tr=http%3A%2F%2Ftracker2.torrentino.com%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=http%3A%2F%2Fpubt.net%3A2710%2Fannounce&tr=http%3A%2F%2Fbigfoot1942.sektori.org%3A6969%2Fannounce&tr=http%3A%2F%2Ft.nyaatracker.com%2Fannounce&tr=http%3A%2F%2Fbt.sc-ol.com%3A2710%2Fannounce&tr=udp%3A%2F%2Fzer0day.ch%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.publictracker.xyz%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Fwepzone.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Ftracker.theoks.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.srv00.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.auctor.tv%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.004430.xyz%3A1337%2Fannounce&tr=udp%3A%2F%2Ftorrents.tmtime.dev%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Fbittorrent-tracker.e-n-c-r-y-p-t.net%3A1337%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.yemekyedim.com%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.nekomi.cn%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.moeking.me%3A443%2Fannounce&tr=https%3A%2F%2Ftorrents.tmtime.dev%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce
+                              episodeKey: "52"
                               resolution: 1080p
                               format: MP4
                               language:
@@ -546,12 +562,33 @@ paths:
                                 - JP
                               subtitle: EMBEDDED
                               customTags:
-                                - HEVC
                                 - WEBRip
+                                - HEVC
+                                - 10bit
+                                - AAC
                               version: v1
-                              torrentStorageId: torrents/org_aagmgM9i0ZyR/iT_kzianPY7NZ882xxmWl_release.torrent
-                              publishedAt: 1783969090308
-                      total: 8
+                              torrentStorageId: torrents/canonical/org_FCOg536LTw4s/lRlXvfGFubx6fwHDzo8ApJ__5BStudio_20GreenTea_5D_20Kusuriya_20no_20Hitorigoto_20_5B52_5D_5BWebRip_5D_5BHEVC-10bit_201080p_20AAC_5D_5BJPTC_5D.torrent
+                              publishedAt: 1793463328031
+                            - releaseId: rel_kHanoER5Z_V5
+                              title: "[绿茶字幕组] 药屋少女的呢喃 第三季 / Kusuriya no Hitorigoto [52][WebRip][1080p][简日内嵌]"
+                              size: 480931781
+                              magnet: magnet:?xt=urn:btih:bf6b8d239a364859c987fa55769af72e1356bdf7&dn=%5BStudio%20GreenTea%5D%20Kusuriya%20no%20Hitorigoto%20%5B52%5D%5BWebRip%5D%5BHEVC-10bit%201080p%20AAC%5D%5BJPSC%5D.mp4&xl=480931781&tr=http%3A%2F%2Fopen.acgtracker.com%3A1096%2Fannounce&tr=http%3A%2F%2Fnyaa.tracker.wf%3A7777%2Fannounce&tr=http%3A%2F%2Fopentracker.acgnx.se%2Fannounce&tr=udp%3A%2F%2Ftr.bangumi.moe%3A6969%2Fannounce&tr=http%3A%2F%2Ftr.bangumi.moe%3A6969%2Fannounce&tr=udp%3A%2F%2F208.67.16.113%3A8000%2Fannounce&tr=http%3A%2F%2F208.67.16.113%3A8000%2Fannounce&tr=http%3A%2F%2Ftracker.ktxp.com%3A6868%2Fannounce&tr=http%3A%2F%2Ftracker.ktxp.com%3A7070%2Fannounce&tr=udp%3A%2F%2Fbt.sc-ol.com%3A2710%2Fannounce&tr=http%3A%2F%2Fshare.camoe.cn%3A8080%2Fannounce&tr=http%3A%2F%2F61.154.116.205%3A8000%2Fannounce&tr=http%3A%2F%2Fbt.rghost.net%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=http%3A%2F%2Ft.acg.rip%3A6699%2Fannounce&tr=http%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2F104.238.198.186%3A8000%2Fannounce&tr=http%3A%2F%2F104.238.198.186%3A8000%2Fannounce&tr=http%3A%2F%2F94.228.192.98%2Fannounce&tr=http%3A%2F%2Ftracker.btcake.com%2Fannounce&tr=http%3A%2F%2Fbtfile.sdo.com%3A6961%2Fannounce&tr=http%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker3.torrentino.com%2Fannounce&tr=http%3A%2F%2Ftracker2.torrentino.com%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=http%3A%2F%2Fpubt.net%3A2710%2Fannounce&tr=http%3A%2F%2Fbigfoot1942.sektori.org%3A6969%2Fannounce&tr=http%3A%2F%2Ft.nyaatracker.com%2Fannounce&tr=http%3A%2F%2Fbt.sc-ol.com%3A2710%2Fannounce&tr=udp%3A%2F%2Fzer0day.ch%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.publictracker.xyz%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Fwepzone.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Ftracker.theoks.net%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.srv00.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.qu.ax%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.auctor.tv%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.004430.xyz%3A1337%2Fannounce&tr=udp%3A%2F%2Ftorrents.tmtime.dev%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Fbittorrent-tracker.e-n-c-r-y-p-t.net%3A1337%2Fannounce&tr=https%3A%2F%2Ftracker.zhuqiy.com%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.yemekyedim.com%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.nekomi.cn%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.moeking.me%3A443%2Fannounce&tr=https%3A%2F%2Ftorrents.tmtime.dev%3A443%2Fannounce&tr=https%3A%2F%2Ftracker.anibt.net%2Fannounce
+                              episodeKey: "52"
+                              resolution: 1080p
+                              format: MP4
+                              language:
+                                - CHS
+                                - JP
+                              subtitle: EMBEDDED
+                              customTags:
+                                - WEBRip
+                                - HEVC
+                                - 10bit
+                                - AAC
+                              version: v1
+                              torrentStorageId: torrents/canonical/org_FCOg536LTw4s/FQmSdyDv0zbkPeNJyl8Nai__5BStudio_20GreenTea_5D_20Kusuriya_20no_20Hitorigoto_20_5B52_5D_5BWebRip_5D_5BHEVC-10bit_201080p_20AAC_5D_5BJPSC_5D.torrent
+                              publishedAt: 1793463322022
+                      total: 6
         "304":
           description: ETag 未变，响应体为空
         "400":
@@ -1246,9 +1283,10 @@ paths:
       operationId: rss-magnets
       summary: 全站磁力 RSS
       description: |
-        全站最近番剧资源；已绑定的条目带 anibt:bgmId。limit 默认及上限均为 100。
+        全站最近番剧资源；已绑定的条目带 anibt:bgmId。limit 默认及上限均为 100。q 也匹配资源所属字幕组的名称和 slug，关键词等于某个字幕组名称的订阅会包含该组的资源。
         q 与 search 只能提供一个值；规范化后最多 160 UTF-8 字节，不允许空值或控制字符。
-        q 的每个词都必须命中，不纠错、不补全前缀、不丢词：拉丁字母和数字是资源标题与规格或所属番剧任一标题、别名中的完整词，中日文是其中的连续字符。`-词` 只排除资源自身标题与规格中含该词的资源。严格匹配的结果为空时才尝试一次拆词或合词。规则见「开放 API 总览」的「资源搜索」。
+        q 的每个词都必须命中，不纠错、不补全前缀、不丢词：拉丁字母和数字是资源标题与规格、所属番剧任一标题或别名、所属字幕组名称或 slug 中的完整词，中日文是其中的连续字符。`-词` 只排除资源自身标题与规格中含该词的资源，不看番剧别名和字幕组名称。严格匹配的结果为空时才尝试一次拆词或合词。规则见「开放 API 总览」的「资源搜索」。
+        本接口没有 episode 参数，也不识别「第5集」「EP05」这类集数写法，q 里的每个词都按文本匹配。/magnets 会把查询末尾的集数写法当作集数筛选，所以 /magnets 页面给出的 RSS 链接可能比页面结果少，甚至为空。
         q 最多 16 个正向词和 8 个排除词，超出返回 400（正文 Invalid search，no-store）。只有分隔符、符号或排除词的 q 返回空 channel。结果按所选排序，默认发布时间倒序。
         支持 resolution、language、format、sortField、sortOrder；不支持 cursor 或 page 分页，多余参数会被规范化重定向移除。
         成功响应为 application/xml，enclosure 指向 .torrent 文件；错误正文通常为纯文本。GET 与 HEAD 支持 If-None-Match。
@@ -1426,7 +1464,7 @@ paths:
         不混入番剧 RSS。空分类仍返回有效空 channel。无 `<anibt:bgmId>`。
         详情页路径：`/other-release/<id>`。
         `limit` 默认 100，上限 100。速率限制默认 120 次 / 60 秒 / IP。
-        q 的规则与全站磁力 RSS 相同，但只比较资源自身的标题和分类，不涉及番剧别名；规则见「开放 API 总览」的「资源搜索」。q 最多 16 个正向词和 8 个排除词，超出返回 400（正文 Invalid search，no-store）。只有分隔符、符号或排除词的 q 返回空 channel。结果按所选排序，默认发布时间倒序。
+        q 的规则与全站磁力 RSS 相同，但只比较资源自身的标题和分类，以及所属字幕组的名称和 slug，不涉及番剧别名；规则见「开放 API 总览」的「资源搜索」。q 最多 16 个正向词和 8 个排除词，超出返回 400（正文 Invalid search，no-store）。只有分隔符、符号或排除词的 q 返回空 channel。结果按所选排序，默认发布时间倒序。
         成功响应为 application/xml，enclosure 指向 .torrent 文件；错误正文通常为纯文本。GET 与 HEAD 支持 If-None-Match。
       parameters:
         - name: category
@@ -1678,7 +1716,7 @@ paths:
       operationId: releases-publish
       summary: 发布番剧资源
       description: >
-        番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。重放及 503 重试规则见「接口约定与鉴权」。
+        番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。本组已有的同一版本再次发布返回 409 CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS。重放及 503 重试规则见「接口约定与鉴权」。
 
         animeId 按来源规范化：接受全角数字、前导零和该来源站点的番剧链接（bgm.tv / bangumi.tv / chii.in、myanimelist.net、anidb.net、anilist.co）。已合并的旧 BGM ID 发布到合并后的番剧。发布只解析站内已收录的番剧，不会新收录。
 
@@ -1691,6 +1729,8 @@ paths:
         preview=true 返回顶层 previewUrl、previewToken、expiresAt 和 Key 身份信息，10 分钟后过期；不创建公开发布。
 
         未显式提供的集数、画质、语言、字幕、格式和版本先从标题、再从种子内部名推断；无法推断集数时需传 episode 或 episodeKey。
+
+        集数键的推断：标题只写了一个集数范围的合集存为该范围，[01-13 合集] 为 1-13，[01-12 Fin] 为 1-12；标题写了两个不同范围（[01-12][13-24]）时为 BATCH。括号外两侧带空格的横线后面的数字是单集：Season 2 - 05 为 5，Part 3 - 26 为 26。S03E05 为 5；S01E01-E12 是标题里唯一的范围时为 1-12；第 0 季的特别篇（S00E..）不按这种写法推断。传入的 episodeKey 为 BATCH、合集或全集，而标题只写了一个集数范围时，存为该范围。范围的 episode 是它的第一集。
 
         notes 最多 50000 字符。JSON 请求上限默认 1 MiB，multipart 默认 8 MiB，单个 .torrent 文件最多 5 MiB。
 
@@ -1774,7 +1814,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "409":
-          description: 资源或命令冲突，包括同一 Idempotency-Key 改参。缺少完整绑定的旧未完成上传请求返回 CONFLICT，error.reason 为 legacy_request_binding_missing；使用新键重新提交完整请求。
+          description: 资源或命令冲突，包括同一 Idempotency-Key 改参。缺少完整绑定的旧未完成上传请求返回 CONFLICT，error.reason 为 legacy_request_binding_missing；使用新键重新提交完整请求。本组在同一番剧下已有集数键、版本、字幕类型、分辨率、语言都相同且种子相同的资源时返回 CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS，error.message 为 release version already exists，error.i18n.key 为 error_release_version_exists；不要重试同一请求。
           content:
             application/json:
               schema:
@@ -2426,7 +2466,7 @@ paths:
 
         不支持 TVDB/TMDB/IMDb/rid/tvmazeid 检索，提供这些 ID 会返回空列表。关键词最多 160 UTF-8 字节、16 个正向词和 8 个排除词，超出时返回错误 201。search/tvsearch 的尾部 2–4 位数字可作为集数；尾部 1900–2099 按年份移除。movie 仅移除年份。
 
-        关键词按「开放 API 总览」的「资源搜索」匹配，结果固定按发布时间倒序。指定集数或剧场版分类（cat 含 2000 或 2020 且不含 5000 或 5070）时，先按这些条件过滤，再取最新的 100 条。只有分隔符、符号或排除词的 q 返回空列表。
+        关键词按「开放 API 总览」的「资源搜索」匹配，也匹配资源所属字幕组的名称和 slug；关键词等于某个字幕组名称时，结果会包含该组的资源。结果固定按发布时间倒序。指定集数或剧场版分类（cat 含 2000 或 2020 且不含 5000 或 5070）时，先按这些条件过滤，再取最新的 100 条。只有分隔符、符号或排除词的 q 返回空列表。
 
         limit 默认 100，上限 100；最新列表 offset + limit 最多 300，关键词搜索最多 100；超出窗口返回空列表。默认 60 次 / 60 秒 / IP。
 
@@ -3098,6 +3138,7 @@ components:
             - bgmId
             - animeId
             - title
+            - seriesNumberMap
             - groups
             - total
           properties:
@@ -3107,6 +3148,25 @@ components:
               type: string
             title:
               $ref: "#/components/schemas/CatalogTitle"
+            seriesNumberMap:
+              type: array
+              description: 系列编号对照。每一项表示系列编号 seriesFrom 到 seriesTo 依次是本季从 episodeFrom 开始的各集；番剧没有这种编号时为空数组。
+              items:
+                type: object
+                required:
+                  - seriesFrom
+                  - seriesTo
+                  - episodeFrom
+                properties:
+                  seriesFrom:
+                    type: integer
+                    minimum: 1
+                  seriesTo:
+                    type: integer
+                    minimum: 1
+                  episodeFrom:
+                    type: integer
+                    minimum: 1
             groups:
               type: array
               items:
@@ -4236,6 +4296,7 @@ components:
         - status
         - lastUpdatedAt
         - publishedEpisodes
+        - progressEpisodes
         - items
       properties:
         groupId:
@@ -4254,6 +4315,12 @@ components:
           type: number
         publishedEpisodes:
           type: array
+          description: 字幕组标注的正片集数，原样列出。
+          items:
+            type: number
+        progressEpisodes:
+          type: array
+          description: AniBT 发布进度为该组点亮的本季集数，由 publishedEpisodes 按 seriesNumberMap 换算。
           items:
             type: number
         items:

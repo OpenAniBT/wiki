@@ -90,10 +90,11 @@ Cursors issued before the October 31, 2026 update no longer work. On 422, drop `
 
 ## Release search
 
-`/magnets?q`, an anime page's release search, other-release categories, `/rss/magnets.xml?q=`, `/rss/other/<category>.xml?q=`, and `/torznab/api?q=` follow these rules. Every term must hit, with no typo tolerance, no prefix completion, and no dropped terms (for the `/magnets?q` exception, see [Relaxed search](#relaxed-search-on-magnets)):
+`/magnets?q`, an anime page's release search, other-release categories, `/rss/magnets.xml?q=`, `/rss/other/<category>.xml?q=`, and `/torznab/api?q=` follow these rules. Every term must hit, with no typo tolerance, no prefix completion, and no dropped terms (for the `/magnets?q` exceptions, see [Relaxed search](#relaxed-search-on-magnets) and [Episode notation](#episode-notation-on-magnets)):
 
-- An anime release is compared on its own title and spec (episode label, resolution, format, subtitle type, language) and on every title and alias of its anime. Different terms can hit different places, so any alias of the anime finds releases titled only in another language.
-- An other-category release is compared only on its own title and category.
+- An anime release is compared on its own title and spec (episode label, resolution, format, subtitle type, language), on every title and alias of its anime, and on the name and slug of its subtitle group. Different terms can hit different places, so any alias of the anime finds releases titled only in another language.
+- An other-category release is compared only on its own title and category and on the name and slug of its subtitle group.
+- A subtitle group's name and slug match as whole words like any other text, with no typo tolerance or prefix completion. A quoted phrase must sit entirely in the name or entirely in the slug, not half in each. A group whose status is Suspended produces no hit; an Inactive group still does. Since November 10, 2026, a keyword RSS feed or Torznab search whose keyword is a group's name or slug also returns that group's releases whose titles don't carry the name.
 - Latin letters and digits must be whole words: `HEV` doesn't find `HEVC`, `1080` doesn't find `1080p`, and `LoliHous` doesn't find `LoliHouse`.
 - Chinese and Japanese match as contiguous characters and need not be a whole word: `鬼灭` finds releases of 鬼灭之刃.
 - Letters and digits ignore case and width on every surface, and kana and Traditional/Simplified characters fold as in anime search.
@@ -109,14 +110,24 @@ For anime releases, when the first page of `/magnets?q` is still empty after str
 1. **Word prefix:** the last part of a term may be just the start of a word if it has no digit and at least 3 characters: `HEV` finds `HEVC`, and `LoliHous` finds `LoliHouse`. A part with a digit isn't completed, so `1080` still doesn't find `1080p`.
 2. **Anime title similarity:** a single spelling difference in an anime title may match: `kimetu no yaiba` finds releases of Kimetsu no Yaiba. The terms with no digit must total at least 6 characters (4 if all Chinese or Japanese); a term with a digit doesn't count, and a shorter query skips this step. Terms with a digit, terms of 1–3 characters, and multi-part terms such as quoted phrases must still hit strictly: `kimetu no yaiba 1080p` lists only 1080p releases, `kimetsu no yaiba 2160p` stays empty when no 2160p release exists, and `"kimetu no yaiba"` in quotes is empty too. A release's own text, such as a group name, gets no such tolerance.
 
+Neither step applies prefix or spelling tolerance to a subtitle group's name and slug; they still match as whole words.
+
 If the relaxed read fails on the first page, the answer is the strict search's empty result, not an error; if it fails while paging through relaxed results, the answer is a 503 like any other search. An anime page's release search, other-release categories, RSS, and Torznab always match strictly, so a term that only finds results on `/magnets` through relaxed matching may be empty in RSS.
+
+### Episode notation on `/magnets`
+
+`/magnets?q` reads only the last word of the query. When it is `第N集`, `第N话`, `第N話`, `EP`+N, `E`+N, or `#`+N (N is 1–4 digits, leading zeros allowed, case-insensitive), that word is no longer matched as text and becomes the episode filter: `Mushoku Tensei 第5集`, `Mushoku Tensei EP05`, and `Mushoku Tensei #5` give the same results as searching `Mushoku Tensei` filtered to episode 5. The search box and the address keep what you typed. When the strict result is empty, the relaxed search still runs and keeps the episode filter.
+
+- Only the last word is read, and at least one other searchable word must remain: `第5集` on its own is a text search. A quoted or excluded notation (`"第5集"`, `-第5集`) and a bare number (`Mushoku Tensei 05`) are not converted.
+- The filter lists releases whose episode number equals N. A batch counts under its first episode: `第1集` also lists a `1-12` batch, and `第5集` does not. A release a group numbered by series number (53 for a third season's fifth episode) is not found by `第5集`.
+- Only the `/magnets` page does this. Keyword RSS doesn't recognize these notations and matches every word as text, and `/rss/magnets.xml` has no `episode=` parameter ([anime RSS](/en/docs/open-api/rss-anime) has one). Torznab doesn't recognize them either; it reads only trailing 2–4 digits as an episode. So the RSS link the `/magnets` page offers for such a query can hold fewer items than the page, or none.
 
 ### Punctuation, quotes, and exclusions
 
 - A term with no digit splits at its punctuation, and each part matches on its own: `Nix-Raws`, `Re:Zero`, and `鬼灭/第二季` are two terms each, so one can hit an anime alias and the other a release title.
-- A term with a digit and several parts is one phrase: the parts of `HEVC-10bit`, `x264-AAC`, and `第2期` must be adjacent and in order within one text (the release's own title and spec, or one title or alias of its anime). `HEVC-10bit` doesn't find `10bit x264 HEVC`, and `第2` doesn't match `第20期`.
+- A term with a digit and several parts is one phrase: the parts of `HEVC-10bit`, `x264-AAC`, and `第2期` must be adjacent and in order within one text (the release's own title and spec, one title or alias of its anime, or its subtitle group's name or slug). `HEVC-10bit` doesn't find `10bit x264 HEVC`, and `第2` doesn't match `第20期`.
 - A complete quoted phrase standing as its own term is one phrase and may contain spaces: `"25 1080p"`. A quote attached to other characters, or left unclosed, is ignored and its words are ordinary terms.
-- `-word` excludes, and reads only the release's own title and spec, never anime aliases. `-web-dl` needs `web` and `dl` adjacent and in order, so it doesn't exclude `WebDL` written as one word. `-"25 1080p"` excludes that phrase.
+- `-word` excludes, and reads only the release's own title and spec, never anime aliases or a subtitle group's name and slug. `-web-dl` needs `web` and `dl` adjacent and in order, so it doesn't exclude `WebDL` written as one word. `-"25 1080p"` excludes that phrase.
 - A `-` with whitespace on both sides is a separator: `Title - 25` searches for `25`, and `Title -25` excludes `25`.
 - Use `-` and `"` for exclusions and quoted phrases. The full-width `－`, `﹣`, and `＂` act as these two on every surface. `−` and curly quotes are not operators.
 

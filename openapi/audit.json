@@ -82,7 +82,9 @@
       "sources": [
         "src/routes/api/anime/groups.ts",
         "src/lib/public-serving-catalog/anime-groups.server.ts",
-        "src/lib/public-catalog-types.ts"
+        "src/lib/public-catalog-types.ts",
+        "shared/release-domain/episode-progress.ts",
+        "shared/anime-catalog/seriesNumberMap.ts"
       ]
     },
     {
@@ -412,6 +414,15 @@
       ],
       "observedAt": "2026-11-02T11:46:07.000Z",
       "note": "Title-match evidence reads PostgreSQL (AniBT #1410, #1413, #1414): search.generation is now the recall-rules version (postgres-search-v1-recall-v1), not the retired index generation, and a recall candidate's matchScore maps its rank into 1-70. The POST witness is re-captured from the isolated route handler, not from production. Production Web 33c3348bc differs from this SHA only in comments and tests. All other witnesses retain their original audited baseline."
+    },
+    {
+      "gitSha": "f7e25633c8ade76ea04861934fb6e9ede53a977c",
+      "productionVersionVerified": true,
+      "fixtures": [
+        "anime-groups"
+      ],
+      "observedAt": "2026-11-10T10:46:22.000Z",
+      "note": "The anime-groups response gained data.seriesNumberMap and groups[].progressEpisodes; no existing field changed. Re-captured from production for an anime with a series-number map, whose /api/version reported this SHA. All other witnesses retain their original audited baseline."
     }
   ]
 }

@@ -1,6 +1,7 @@
 ---
 title: 单番剧字幕组
-description: 按 bgmId 查询字幕组，每组返回最近 30 条资源，并提供 publishedEpisodes 和 totalReleases。
+description: 按 bgmId 查询字幕组，每组返回最近 30 条资源，并提供 publishedEpisodes、progressEpisodes
+  和 totalReleases；data.seriesNumberMap 是番剧的系列编号对照。
 full: true
 _openapi:
   preload:
@@ -12,7 +13,15 @@ _openapi:
     headings: []
     contents:
       - content: >
-          按 bgmId 查询字幕组，每组返回最近 30 条资源，并提供 publishedEpisodes 和 totalReleases。
+          按 bgmId 查询字幕组，每组返回最近 30 条资源，并提供 publishedEpisodes、progressEpisodes 和
+          totalReleases；data.seriesNumberMap 是番剧的系列编号对照。
+
+          publishedEpisodes 是字幕组标注的正片集数，原样列出。progressEpisodes 是 AniBT
+          发布进度为该组点亮的本季集数：按系列编号标注后续季的字幕组（第三季写 49–54）在这里是 1–6。
+
+          seriesNumberMap 的每一项 { seriesFrom, seriesTo, episodeFrom } 表示系列编号
+          seriesFrom 到 seriesTo 依次是本季从 episodeFrom 开始的各集，对照来自 bgm.tv；番剧没有这种编号时为
+          []。
 
           magnet、size、episodeKey、resolution、format、subtitle、lastUpdatedAt 可为
           null。subtitle 通常为 EXTERNAL / INTERNAL / EMBEDDED / NONE。

@@ -40,7 +40,7 @@ Check the URL, HTTP method, Content-Type, and response body first.
   },
   "/magnets or keyword RSS misses an expected release": {
     "type": "Matching rules",
-    "description": "Every term must hit, with no typo tolerance or prefix completion: 1080 doesn't find 1080p, and one word a release lacks empties the result. Only /magnets?q runs once more with relaxed matching when the strict result is empty; RSS and Torznab don't. See Release search in the Open API overview."
+    "description": "Every term must hit, with no typo tolerance or prefix completion: 1080 doesn't find 1080p, and one word a release lacks empties the result. Only /magnets?q runs once more with relaxed matching when the strict result is empty; RSS and Torznab don't. When a query ends in an episode notation such as 第5集 or EP05, /magnets filters by episode while keyword RSS still matches the notation as text, so the feed can hold fewer items than the page, or none. See Release search in the Open API overview."
   },
   "Search returns 503": {
     "type": "Temporarily unavailable",

@@ -68,11 +68,11 @@ const localeTitles: Record<
   'anime-groups': {
     en: {
       title: 'Anime groups',
-      description: 'GET /api/anime/groups — groups publishing a bgmId, plus recent items.',
+      description: 'GET /api/anime/groups — groups publishing a bgmId, plus recent items. publishedEpisodes lists each group’s episode numbers as written; progressEpisodes lists the in-season episodes AniBT’s release progress counts for the group; data.seriesNumberMap maps series numbers to in-season episodes.',
     },
     'zh-Hant': {
       title: '單番劇字幕組',
-      description: 'GET /api/anime/groups —— 某 bgmId 正在釋出的字幕組，以及每組最近資源。',
+      description: 'GET /api/anime/groups —— 某 bgmId 正在釋出的字幕組，以及每組最近資源。publishedEpisodes 是各組標註的集數，原樣列出；progressEpisodes 是 AniBT「發布進度」為該組點亮的本季集數；data.seriesNumberMap 是系列編號與本季集數的對照。',
     },
   },
   'anime-torrent-match': {
@@ -108,21 +108,21 @@ const localeTitles: Record<
   'rss-magnets': {
     en: {
       title: 'Site-wide magnet RSS',
-      description: 'GET /rss/magnets.xml — recent releases across the site. With q, every term must match; see Release search in the Open API overview.',
+      description: 'GET /rss/magnets.xml — recent releases across the site. With q, every term must match; see Release search in the Open API overview. q also matches the name and slug of the release’s subtitle group, so a feed whose keyword is a group’s name includes that group’s releases.',
     },
     'zh-Hant': {
       title: '全站磁力 RSS',
-      description: 'GET /rss/magnets.xml —— 全站最近釋出。帶 q 時每個詞都必須比對成功，規則見「開放 API 總覽」的「資源搜尋」。',
+      description: 'GET /rss/magnets.xml —— 全站最近釋出。帶 q 時每個詞都必須比對成功，規則見「開放 API 總覽」的「資源搜尋」。q 也比對資源所屬字幕組的名稱和 slug，關鍵字等於某個字幕組名稱的訂閱會包含該組的資源。',
     },
   },
   'rss-other': {
     en: {
       title: 'Other RSS',
-      description: 'GET /rss/other/<category>.xml — non-anime categories. With q, every term must match the release’s own title or category; see Release search in the Open API overview.',
+      description: 'GET /rss/other/<category>.xml — non-anime categories. With q, every term must match the release’s own title or category, or the name or slug of its subtitle group; see Release search in the Open API overview.',
     },
     'zh-Hant': {
       title: '其他類 RSS',
-      description: 'GET /rss/other/<category>.xml —— 不混入番劇 RSS。帶 q 時每個詞都必須比對資源自身的標題或分類，規則見「開放 API 總覽」的「資源搜尋」。',
+      description: 'GET /rss/other/<category>.xml —— 不混入番劇 RSS。帶 q 時每個詞都必須比對資源自身的標題或分類，或所屬字幕組的名稱、slug，規則見「開放 API 總覽」的「資源搜尋」。',
     },
   },
   'rss-subscriptions': {
@@ -148,11 +148,11 @@ const localeTitles: Record<
   'releases-publish': {
     en: {
       title: 'Publish anime',
-      description: 'POST /api/releases/publish — publish with an API Key. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. See Conventions and authentication for replay and 503 retry rules.',
+      description: 'POST /api/releases/publish — publish with an API Key. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. Publishing a version the group already has returns 409 CONFLICT with error.reason RELEASE_VERSION_EXISTS. See Conventions and authentication for replay and 503 retry rules.',
     },
     'zh-Hant': {
       title: '釋出番劇資源',
-      description: 'POST /api/releases/publish —— 字幕組用 API Key 釋出種子。Idempotency-Key 自首次受理起綁定完整請求。同鍵變更參數回傳 409 CONFLICT；缺少綁定的舊未完成上傳請求回傳 legacy_request_binding_missing，兩者均須使用新鍵。回放與 503 重試規則見「介面約定與鑑權」。',
+      description: 'POST /api/releases/publish —— 字幕組用 API Key 釋出種子。Idempotency-Key 自首次受理起綁定完整請求。同鍵變更參數回傳 409 CONFLICT；缺少綁定的舊未完成上傳請求回傳 legacy_request_binding_missing，兩者均須使用新鍵。本組已有的同一版本再次釋出回傳 409 CONFLICT，error.reason 為 RELEASE_VERSION_EXISTS。回放與 503 重試規則見「介面約定與鑑權」。',
     },
   },
   'other-releases-publish-whoami': {

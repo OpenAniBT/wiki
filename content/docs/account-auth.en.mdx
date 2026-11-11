@@ -79,5 +79,5 @@ Existing accounts can still verify their original address and reset their passwo
 
 ## Session State & Multi-Device Security
 
-- **Page Redirects**: Visiting the sign-in page while already signed in redirects back to your previous page. When an existing session expires, the page stays on the sign-in form without bouncing.
+- **Page Redirects**: Visiting the sign-in page while already signed in redirects back to your previous page. When an existing session expires, the page stays on the sign-in form without bouncing. If your session has expired or been revoked but the browser still holds its Cookie, opening a page that needs sign-in, such as `/dashboard`, `/profile`, `/subscriptions`, `/admin` or fansub group management, takes you to the sign-in page and back to that page after you sign in.
 - **Cross-Device Sign-Out**: When signing out on another device, this device may still appear signed in for up to ~5 minutes due to local credential caching. However, sensitive operations (password changes, fansub management, publishing) immediately verify active server sessions.
