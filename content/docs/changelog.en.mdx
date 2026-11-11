@@ -9,6 +9,19 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   Entries are listed in reverse chronological order. If you encounter any bugs during regular use, feel free to report them via our [Support Email](/en/docs/contact).
 </Callout>
 
+## November 11, 2026
+
+<TypeTable type={{
+  "Keyword RSS filters by episode": {
+    "type": "Feature",
+    "description": "The site-wide magnet RSS (/rss/magnets.xml) takes a new optional parameter, episode, and lists only releases whose episode number equals it. For example, /rss/magnets.xml?q=药屋&episode=5 lists only episode 5 releases matching 药屋 (The Apothecary Diaries), and /rss/magnets.xml?episode=5 lists episode 5 releases across the site. It works with or without q and combines with resolution, language, format, and sorting. A batch counts under its first episode, as on /magnets: episode=1 also lists a 1-12 batch. It takes one value of 1–4 ASCII digits; a leading zero redirects (308) to the address without it (episode=05 to episode=5). A repeated or empty value, more than 4 digits, a sign, a decimal, an exponent, hex, spaces, or full-width digits return 400 with Cache-Control: no-store; the parameter is never ignored to list every episode. An episode notation such as EP05 inside q is still matched as text. With episode, the channel title names the episode, for example AniBT Anime Releases - Search: 药屋 [EP5]. Feed addresses and results without episode are unchanged. See Site-wide magnet RSS."
+  },
+  "The /magnets RSS link carries the episode": {
+    "type": "Improvement",
+    "description": "When a /magnets query ends in an episode notation such as 第5集, EP05, E05, or #5, the RSS link the page offers is now /rss/magnets.xml?limit=100&q=<the remaining text>&episode=5, so the feed filters by the same terms and episode as the page; for Mushoku Tensei EP05 the link has q=Mushoku+Tensei&episode=5. Without a notation, the link is unchanged. The feed still differs from the page in two cases: when the strict match finds nothing, the page shows relaxed results (prefix, near spelling) while the feed never relaxes and is empty; and when the text left after removing the notation has no searchable word (. EP05), the page searches the original text while the link keeps the converted form and the feed is empty. See Release search in the Open API overview."
+  },
+}} />
+
 ## November 10, 2026
 
 <TypeTable type={{
@@ -18,7 +31,7 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   },
   "/magnets reads a trailing episode notation": {
     "type": "Feature",
-    "description": "When the last word of a /magnets query is 第N集, 第N话, 第N話, EP+N, E+N, or #+N (N is 1–4 digits, leading zeros allowed, case-insensitive), it filters by episode, for example Mushoku Tensei EP05. At least one other searchable word must remain, so 第5集 on its own is still a text search, and a bare number (Mushoku Tensei 05) is not converted. The filter lists releases whose episode number equals N: a batch counts under its first episode, so 第1集 also lists a 1-12 batch and 第5集 does not, and a release a group numbered by series number (53 for a third season's fifth episode) is not found by 第5集. Keyword RSS and Torznab don't recognize these notations, and keyword RSS has no episode= parameter, so the RSS link the /magnets page offers for such a query can hold fewer items than the page, or none."
+    "description": "When the last word of a /magnets query is 第N集, 第N话, 第N話, EP+N, E+N, or #+N (N is 1–4 digits, leading zeros allowed, case-insensitive), it filters by episode, for example Mushoku Tensei EP05. At least one other searchable word must remain, so 第5集 on its own is still a text search, and a bare number (Mushoku Tensei 05) is not converted. The filter lists releases whose episode number equals N: a batch counts under its first episode, so 第1集 also lists a 1-12 batch and 第5集 does not, and a release a group numbered by series number (53 for a third season's fifth episode) is not found by 第5集. Keyword RSS and Torznab don't recognize these notations; since November 11 the RSS link the page offers carries the episode, see that day's entry."
   },
   "Release progress counts in-season episodes": {
     "type": "Fix",

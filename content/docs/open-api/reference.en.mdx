@@ -63,4 +63,6 @@ An unfinished request uploaded before the upgrade may lack a complete binding. I
 
 When the group already has a release of the same anime with the same episode key, version, subtitle type, resolution, languages, and torrent, publishing it again returns `409 CONFLICT` with `error.reason` set to `RELEASE_VERSION_EXISTS`. That torrent is already published as this version, and retrying with a new key won't succeed either.
 
+When the group's status is not Active (it is Inactive or Suspended), publishing returns `403 FORBIDDEN`. An empty episode key, a torrent whose magnet link carries no infohash, or a request with no torrent that also lacks a file size above 0 or an infohash returns `422 VALIDATION_ERROR`. Retrying these requests unchanged or with a new key won't succeed.
+
 For `429 RATE_LIMIT_EXCEEDED`, wait for the number of seconds in `Retry-After`. A busy publishing service, unavailable rate limiting or an unconfirmed upload result can return `503 SERVICE_UNAVAILABLE`. When a `503` includes `Retry-After`, wait and retry the same request with its original key. Without that header, check existing releases and keep `error.requestId` first. A failure or lost connection does not prove that nothing was written. Avoid immediate batch retries or repeatedly switching keys for an uncertain result.

@@ -63,4 +63,6 @@ description: "依端點辨識鑑權、回應包裝和錯誤正文。"
 
 本組在同一番劇下已經有集數鍵、版本、字幕類型、解析度、語言都相同，且種子相同的資源時，再次釋出會回傳 `409 CONFLICT`，`error.reason` 為 `RELEASE_VERSION_EXISTS`。這表示這份種子已經以同一版本釋出過，換新鍵重試也不會成功。
 
+字幕組狀態不是「活躍」（為「不活躍」或「已停用」）時，釋出會回傳 `403 FORBIDDEN`。集數鍵為空、種子的磁力連結裡沒有 infohash，或沒有種子又缺少大於 0 的檔案大小或 infohash 時，回傳 `422 VALIDATION_ERROR`。這些請求原樣重試或換新鍵重試都不會成功。
+
 收到 `429 RATE_LIMIT_EXCEEDED` 時，依 `Retry-After` 的秒數等待。釋出暫時忙碌、限流服務無法使用或上傳結果待確認時，可回傳 `503 SERVICE_UNAVAILABLE`。`503` 帶 `Retry-After` 時依它等待，再用原 key 重試同一請求；沒有此標頭時先核查現有釋出並保留 `error.requestId`。失敗或連線中斷不代表未寫入，不要立即批次重試，也不要為一次不確定的結果反覆更換新 key。

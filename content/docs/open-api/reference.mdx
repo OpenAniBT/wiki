@@ -63,4 +63,6 @@ description: "按端点识别鉴权、响应包装和错误正文。"
 
 本组在同一番剧下已经有集数键、版本、字幕类型、分辨率、语言都相同，且种子相同的资源时，再次发布返回 `409 CONFLICT`，`error.reason` 为 `RELEASE_VERSION_EXISTS`。这表示这份种子已经以同一版本发布过，换新键重试也不会成功。
 
+字幕组状态不是「活跃」（为「不活跃」或「已停用」）时，发布返回 `403 FORBIDDEN`。集数键为空、种子的磁力链接里没有 infohash，或没有种子又缺少大于 0 的文件大小或 infohash 时，返回 `422 VALIDATION_ERROR`。这些请求原样重试或换新键重试都不会成功。
+
 收到 `429 RATE_LIMIT_EXCEEDED` 时，按 `Retry-After` 的秒数等待。发布暂时繁忙、限流服务不可用或上传结果待确认时可返回 `503 SERVICE_UNAVAILABLE`。`503` 带 `Retry-After` 时按它等待，再用原 key 重试同一请求；没有该头时先核查现有发布并保留 `error.requestId`。失败或连接中断不证明未写入，不要立即批量重试，也不要为一次不确定的结果反复换新 key。

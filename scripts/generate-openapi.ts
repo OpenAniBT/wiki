@@ -108,11 +108,11 @@ const localeTitles: Record<
   'rss-magnets': {
     en: {
       title: 'Site-wide magnet RSS',
-      description: 'GET /rss/magnets.xml — recent releases across the site. With q, every term must match; see Release search in the Open API overview. q also matches the name and slug of the release’s subtitle group, so a feed whose keyword is a group’s name includes that group’s releases.',
+      description: 'GET /rss/magnets.xml — recent releases across the site. With q, every term must match; see Release search in the Open API overview. q also matches the name and slug of the release’s subtitle group, so a feed whose keyword is a group’s name includes that group’s releases. episode lists only releases of that episode number, with or without q; a batch counts under its first episode. It takes one value of 1–4 ASCII digits: a leading zero redirects (308) to the plain number, and any other form returns 400.',
     },
     'zh-Hant': {
       title: '全站磁力 RSS',
-      description: 'GET /rss/magnets.xml —— 全站最近釋出。帶 q 時每個詞都必須比對成功，規則見「開放 API 總覽」的「資源搜尋」。q 也比對資源所屬字幕組的名稱和 slug，關鍵字等於某個字幕組名稱的訂閱會包含該組的資源。',
+      description: 'GET /rss/magnets.xml —— 全站最近釋出。帶 q 時每個詞都必須比對成功，規則見「開放 API 總覽」的「資源搜尋」。q 也比對資源所屬字幕組的名稱和 slug，關鍵字等於某個字幕組名稱的訂閱會包含該組的資源。episode 只列出該集數的資源，帶不帶 q 都可以；合集按它的第一集計算。只接受一個 1–4 位 ASCII 數字：帶前導零時 308 到不帶前導零的整數，其他寫法回傳 400。',
     },
   },
   'rss-other': {
