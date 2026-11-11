@@ -1,7 +1,8 @@
 ---
 title: 全站磁力 RSS
 description: 全站最近番剧资源；已绑定的条目带 anibt:bgmId。limit 默认及上限均为 100。q 也匹配资源所属字幕组的名称和
-  slug，关键词等于某个字幕组名称的订阅会包含该组的资源。episode 只列出该集数的资源，带不带 q 都可以。
+  slug，关键词等于某个字幕组名称的订阅会包含该组的资源。episode 只列出该集数的资源，带不带 q 都可以。subtitle 按字幕类型筛选，与
+  /magnets 页面的字幕类型筛选相同。
 full: true
 _openapi:
   preload:
@@ -13,13 +14,14 @@ _openapi:
     headings: []
     contents:
       - content: |
-          全站最近番剧资源；已绑定的条目带 anibt:bgmId。limit 默认及上限均为 100。q 也匹配资源所属字幕组的名称和 slug，关键词等于某个字幕组名称的订阅会包含该组的资源。episode 只列出该集数的资源，带不带 q 都可以。
+          全站最近番剧资源；已绑定的条目带 anibt:bgmId。limit 默认及上限均为 100。q 也匹配资源所属字幕组的名称和 slug，关键词等于某个字幕组名称的订阅会包含该组的资源。episode 只列出该集数的资源，带不带 q 都可以。subtitle 按字幕类型筛选，与 /magnets 页面的字幕类型筛选相同。
           q 与 search 只能提供一个值；规范化后最多 160 UTF-8 字节，不允许空值或控制字符。
           q 的每个词都必须命中，不纠错、不补全前缀、不丢词：拉丁字母和数字是资源标题与规格、所属番剧任一标题或别名、所属字幕组名称或 slug 中的完整词，中日文是其中的连续字符。`-词` 只排除资源自身标题与规格中含该词的资源，不看番剧别名和字幕组名称。严格匹配的结果为空时才尝试一次拆词或合词。规则见「开放 API 总览」的「资源搜索」。
-          episode 只列出集数等于它的资源，可与 q、resolution、language、format 和排序同用。合集按它的第一集计算：episode=1 也会列出 1-12 的合集，episode=5 不会。只接受一个 1–4 位 ASCII 数字；带前导零的写法 308 到不带前导零的整数，例如 episode=05 到 episode=5。重复、空值、超过 4 位、正负号、小数、指数、十六进制、空格、全角数字都返回 400（正文 Invalid episode，no-store），不会忽略这个参数而列出所有集数。带 episode 时频道标题写出集数，例如 AniBT Anime Releases - Search: 药屋 [EP5]。不带 episode 的 URL 和结果不变。
-          q 里的词仍按文本匹配，第5集、EP05 写在 q 里不会被当作集数。/magnets 页面的查询以 第5集、EP05、E05、#5 这类集数写法结尾时，页面给出的 RSS 链接是 /rss/magnets.xml?limit=100&q=<去掉写法后的文本>&episode=5，订阅与页面按相同的关键词和集数筛选。订阅仍在以下情况与页面不同：页面在严格匹配没有结果时显示放宽匹配（前缀、近似拼写）的结果，订阅从不放宽，这时订阅为空；去掉写法后剩下的文本没有可以搜索的词时（如 . EP05），页面按原文搜索，链接仍是转换后的形式，订阅为空；页面选了字幕类型筛选时，链接带 subtitle=…，本接口不接受这个参数，规范化重定向会去掉它，订阅不按字幕类型筛选，可能比页面多。
+          subtitle 是字幕类型：EXTERNAL（外挂字幕）、INTERNAL（内封字幕）、EMBEDDED（内嵌字幕）、NONE（无字幕），与 /magnets 页面和 /rss/anime.xml 的字幕类型筛选相同。可重复或逗号分隔，列出字幕类型是其中任一种的资源；与 q、resolution、language、format、episode 同用时要同时满足，带不带 q 都可以。规则与 resolution、language、format 相同：不区分大小写，不认识的取值被丢弃；小写、逗号分隔、同一个值写了两次、不认识的值或空值都 308 到规范 URL，例如 subtitle=FOO 308 到不带 subtitle 的地址，不会返回 400。只是重复参数的值换了顺序（subtitle=NONE&subtitle=INTERNAL）时直接返回 200。带 subtitle 时频道标题写出字幕类型，例如 AniBT Anime Releases - Search: 药屋 [INTERNAL | EP5]。不带 subtitle 的 URL 和结果不变。
+          episode 只列出集数等于它的资源，可与 q、resolution、language、format、subtitle 和排序同用。合集按它的第一集计算：episode=1 也会列出 1-12 的合集，episode=5 不会。只接受一个 1–4 位 ASCII 数字；带前导零的写法 308 到不带前导零的整数，例如 episode=05 到 episode=5。重复、空值、超过 4 位、正负号、小数、指数、十六进制、空格、全角数字都返回 400（正文 Invalid episode，no-store），不会忽略这个参数而列出所有集数。带 episode 时频道标题写出集数，例如 AniBT Anime Releases - Search: 药屋 [EP5]。不带 episode 的 URL 和结果不变。
+          q 里的词仍按文本匹配，第5集、EP05 写在 q 里不会被当作集数。/magnets 页面的查询以 第5集、EP05、E05、#5 这类集数写法结尾时，页面给出的 RSS 链接是 /rss/magnets.xml?limit=100&q=<去掉写法后的文本>&episode=5，订阅与页面按相同的关键词和集数筛选。页面选了字幕类型筛选时，链接也带上 subtitle，位置在 format 之后、episode 之前，例如 /rss/magnets.xml?limit=100&q=无职转生&subtitle=INTERNAL&episode=5，订阅与页面按相同的字幕类型筛选。两种情况下订阅仍与页面不同：页面在严格匹配没有结果时显示放宽匹配（前缀、近似拼写）的结果，订阅从不放宽，这时订阅为空；去掉写法后剩下的文本没有可以搜索的词时（如 . EP05），页面按原文搜索，链接仍是转换后的形式，订阅为空。
           q 最多 16 个正向词和 8 个排除词，超出返回 400（正文 Invalid search，no-store）。只有分隔符、符号或排除词的 q 返回空 channel。结果按所选排序，默认发布时间倒序。
-          支持 resolution、language、format、episode、sortField、sortOrder，规范 URL 按 limit、q、resolution、language、format、episode、sortField、sortOrder 的顺序排列；不支持 cursor 或 page 分页，多余参数会被规范化重定向移除。
+          支持 resolution、language、format、subtitle、episode、sortField、sortOrder，规范 URL 按 limit、q、resolution、language、format、subtitle、episode、sortField、sortOrder 的顺序排列；不支持 cursor 或 page 分页，多余参数会被规范化重定向移除。
           成功响应为 application/xml，enclosure 指向 .torrent 文件；错误正文通常为纯文本。GET 与 HEAD 支持 If-None-Match。
 ---
 

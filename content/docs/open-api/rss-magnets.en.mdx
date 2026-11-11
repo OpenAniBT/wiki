@@ -1,6 +1,6 @@
 ---
 title: "Site-wide magnet RSS"
-description: "GET /rss/magnets.xml — recent releases across the site. With q, every term must match; see Release search in the Open API overview. q also matches the name and slug of the release’s subtitle group, so a feed whose keyword is a group’s name includes that group’s releases. episode lists only releases of that episode number, with or without q; a batch counts under its first episode. It takes one value of 1–4 ASCII digits: a leading zero redirects (308) to the plain number, and any other form returns 400."
+description: "GET /rss/magnets.xml — recent releases across the site. With q, every term must match; see Release search in the Open API overview. q also matches the name and slug of the release’s subtitle group, so a feed whose keyword is a group’s name includes that group’s releases. episode lists only releases of that episode number, with or without q; a batch counts under its first episode. It takes one value of 1–4 ASCII digits: a leading zero redirects (308) to the plain number, and any other form returns 400. subtitle filters by subtitle type (EXTERNAL, INTERNAL, EMBEDDED, NONE), as the /magnets page does; repeat it or separate values with commas to list releases of any of those types. It is case-insensitive, and an unknown value is dropped with a 308 redirect, never a 400."
 full: true
 _openapi:
   preload:
