@@ -36,6 +36,10 @@ description: 記錄 AniBT 平台面向使用者與字幕組的功能變更、最
     "type": "Fix",
     "description": "bgmId 必須是 1–10000000 的十進位整數，否則回傳 400 INVALID_BGM_ID。此前 12abc 這類寫法可能按開頭的數字回傳另一部番劇。"
   },
+  "tracker 統計介面移除舊請求本文": {
+    "type": "Improvement",
+    "description": "POST /api/tracker-stats/batch 不再接受 2026-10-03 起棄用的舊請求本文 { infoHashHexes }，現在回傳 422 VALIDATION_ERROR；請求本文裡 releases 以外的鍵同樣被拒絕。請改用 releases。"
+  },
 }} />
 
 ## 2026 年 11 月 11 日

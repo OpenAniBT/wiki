@@ -174,7 +174,7 @@ AniBT 为全站公开资源提供直接的 `.torrent` 二进制文件下载路�
     },
     'VALIDATION_ERROR': {
       type: 'HTTP 422',
-      description: '字段不符合要求，或同时提供了 releases 与 infoHashHexes。',
+      description: '字段不符合要求，或请求体里有 releases 以外的键（包括已移除的 infoHashHexes）。',
     },
     'RATE_LIMIT_EXCEEDED': {
       type: 'HTTP 429',
@@ -192,5 +192,5 @@ AniBT 为全站公开资源提供直接的 `.torrent` 二进制文件下载路�
 />
 
 <Callout type="warn">
-  旧请求体 `{ "infoHashHexes": [...] }` 已弃用。过渡期内仍按旧格式应答，响应带 `Deprecation: @1790985600` 头（2026-10-03 00:00 UTC）。后续版本将移除旧请求体，请改用 `releases`。
+  旧请求体 `{ "infoHashHexes": [...] }` 已于 2026-11-13 移除，现在返回 422 `VALIDATION_ERROR`。请改用 `releases`。
 </Callout>

@@ -174,7 +174,7 @@ Errors are JSON; see [Conventions and authentication](/en/docs/open-api/referenc
     },
     'VALIDATION_ERROR': {
       type: 'HTTP 422',
-      description: 'A field is invalid, or the body contains both releases and infoHashHexes.',
+      description: 'A field is invalid, or the body has a key other than releases (including the removed infoHashHexes).',
     },
     'RATE_LIMIT_EXCEEDED': {
       type: 'HTTP 429',
@@ -192,5 +192,5 @@ Errors are JSON; see [Conventions and authentication](/en/docs/open-api/referenc
 />
 
 <Callout type="warn">
-  The old request body `{ "infoHashHexes": [...] }` is deprecated. During the transition it is still answered in the old format, with a `Deprecation: @1790985600` header (2026-10-03 00:00 UTC). A later release will remove it; switch to `releases`.
+  The old request body `{ "infoHashHexes": [...] }` was removed on 2026-11-13 and now returns 422 `VALIDATION_ERROR`. Use `releases`.
 </Callout>

@@ -36,6 +36,10 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
     "type": "Fix",
     "description": "bgmId must be a decimal integer from 1 to 10000000; anything else returns 400 INVALID_BGM_ID. Previously a value such as 12abc could return another anime, matched by its leading digits."
   },
+  "Tracker stats API drops the old request body": {
+    "type": "Improvement",
+    "description": "POST /api/tracker-stats/batch no longer accepts the old { infoHashHexes } body, deprecated since 2026-10-03; it now returns 422 VALIDATION_ERROR, as does any body key other than releases. Use releases."
+  },
 }} />
 
 ## November 11, 2026
