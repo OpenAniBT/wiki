@@ -9,6 +9,35 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   Entries are listed in reverse chronological order. If you encounter any bugs during regular use, feel free to report them via our [Support Email](/en/docs/contact).
 </Callout>
 
+## November 13, 2026
+
+<TypeTable type={{
+  "Only the group owner changes member roles": {
+    "type": "Improvement",
+    "description": "Changing a member's role, and inviting someone straight in as an admin, is now the group owner's alone. Group admins can still invite plain members and remove members. You cannot remove yourself from the member list; use \"Leave group\" instead."
+  },
+  "Site sync retry is for owners and admins": {
+    "type": "Improvement",
+    "description": "\"Retry sync\" after a failed submission is now available to the group owner and group admins only, matching where the console shows the button. The rule for \"Resend\" is unchanged."
+  },
+  "Release templates and API keys are read-only for plain members": {
+    "type": "Fix",
+    "description": "Plain members can still view the group's release templates and API keys, but no longer see the controls to create, edit or delete a template or to create or revoke a key. Those actions have always been limited to owners and admins; a member who used them was refused."
+  },
+  "Three fixes in the publish wizard": {
+    "type": "Fix",
+    "description": "After restoring a draft, items that were mid-match or mid-publish can be continued instead of staying stuck. Undo no longer changes an item that has already been published. Turning off \"Collection Publish\" restores each file's own episode instead of setting the whole group to one episode."
+  },
+  "Custom tags are de-duplicated": {
+    "type": "Improvement",
+    "description": "When publishing or editing a release, custom tags that differ only by letter case (for example HEVC and hevc) are stored once, in the first spelling."
+  },
+  "/api/seasons/anime validates bgmId": {
+    "type": "Fix",
+    "description": "bgmId must be a decimal integer from 1 to 10000000; anything else returns 400 INVALID_BGM_ID. Previously a value such as 12abc could return another anime, matched by its leading digits."
+  },
+}} />
+
 ## November 11, 2026
 
 <TypeTable type={{
