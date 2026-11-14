@@ -9,6 +9,119 @@ description: 记录 AniBT 平台面向用户与字幕组的功能变更、优化
   更新日志按时间倒序排列。如果你在日常使用中发现了异常问题，欢迎通过 [支持邮箱](/docs/contact) 向我们反馈。
 </Callout>
 
+## 2026 年 11 月 14 日
+
+<TypeTable type={{
+  "发布 API 对可修正的输入返回 422": {
+    "type": "Fix",
+    "description": "发布番剧或其他类资源时，episode 与 episodeKey 不一致、磁力链接的 btih 无效、torrentStorageId 不存在或不属于本组，或字段超过长度上限，现在返回 422 VALIDATION_ERROR，error.message 说明违反的规则，不再返回 500 UPLOAD_FAILED。见「接口约定与鉴权」。"
+  },
+  "Key 失去发布资格时返回 403": {
+    "type": "Fix",
+    "description": "字幕组不是「活跃」状态、创建 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销时，发布一律返回 403 FORBIDDEN。"
+  },
+  "超长的 Idempotency-Key 返回 422": {
+    "type": "Fix",
+    "description": "Idempotency-Key 去除首尾空白后超过 256 字符时，发布返回 422 VALIDATION_ERROR（error.details 为 header 与 maxLength），不读取请求体；此前超长的键被静默忽略，重试得不到幂等保护。"
+  },
+  "小数集数键统一写法": {
+    "type": "Fix",
+    "description": "episodeKey 的小数集号按规范写法保存，05.5 和 5.50 都存为 5.5，与发布页的自动填写一致；整数集号和范围的保存方式不变。"
+  },
+  "限流服务无法计数时返回 503": {
+    "type": "Improvement",
+    "description": "JSON 接口和种子下载的限流服务暂时无法计数时，统一返回 503 SERVICE_UNAVAILABLE，带 Retry-After: 15 和 Cache-Control: no-store，此前多数接口返回 429；发布接口这时的 Retry-After 也固定为 15，超过限额仍返回 429。见「限流与参数上限」。"
+  },
+  "四个错误码不会再出现": {
+    "type": "Improvement",
+    "description": "没有任何接口返回 TOKEN_EXPIRED、MISSING_BODY、UPLOAD_NOT_FOUND 或 UPLOAD_EXPIRED，客户端无需处理这四个错误码。"
+  },
+  "自定义 Nyaa 说明最多 10,240 个字符": {
+    "type": "Fix",
+    "description": "自定义 Nyaa 说明（API 的 sitePublish.nyaa.description 与 nyaaDescription，以及发布页的自定义说明）上限从 20,000 改为 10,240 个字符，与 Nyaa 自身的上限一致，按字符计、首尾空白不计，超出时请求被拒绝。见「Nyaa 平台代发」。"
+  },
+  "番剧×字幕组 RSS 的频道链接指向字幕组主页": {
+    "type": "Fix",
+    "description": "带 groupSlug 的番剧 RSS（/rss/anime.xml?bgmId=…&groupSlug=…）的频道 <link> 改为公开的字幕组主页 /group/<slug>，此前指向需要登录的字幕组后台。"
+  },
+  "不存在的 RSS 返回统一的 404": {
+    "type": "Improvement",
+    "description": "不存在的 RSS（例如字幕组或分类不存在）统一返回 404，不带 ETag，字幕组或分类出现后最多约两分钟即可读取；不带过滤条件的 RSS 现在要求浏览器每次复用前先向服务器验证。见「HTTP 缓存与条件请求」。"
+  },
+  "「不活跃」字幕组的资源回到 RSS": {
+    "type": "Fix",
+    "description": "状态为「不活跃」的字幕组，其资源重新出现在 /rss/magnets.xml、/rss/other/<分类>.xml 和番剧×字幕组 RSS 中，它自己的 /rss/group/<slug>.xml 也可以订阅，与 /magnets、关键词 RSS 和 Torznab 一致；只有「已停用」的字幕组不出现。"
+  },
+  "字幕组名称和简介的长度上限": {
+    "type": "Fix",
+    "description": "字幕组名称最多 80 个字符，简介最多 1000 个字符，超出时无法保存。"
+  },
+  "字幕组联系方式只接受可以打开的链接": {
+    "type": "Fix",
+    "description": "网站只接受 http:// 或 https:// 链接（不写协议时按 https 处理），Telegram 接受 @用户名、http(s) 链接或 tg: 链接，带用户名或密码的链接不接受。"
+  },
+  "标题模板的保存规则": {
+    "type": "Fix",
+    "description": "自定义标题模板的规则通过语法检查（只能使用已知变量）且不超过 500 个字符才能保存；每个字幕组最多 20 条自定义模板，模板名称最多 100 个字符。见「开始使用」的「发布标题模板」。"
+  },
+  "模板变量 isEpisodeRange": {
+    "type": "Feature",
+    "description": "标题模板新增布尔变量 isEpisodeRange，表示集数是否为 01-12 这样的范围；从内置模板复制出的规则现在与内置模板生成的标题一致，保留 [V2] 版本标记，合集写法也相同。"
+  },
+  "测试连接直接显示结果": {
+    "type": "Improvement",
+    "description": "站点同步的「测试连接」结束后直接提示通过或失败，失败时给出原因。"
+  },
+  "图床上传失败后的重试": {
+    "type": "Fix",
+    "description": "图床上传失败后点击「重试」，已过期的上传会从头重新开始；无法处理的图片只显示原因，不再提供重试。"
+  },
+  "离开发布页时停止后续发送": {
+    "type": "Fix",
+    "description": "发布向导发送途中离开发布页时，已经发出的那一条照常完成并记入草稿，其余条目不再发送。"
+  },
+  "超出长度上限的条目不再显示就绪": {
+    "type": "Fix",
+    "description": "标题超过 500、备注超过 50,000、集号超过 40、版本超过 20 个字符，或标签超过 100 个、单个标签超过 200 个字符时，条目卡片显示原因，不算「就绪」。"
+  },
+  "拿不到匹配签名的条目显示失败": {
+    "type": "Fix",
+    "description": "发布向导无法取得匹配签名的条目显示为失败并给出原因，不再显示为就绪。"
+  },
+  "剧场版自动填写 MOVIE 集号": {
+    "type": "Fix",
+    "description": "在发布向导里为剧场版选定番剧时，集号自动填为 MOVIE，之后手动改过的值保留。"
+  },
+  "2160p 不再自动填成 4K": {
+    "type": "Fix",
+    "description": "自动填写分辨率时，标题写 2160p 或 3840x2160 填 2160p，只有写 4K 才填 4K。"
+  },
+  "代发至 Nyaa 需要先选分类": {
+    "type": "Fix",
+    "description": "勾选代发至 Nyaa 但没有选择分类时，不能开始发布。"
+  },
+  "密码长度统一为 8–128 个字符": {
+    "type": "Fix",
+    "description": "注册、重置密码和修改密码都要求密码为 8–128 个字符，超出范围时表单直接提示。见「账号与认证」。"
+  },
+  "Bangumi 同步的错误说明": {
+    "type": "Improvement",
+    "description": "「我的订阅」页 Bangumi 同步的「最近错误」改为三种说明：授权失效、需要重新连接；暂时无法续期、请稍后再同步；上次同步未完成。"
+  },
+  "robots.txt 关闭登录后页面": {
+    "type": "Improvement",
+    "description": "robots.txt 禁止抓取登录后才能访问的 /groups、/dashboard、/profile、/subscriptions 及其 /zh-hant/、/en/ 形式，公开的字幕组主页 /group/… 不受影响。见「LLM 与 Agent 对接」。"
+  },
+  "其他类资源的浏览数与番剧资源同口径": {
+    "type": "Fix",
+    "description": "其他类资源详情页的浏览数改为与番剧资源详情页相同：页面可见停留 30 秒或下载时才记一次。"
+  },
+  "标题带 [Movies] 的剧场版不再要求手动选番": {
+    "type": "Fix",
+    "description": "标题带 [Movies]、同时写有 Movie 或 剧场版 的剧场版资源，不再因标记冲突而需要手动选择番剧。"
+  },
+}} />
+
 ## 2026 年 11 月 13 日
 
 <TypeTable type={{

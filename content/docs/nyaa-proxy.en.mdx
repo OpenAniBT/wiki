@@ -62,7 +62,7 @@ Platform proxy normalizes the tracker list to put the Nyaa tracker first. The to
     ### Respect Release Notes Limits
     AniBT preserves your full release notes. Account-based sync and platform publishing inherit those notes by default. Notes longer than 10,240 characters are shortened at complete paragraph or Markdown block boundaries and include a link to the full AniBT release page. If no block can be included safely, only the full-description link is sent. Your original notes remain unchanged.
 
-    For platform publishing, a custom Nyaa description takes priority and is never shortened automatically. AniBT accepts up to 20,000 characters in this custom field; this does not guarantee acceptance by Nyaa, which may reject a long description. You can preview inherited text before publishing; the placeholder link becomes the actual release URL after publication.
+    For platform publishing, a custom Nyaa description takes priority and is never shortened automatically. It can be up to 10,240 characters, the same limit Nyaa itself applies, counted in characters with leading and trailing whitespace ignored. A publish request with a longer description is refused. You can preview inherited text before publishing; the placeholder link becomes the actual release URL after publication.
 
     Sync details show an excerpt notice only when that successful upload actually used an excerpt. Older records and torrents already present on the external site do not receive this notice retroactively.
   </Step>
@@ -88,7 +88,7 @@ Platform proxy normalizes the tracker list to put the Nyaa tracker first. The to
     Whitelisted group members opening `/groups/<slug>/publish` will see the "Proxy to Nyaa" toggle:
 
     1. Check **Proxy to Nyaa**.
-    2. Select the category (e.g., `1_3 - Non-English-translated`).
+    2. Select the category (e.g., `1_3 - Non-English-translated`). Publishing cannot start while the proxy is checked and no category is selected.
     3. Optionally mark `Complete` (batch/series completion) or `Remake`.
     4. Submit your release.
   </Tab>

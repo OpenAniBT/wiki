@@ -182,7 +182,7 @@ AniBT 为全站公开资源提供直接的 `.torrent` 二进制文件下载路�
     },
     'SERVICE_UNAVAILABLE': {
       type: 'HTTP 503',
-      description: '暂时无法确认资源是否公开，整个请求失败。按 Retry-After（秒）等待后重试。',
+      description: '暂时无法确认资源是否公开，或限流服务暂时无法计数（此时 Retry-After 为 15），整个请求失败。按 Retry-After（秒）等待后重试。',
     },
     'UPSTREAM_ERROR': {
       type: 'HTTP 502',

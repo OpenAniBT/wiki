@@ -107,7 +107,7 @@ Noindex pages (searches without a keyword or without results, `/magnets` with a 
 
 ### robots.txt
 
-`https://anibt.net/robots.txt` does not block `/magnets` or `/search`, nor their `/zh-hant/` and `/en/` forms. Under `/api/`, only `/api/torrent/` and `/api/other-torrent/` may be crawled; other API paths, `/rss/`, and the sign-in and admin paths are blocked. The `/zh-hant/` and `/en/` forms of the admin, sign-in, and sign-up paths (for example `/en/admin/`, `/zh-hant/auth/`, `/en/sign-in`) are blocked too; APIs and RSS have no language prefix.
+`https://anibt.net/robots.txt` does not block `/magnets` or `/search`, nor their `/zh-hant/` and `/en/` forms. Under `/api/`, only `/api/torrent/` and `/api/other-torrent/` may be crawled; other API paths, `/rss/`, and the sign-in and admin paths are blocked. The signed-in areas `/dashboard`, `/groups` (the group console), `/profile`, and `/subscriptions` are blocked as well; the public group pages under `/group/<slug>` are not affected. The `/zh-hant/` and `/en/` forms of the admin, signed-in, sign-in, and sign-up paths (for example `/en/admin/`, `/zh-hant/groups`, `/zh-hant/auth/`, `/en/sign-in`) are blocked too; APIs and RSS have no language prefix.
 
 ### Sitemaps
 

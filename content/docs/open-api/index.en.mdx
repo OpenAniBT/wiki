@@ -193,6 +193,8 @@ When a search times out or can't complete, a surface never returns partial resul
   }
 }} />
 
+The table covers search itself being unavailable. When the rate limiter of these JSON endpoints temporarily cannot count, they return a separate 503 with `error.code` `SERVICE_UNAVAILABLE` and `Retry-After: 15`; see [Rate limits and parameter bounds](/en/docs/open-api/limits).
+
 ## Airing status
 
 Automatic completion requires exact premiere and end dates, plus another source verification confirming the end after that entire day has elapsed. Dates are compared in Japan time. A year, month, season, or anime format alone cannot establish completion.

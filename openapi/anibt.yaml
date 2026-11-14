@@ -83,6 +83,8 @@ paths:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "429":
           $ref: "#/components/responses/RateLimited"
+        "503":
+          $ref: "#/components/responses/Unavailable"
       parameters:
         - name: status
           in: query
@@ -138,6 +140,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
+        "503":
+          $ref: "#/components/responses/Unavailable"
 
   /api/bgm/search:
     get:
@@ -210,7 +214,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "503":
-          description: 搜索暂不可用，返回 SEARCH_UNAVAILABLE。按 Retry-After 等待后重试
+          description: 搜索暂不可用，返回 SEARCH_UNAVAILABLE。按 Retry-After 等待后重试。限流服务暂时无法计数时返回 SERVICE_UNAVAILABLE，Retry-After 为 15。
           content:
             application/json:
               schema:
@@ -415,7 +419,7 @@ paths:
         "429":
           $ref: "#/components/responses/RateLimited"
         "503":
-          description: 暂时无法完成读取，返回 SEARCH_UNAVAILABLE。按 Retry-After 等待后重试
+          description: 暂时无法完成读取，返回 SEARCH_UNAVAILABLE。按 Retry-After 等待后重试。限流服务暂时无法计数时返回 SERVICE_UNAVAILABLE，Retry-After 为 15。
           content:
             application/json:
               schema:
@@ -821,7 +825,7 @@ paths:
         "429":
           $ref: "#/components/responses/RateLimited"
         "503":
-          description: 匹配暂不可用
+          description: 匹配暂不可用。限流服务暂时无法计数时返回 SERVICE_UNAVAILABLE，Retry-After 为 15。
           content:
             application/json:
               schema:
@@ -843,6 +847,10 @@ paths:
         bgm.tv 合并过的旧 `bgmId` 会 `308` 到把 `bgmId` 换成新 ID 的同一 URL，`groupSlug` 等其他参数不变。恰好只有 `bgmId` 与 `groupSlug` 的订阅链接同样跳转，跟随即可，不必重新订阅。目标番剧暂时无法解析时返回 `503`（`Cache-Control: no-store`，`Retry-After: 30`），不返回 `404`。
 
         每个 `<item>`：`<title>`、`<link>`（`/release/<id>`）、`<guid>`、`<pubDate>`（RFC 822，`+0800`）、`<enclosure>` 种子下载链接、`<torrent>` infoHash、已绑定时 `<anibt:bgmId>`。
+
+        频道的 `<link>`：带 `groupSlug` 时指向公开字幕组页 `/group/<slug>`，与 `/rss/group/<slug>.xml` 相同；只有 `bgmId` 时指向番剧页 `/anime/<bgmId>`。
+
+        状态为「不活跃」的字幕组照常列出资源；「已停用」字幕组的资源不列出，只带 `bgmId` 和 `groupSlug` 两个参数的订阅地址返回 `404`。
 
         `limit` 默认 100，上限 100。速率限制默认 120 次 / 60 秒 / IP。
 
@@ -1096,7 +1104,7 @@ paths:
               schema:
                 type: string
         "404":
-          description: 目标不存在
+          description: "目标不存在。响应带 Cache-Control: public, max-age=0, s-maxage=120, must-revalidate，没有 ETag。"
           content:
             text/plain:
               schema:
@@ -1136,6 +1144,7 @@ paths:
       description: |
         字幕组最新番剧资源；只接受 limit，不接受标签过滤。其他类资源见 /rss/other/{category}.xml。
         未知 slug 返回 404；别名、默认参数及多余参数可能 308 到规范 URL。limit 默认及上限均为 100。
+        状态为「已停用」的字幕组返回 404；「不活跃」的字幕组照常返回它的资源。
         成功响应为 application/xml，enclosure 指向 .torrent 文件；错误正文通常为纯文本。GET 与 HEAD 支持 If-None-Match。
       parameters:
         - name: slug
@@ -1247,7 +1256,7 @@ paths:
               schema:
                 type: string
         "404":
-          description: 目标不存在
+          description: "目标不存在。响应带 Cache-Control: public, max-age=0, s-maxage=120, must-revalidate，没有 ETag。"
           content:
             text/plain:
               schema:
@@ -1293,6 +1302,7 @@ paths:
         q 里的词仍按文本匹配，第5集、EP05 写在 q 里不会被当作集数。/magnets 页面的查询以 第5集、EP05、E05、#5 这类集数写法结尾时，页面给出的 RSS 链接是 /rss/magnets.xml?q=<去掉写法后的文本>&episode=5，订阅与页面按相同的关键词和集数筛选。页面选了字幕类型筛选时，链接也带上 subtitle，位置在 format 之后、episode 之前，例如 /rss/magnets.xml?q=无职转生&subtitle=INTERNAL&episode=5，订阅与页面按相同的字幕类型筛选。页面给出的链接不带 limit（默认就是 100 条），参数都是规范写法时直接返回订阅，不经过 308。两种情况下订阅仍与页面不同：页面在严格匹配没有结果时显示放宽匹配（前缀、近似拼写）的结果，订阅从不放宽，这时订阅为空；去掉写法后剩下的文本没有可以搜索的词时（如 . EP05），页面按原文搜索，链接仍是转换后的形式，订阅为空。
         q 最多 16 个正向词和 8 个排除词，超出返回 400（正文 Invalid search，no-store）。只有分隔符、符号或排除词的 q 返回空 channel。结果按所选排序，默认发布时间倒序。
         支持 resolution、language、format、subtitle、episode、sortField、sortOrder，规范 URL 按 limit、q、resolution、language、format、subtitle、episode、sortField、sortOrder 的顺序排列；不支持 cursor 或 page 分页，多余参数会被规范化重定向移除。
+        状态为「不活跃」的字幕组的资源照常列出；「已停用」字幕组的资源不列出。与 /magnets 页面和 Torznab 相同。
         成功响应为 application/xml，enclosure 指向 .torrent 文件；错误正文通常为纯文本。GET 与 HEAD 支持 If-None-Match。
       parameters:
         - $ref: "#/components/parameters/RssLimit"
@@ -1436,7 +1446,7 @@ paths:
               schema:
                 type: string
         "404":
-          description: 目标不存在
+          description: "目标不存在。响应带 Cache-Control: public, max-age=0, s-maxage=120, must-revalidate，没有 ETag。"
           content:
             text/plain:
               schema:
@@ -1478,6 +1488,7 @@ paths:
         详情页路径：`/other-release/<id>`。
         `limit` 默认 100，上限 100。速率限制默认 120 次 / 60 秒 / IP。
         q 的规则与全站磁力 RSS 相同，但只比较资源自身的标题和分类，以及所属字幕组的名称和 slug，不涉及番剧别名；规则见「开放 API 总览」的「资源搜索」。q 最多 16 个正向词和 8 个排除词，超出返回 400（正文 Invalid search，no-store）。只有分隔符、符号或排除词的 q 返回空 channel。结果按所选排序，默认发布时间倒序。
+        未知分类返回 404。状态为「不活跃」的字幕组的资源照常列出；「已停用」字幕组的资源不列出。
         成功响应为 application/xml，enclosure 指向 .torrent 文件；错误正文通常为纯文本。GET 与 HEAD 支持 If-None-Match。
       parameters:
         - name: category
@@ -1585,7 +1596,7 @@ paths:
               schema:
                 type: string
         "404":
-          description: 目标不存在
+          description: "目标不存在。响应带 Cache-Control: public, max-age=0, s-maxage=120, must-revalidate，没有 ETag。"
           content:
             text/plain:
               schema:
@@ -1753,13 +1764,13 @@ paths:
 
         200 表示本站发布已写入，不保证外站同步或下游读取已经完成。
 
-        发布请求达到限额时返回 429 RATE_LIMIT_EXCEEDED。发布暂时繁忙、限流服务不可用或上传结果仍待确认时，可返回 503 SERVICE_UNAVAILABLE；限流拒绝发生在发布前，其他失败不能据此推断未写入。响应带 Retry-After 时按其秒数等待；没有该头时先核查现有发布并保留 error.requestId，不要立即批量重试。
+        发布请求达到限额时返回 429 RATE_LIMIT_EXCEEDED。发布暂时繁忙、限流服务暂时无法计数或上传结果仍待确认时，可返回 503 SERVICE_UNAVAILABLE（限流服务无法计数时 Retry-After 固定为 15）；限流拒绝发生在发布前，其他失败不能据此推断未写入。响应带 Retry-After 时按其秒数等待；没有该头时先核查现有发布并保留 error.requestId，不要立即批量重试。
 
         普通发布可发送 Idempotency-Key（去除首尾空白后为 1–256 字符）。同一 API Key、同一发布端点的同一请求重试复用原值；已成功的命令返回原回执，不重复发布。即使原资源已删除，旧命令仍返回旧回执，不恢复资源。删除后有意重新发布时使用新的 Idempotency-Key；从首次受理开始，同一键绑定完整请求；切换发布与预览，或改变资源内容、Nyaa 选项、显式发布时间、上传文件时，请使用新键。同键改参返回 409 CONFLICT，上传完成或已有回执不能绕过绑定。
 
         升级前已上传但尚未完成的请求若缺少完整绑定，返回 409 CONFLICT，error.reason 为 legacy_request_binding_missing；请使用新键重新提交完整请求。已完成的旧请求仍按原回执重放。
 
-        Idempotency-Key 未提供、为空或超过 256 字符时，本次请求按新命令处理，不能依赖命令回放。跨站浏览器预检目前不允许此请求头；需要该重试保证的客户端应从服务端调用。
+        Idempotency-Key 未提供或为空时，本次请求按新命令处理，不能依赖命令回放。超过 256 字符时返回 422 VALIDATION_ERROR，error.details 为 {"header": "Idempotency-Key", "maxLength": 256}；服务端不读取请求体，也不发布。跨站浏览器预检目前不允许此请求头；需要该重试保证的客户端应从服务端调用。
       security:
         - bearerAuth: []
         - apiKeyAuth: []
@@ -1767,7 +1778,7 @@ paths:
         - name: Idempotency-Key
           in: header
           required: false
-          description: 同一 API Key 和端点的同一普通发布请求重试复用此值。已提交或已删除的旧命令返回原回执；删除后重新发布使用新值。不提供、空值或超过 256 字符时按新命令处理。跨站浏览器预检目前不允许此头。
+          description: 同一 API Key 和端点的同一普通发布请求重试复用此值。已提交或已删除的旧命令返回原回执；删除后重新发布使用新值。不提供或为空时按新命令处理；超过 256 字符返回 422 VALIDATION_ERROR。跨站浏览器预检目前不允许此头。
           schema:
             type: string
             minLength: 1
@@ -1819,7 +1830,7 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthorized"
         "403":
-          description: 无权限或缺少 scope。字幕组状态不是「活跃」（为「不活跃」或「已停用」）时返回 FORBIDDEN，error.message 为 subtitle group is not active。
+          description: 无权限或缺少 scope。字幕组状态不是「活跃」（为「不活跃」或「已停用」）时返回 FORBIDDEN，error.message 为 subtitle group is not active。创建该 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销时，同样返回 FORBIDDEN。
           content:
             application/json:
               schema:
@@ -1843,7 +1854,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "422":
-          description: 字段、种子或发布规则校验失败；包括 bgm animeId 不是 ID、外部 ID 对应多部公开番剧。以下情况返回 VALIDATION_ERROR：集数键为空（error.message 为 episode key is required）；种子的磁力链接里没有 infohash（release torrent requires a magnet link for its info hash）；没有种子，又缺少大于 0 的文件大小或 infohash（durable release requires content evidence）。
+          description: 字段、种子或发布规则校验失败；包括 bgm animeId 不是 ID、外部 ID 对应多部公开番剧。以下情况返回 VALIDATION_ERROR：集数键为空（error.message 为 episode key is required）；种子的磁力链接里没有 infohash（release torrent requires a magnet link for its info hash）；没有种子，又缺少大于 0 的文件大小或 infohash（durable release requires content evidence）；episode 与 episodeKey 不一致（episode key mismatch、episode range mismatch、custom episode key requires zero ordinal）；磁力链接的 btih 不是有效的 v1 infohash（invalid magnet hash）；torrentStorageId 不存在或不属于本组（torrent ownership mismatch）；字段超过长度上限（Invalid release input，error.details.fieldErrors 列出字段）；Idempotency-Key 超过 256 字符（error.details 含 header 与 maxLength）。
           content:
             application/json:
               schema:
@@ -1857,7 +1868,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "503":
-          description: 发布暂不可用，返回 SERVICE_UNAVAILABLE。带 Retry-After 时按秒数等待；该头可能省略。不能仅凭 503 推断发布未写入，重试同一请求时复用原 Idempotency-Key。
+          description: 发布暂不可用，返回 SERVICE_UNAVAILABLE。带 Retry-After 时按秒数等待；该头可能省略。限流服务暂时无法计数时 Retry-After 固定为 15。不能仅凭 503 推断发布未写入，重试同一请求时复用原 Idempotency-Key。
           headers:
             Retry-After:
               schema:
@@ -1922,13 +1933,13 @@ paths:
 
         200 表示本站发布已写入，不保证外站同步或下游读取已经完成。
 
-        发布请求达到限额时返回 429 RATE_LIMIT_EXCEEDED。发布暂时繁忙、限流服务不可用或上传结果仍待确认时，可返回 503 SERVICE_UNAVAILABLE；限流拒绝发生在发布前，其他失败不能据此推断未写入。响应带 Retry-After 时按其秒数等待；没有该头时先核查现有发布并保留 error.requestId，不要立即批量重试。
+        发布请求达到限额时返回 429 RATE_LIMIT_EXCEEDED。发布暂时繁忙、限流服务暂时无法计数或上传结果仍待确认时，可返回 503 SERVICE_UNAVAILABLE（限流服务无法计数时 Retry-After 固定为 15）；限流拒绝发生在发布前，其他失败不能据此推断未写入。响应带 Retry-After 时按其秒数等待；没有该头时先核查现有发布并保留 error.requestId，不要立即批量重试。
 
         普通发布可发送 Idempotency-Key（去除首尾空白后为 1–256 字符）。同一 API Key、同一发布端点的同一请求重试复用原值；已成功的命令返回原回执，不重复发布。即使原资源已删除，旧命令仍返回旧回执，不恢复资源。删除后有意重新发布时使用新的 Idempotency-Key；从首次受理开始，同一键绑定完整请求；切换发布与预览，或改变资源内容、Nyaa 选项、显式发布时间、上传文件时，请使用新键。同键改参返回 409 CONFLICT，上传完成或已有回执不能绕过绑定。
 
         升级前已上传但尚未完成的请求若缺少完整绑定，返回 409 CONFLICT，error.reason 为 legacy_request_binding_missing；请使用新键重新提交完整请求。已完成的旧请求仍按原回执重放。
 
-        Idempotency-Key 未提供、为空或超过 256 字符时，本次请求按新命令处理，不能依赖命令回放。跨站浏览器预检目前不允许此请求头；需要该重试保证的客户端应从服务端调用。
+        Idempotency-Key 未提供或为空时，本次请求按新命令处理，不能依赖命令回放。超过 256 字符时返回 422 VALIDATION_ERROR，error.details 为 {"header": "Idempotency-Key", "maxLength": 256}；服务端不读取请求体，也不发布。跨站浏览器预检目前不允许此请求头；需要该重试保证的客户端应从服务端调用。
       security:
         - bearerAuth: []
         - apiKeyAuth: []
@@ -1936,7 +1947,7 @@ paths:
         - name: Idempotency-Key
           in: header
           required: false
-          description: 同一 API Key 和端点的同一普通发布请求重试复用此值。已提交或已删除的旧命令返回原回执；删除后重新发布使用新值。不提供、空值或超过 256 字符时按新命令处理。跨站浏览器预检目前不允许此头。
+          description: 同一 API Key 和端点的同一普通发布请求重试复用此值。已提交或已删除的旧命令返回原回执；删除后重新发布使用新值。不提供或为空时按新命令处理；超过 256 字符返回 422 VALIDATION_ERROR。跨站浏览器预检目前不允许此头。
           schema:
             type: string
             minLength: 1
@@ -1975,7 +1986,11 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthorized"
         "403":
-          $ref: "#/components/responses/Forbidden"
+          description: 无权限或缺少 scope。字幕组状态不是「活跃」（为「不活跃」或「已停用」）、创建该 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销时，返回 FORBIDDEN。
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
         "404":
           description: 关联番剧或种子不存在
           content:
@@ -1995,7 +2010,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "422":
-          description: 字段、种子或发布规则校验失败
+          description: 字段、种子或发布规则校验失败，返回 VALIDATION_ERROR，error.message 说明原因。包括：磁力链接的 btih 不是有效的 v1 infohash（invalid magnet hash）；torrentStorageId 不存在或不属于本组（torrent ownership mismatch）；字段超过长度上限（Invalid release input，error.details.fieldErrors 列出字段）；Idempotency-Key 超过 256 字符（error.details 含 header 与 maxLength）。
           content:
             application/json:
               schema:
@@ -2009,7 +2024,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "503":
-          description: 发布暂不可用，返回 SERVICE_UNAVAILABLE。带 Retry-After 时按秒数等待；该头可能省略。不能仅凭 503 推断发布未写入，重试同一请求时复用原 Idempotency-Key。
+          description: 发布暂不可用，返回 SERVICE_UNAVAILABLE。带 Retry-After 时按秒数等待；该头可能省略。限流服务暂时无法计数时 Retry-After 固定为 15。不能仅凭 503 推断发布未写入，重试同一请求时复用原 Idempotency-Key。
           headers:
             Retry-After:
               schema:
@@ -2116,6 +2131,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
+        "503":
+          $ref: "#/components/responses/Unavailable"
 
   /api/releases/{releaseId}/deletion:
     get:
@@ -2199,6 +2216,8 @@ paths:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "429":
           $ref: "#/components/responses/RateLimited"
+        "503":
+          $ref: "#/components/responses/Unavailable"
 
   /api/releases/{releaseId}/sync-status:
     get:
@@ -2346,6 +2365,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
+        "503":
+          $ref: "#/components/responses/Unavailable"
 
   /api/torrent/{releaseId}.torrent:
     get:
@@ -2744,7 +2765,7 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorEnvelope'
     Unavailable:
-      description: 服务暂时不可用或部署中，按 Retry-After 重试
+      description: 服务暂时不可用或部署中，按 Retry-After 重试。限流服务暂时无法计数时返回 SERVICE_UNAVAILABLE，Retry-After 为 15，不返回 429。
       headers:
         Retry-After:
           schema:
@@ -3520,6 +3541,7 @@ components:
           type: string
           minLength: 1
           maxLength: 40
+          description: 数字集号按规范写法保存：去掉前导零，小数再去掉末尾的零。05.5 和 5.50 都存为 5.5，01 存为 1，01-13 存为 1-13。
         version:
           type: string
           minLength: 1
@@ -3572,7 +3594,8 @@ components:
           type: boolean
         nyaaDescription:
           type: string
-          maxLength: 20000
+          maxLength: 10240
+          description: 自定义 Nyaa 说明，最多 10240 个字符，与 Nyaa 的上限一致；按字符计，首尾空白不计。超出返回 422 VALIDATION_ERROR。
         nyaaInformation:
           type: string
           maxLength: 500
@@ -3632,6 +3655,7 @@ components:
           type: string
           minLength: 1
           maxLength: 40
+          description: 数字集号按规范写法保存：去掉前导零，小数再去掉末尾的零。05.5 和 5.50 都存为 5.5，01 存为 1，01-13 存为 1-13。
         version:
           type: string
           minLength: 1
@@ -3712,7 +3736,8 @@ components:
           type: boolean
         nyaaDescription:
           type: string
-          maxLength: 20000
+          maxLength: 10240
+          description: 自定义 Nyaa 说明，最多 10240 个字符，与 Nyaa 的上限一致；按字符计，首尾空白不计。超出返回 422 VALIDATION_ERROR。
         nyaaInformation:
           type: string
           maxLength: 500
@@ -3796,7 +3821,8 @@ components:
           type: boolean
         nyaaDescription:
           type: string
-          maxLength: 20000
+          maxLength: 10240
+          description: 自定义 Nyaa 说明，最多 10240 个字符，与 Nyaa 的上限一致；按字符计，首尾空白不计。超出返回 422 VALIDATION_ERROR。
         nyaaInformation:
           type: string
           maxLength: 500
@@ -3894,7 +3920,8 @@ components:
           type: boolean
         nyaaDescription:
           type: string
-          maxLength: 20000
+          maxLength: 10240
+          description: 自定义 Nyaa 说明，最多 10240 个字符，与 Nyaa 的上限一致；按字符计，首尾空白不计。超出返回 422 VALIDATION_ERROR。
         nyaaInformation:
           type: string
           maxLength: 500
@@ -4629,7 +4656,8 @@ components:
           type: boolean
         description:
           type: string
-          maxLength: 20000
+          maxLength: 10240
+          description: 自定义 Nyaa 说明，最多 10240 个字符，与 Nyaa 的上限一致；按字符计，首尾空白不计。超出返回 422 VALIDATION_ERROR。
         information:
           type: string
           maxLength: 500

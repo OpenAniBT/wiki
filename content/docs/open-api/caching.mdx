@@ -16,7 +16,7 @@ description: "明确哪些端点支持 ETag，以及何时复用正文。"
   },
   "公开 RSS": {
     "type": "GET / HEAD / 304",
-    "description": "番剧、字幕组、磁力和其他类 RSS 支持条件请求；308 时使用 Location 中的规范 URL。"
+    "description": "番剧、字幕组、磁力和其他类 RSS 支持条件请求；308 时使用 Location 中的规范 URL。不带过滤条件和关键词、按默认排序的 feed（只带 limit 也算）返回 200 时，Cache-Control 带 max-age=0 和 must-revalidate，浏览器每次复用前都要用 ETag 向服务器验证。"
   },
   "种子下载": {
     "type": "GET / HEAD / 304",
@@ -31,6 +31,8 @@ description: "明确哪些端点支持 ETag，以及何时复用正文。"
     "description": "个人 RSS 没有公开 ETag。Torznab 的 HTTP 响应不允许缓存，不能据此推断每次都生成新结果。"
   }
 }} />
+
+公开 RSS 中不存在的 feed（例如字幕组不存在、分类不存在）返回 404，带 `Cache-Control: public, max-age=0, s-maxage=120, must-revalidate`，没有 ETag。字幕组或分类之后出现时，最多约两分钟后 feed 可以正常读取。
 
 304 没有正文，只能复用同一个 URL 先前保存的表示。首次请求或本地正文丢失时，不要只发送旧 ETag。优先使用 If-None-Match；条件请求仍可能消耗限流额度。
 

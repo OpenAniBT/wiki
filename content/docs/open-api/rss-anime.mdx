@@ -28,6 +28,12 @@ _openapi:
           822，`+0800`）、`<enclosure>` 种子下载链接、`<torrent>` infoHash、已绑定时
           `<anibt:bgmId>`。
 
+          频道的 `<link>`：带 `groupSlug` 时指向公开字幕组页 `/group/<slug>`，与
+          `/rss/group/<slug>.xml` 相同；只有 `bgmId` 时指向番剧页 `/anime/<bgmId>`。
+
+          状态为「不活跃」的字幕组照常列出资源；「已停用」字幕组的资源不列出，只带 `bgmId` 和 `groupSlug` 两个参数的订阅地址返回
+          `404`。
+
           `limit` 默认 100，上限 100。速率限制默认 120 次 / 60 秒 / IP。
 
           浏览器直开返回原生 XML。搜索引擎不抓 `/rss/`。

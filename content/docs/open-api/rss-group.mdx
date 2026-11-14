@@ -16,6 +16,8 @@ _openapi:
 
           未知 slug 返回 404；别名、默认参数及多余参数可能 308 到规范 URL。limit 默认及上限均为 100。
 
+          状态为「已停用」的字幕组返回 404；「不活跃」的字幕组照常返回它的资源。
+
           成功响应为 application/xml，enclosure 指向 .torrent 文件；错误正文通常为纯文本。GET 与 HEAD
           支持 If-None-Match。
 ---

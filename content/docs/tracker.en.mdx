@@ -182,7 +182,7 @@ Errors are JSON; see [Conventions and authentication](/en/docs/open-api/referenc
     },
     'SERVICE_UNAVAILABLE': {
       type: 'HTTP 503',
-      description: 'Release visibility cannot be confirmed right now, so the whole request fails. Wait for Retry-After (seconds), then retry.',
+      description: 'Release visibility cannot be confirmed right now, or the rate limiter temporarily cannot count (Retry-After is then 15), so the whole request fails. Wait for Retry-After (seconds), then retry.',
     },
     'UPSTREAM_ERROR': {
       type: 'HTTP 502',

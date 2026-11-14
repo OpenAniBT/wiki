@@ -122,6 +122,10 @@ Platform names use the same vocabulary as autofill. `TVer`, `U-NEXT`, `d-anime`,
 
 In the classic brackets, `AAC`, `AAC 2.0`, `AAC-LC`, and `HE-AAC` combine with AVC as `[AAC AVC]`. With no video codec, the output is `[AAC]`. `HE-AACv2` does not join this combination.
 
+The boolean variable `isEpisodeRange` tells whether the episode is a range such as `01-12`, so a template can tell a range batch from a release labeled only 合集.
+
+A custom template saves only when its rule passes the syntax check (known variables only) and is at most 500 characters; the editor explains why an invalid rule is refused. A template name is at most 100 characters, and a group can have at most 20 custom templates, copies of built-in templates included. A rule copied from a built-in template produces the same title as that built-in, including version tags such as `[V2]` and the batch wording.
+
 ## Anime Metadata Updates
 
 Anime metadata updates automatically from its sources. If an update is delayed, you do not need to keep refreshing the page. Waiting for a retry preserves the metadata already available.

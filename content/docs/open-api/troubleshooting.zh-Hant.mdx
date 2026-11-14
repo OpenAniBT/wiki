@@ -20,7 +20,7 @@ description: "依回應類型、狀態碼與欄位定位問題。"
   },
   "401 / 403": {
     "type": "鑑權",
-    "description": "401 檢查 Key 是否有效；403 檢查 scope 或工作階段成員身份。whoami 與 /me 不要求 releases:publish。"
+    "description": "401 檢查 Key 是否有效；403 檢查 scope 或工作階段成員身份。whoami 與 /me 不要求 releases:publish。釋出回傳 403 還可能是字幕組不是「活躍」狀態、建立 Key 的成員已離開字幕組，或 Key 在請求處理期間被撤銷。"
   },
   "422 / TORRENT_REQUIRED": {
     "type": "釋出輸入",
@@ -28,7 +28,7 @@ description: "依回應類型、狀態碼與欄位定位問題。"
   },
   "422 / VALIDATION_ERROR": {
     "type": "欄位",
-    "description": "番劇 JSON 的 anime 與 bgmId 不是相容欄位；使用 animeIdType 與 animeId。"
+    "description": "番劇 JSON 的 anime 與 bgmId 不是相容欄位；使用 animeIdType 與 animeId。釋出時 Idempotency-Key 超過 256 字元、episode 與 episodeKey 不一致、torrentStorageId 不屬於本組，或欄位超過長度上限，也回傳此碼；error.message 說明原因，原樣重試不會成功。"
   },
   "番劇搜尋回傳 422 / VALIDATION_ERROR": {
     "type": "cursor",
@@ -45,6 +45,10 @@ description: "依回應類型、狀態碼與欄位定位問題。"
   "搜尋回傳 503": {
     "type": "暫時無法使用",
     "description": "搜尋逾時或暫時無法完成，不代表沒有結果。依 Retry-After 等待後重試。"
+  },
+  "JSON 介面回傳 503 SERVICE_UNAVAILABLE，Retry-After 為 15": {
+    "type": "暫時無法使用",
+    "description": "限流服務暫時無法計數，不是請求過多。等待 15 秒後重試。"
   },
   "標題匹配回傳 decision.kind=unavailable": {
     "type": "暫時無法使用",
@@ -64,7 +68,7 @@ description: "依回應類型、狀態碼與欄位定位問題。"
   },
   "釋出回傳 500 UPLOAD_FAILED": {
     "type": "提交失敗",
-    "description": "不能假定未寫入，也不要立即批次重試。核查現有資源並保留 error.requestId；重試同一次一般釋出時沿用原 Idempotency-Key。"
+    "description": "不能假定未寫入，也不要立即批次重試。核查現有資源並保留 error.requestId；重試同一次一般釋出時沿用原 Idempotency-Key。集數、磁力、torrentStorageId 與欄位長度這類輸入錯誤回傳 422 VALIDATION_ERROR，不會是 500。"
   },
   "站內刪除後外站仍存在": {
     "type": "操作範圍",

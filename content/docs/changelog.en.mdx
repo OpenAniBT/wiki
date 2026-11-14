@@ -9,6 +9,119 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   Entries are listed in reverse chronological order. If you encounter any bugs during regular use, feel free to report them via our [Support Email](/en/docs/contact).
 </Callout>
 
+## November 14, 2026
+
+<TypeTable type={{
+  "The publish API answers correctable input with 422": {
+    "type": "Fix",
+    "description": "When publishing an anime or other release, episode and episodeKey that disagree, an invalid magnet btih, a torrentStorageId that does not exist or is not this group's, or a field over its length limit now return 422 VALIDATION_ERROR with the broken rule in error.message, instead of 500 UPLOAD_FAILED. See Conventions and authentication."
+  },
+  "A key that can no longer publish gets 403": {
+    "type": "Fix",
+    "description": "Publishing returns 403 FORBIDDEN whenever the group is not Active, the member who created the key has left the group, or the key is revoked while the request is running."
+  },
+  "An over-long Idempotency-Key returns 422": {
+    "type": "Fix",
+    "description": "An Idempotency-Key longer than 256 characters after trimming makes publishing return 422 VALIDATION_ERROR (error.details names header and maxLength) without reading the body; previously such a key was silently ignored and retries had no idempotency protection."
+  },
+  "Decimal episode keys have one spelling": {
+    "type": "Fix",
+    "description": "A decimal episodeKey is stored in canonical form, so 05.5 and 5.50 are both stored as 5.5, as the publish page's autofill writes it; whole episode keys and ranges are stored as before."
+  },
+  "503 when the rate limiter cannot count": {
+    "type": "Improvement",
+    "description": "When the rate limiter of a JSON endpoint or a torrent download temporarily cannot count, the response is now 503 SERVICE_UNAVAILABLE with Retry-After: 15 and Cache-Control: no-store, where most endpoints used to return 429; publishing then also sends Retry-After: 15, and going over a limit still returns 429. See Rate limits and parameter bounds."
+  },
+  "Four error codes no longer occur": {
+    "type": "Improvement",
+    "description": "No endpoint returns TOKEN_EXPIRED, MISSING_BODY, UPLOAD_NOT_FOUND or UPLOAD_EXPIRED, so clients need not handle these four codes."
+  },
+  "Custom Nyaa descriptions are capped at 10,240 characters": {
+    "type": "Fix",
+    "description": "A custom Nyaa description (sitePublish.nyaa.description and nyaaDescription in the API, and the custom description on the publish page) is limited to 10,240 characters instead of 20,000, the same limit Nyaa applies, counted in characters with leading and trailing whitespace ignored; a longer one is refused. See Nyaa Platform Proxy."
+  },
+  "The anime-and-group feed links its channel to the group page": {
+    "type": "Fix",
+    "description": "The channel <link> of an anime RSS feed with groupSlug (/rss/anime.xml?bgmId=…&groupSlug=…) now points to the public group page /group/<slug> instead of the signed-in group console."
+  },
+  "Missing RSS feeds return one kind of 404": {
+    "type": "Improvement",
+    "description": "A feed that does not exist, for example for an unknown group or category, returns a 404 without an ETag and becomes readable within about two minutes once the group or category exists; a feed without filters now asks browsers to revalidate it with the server before every reuse. See HTTP caching and conditional requests."
+  },
+  "Releases of Inactive groups are back in RSS": {
+    "type": "Fix",
+    "description": "Releases of a group whose status is Inactive appear again in /rss/magnets.xml, /rss/other/<category>.xml and the anime-and-group feed, and the group's own /rss/group/<slug>.xml works, as on /magnets, in keyword RSS and in Torznab; only Suspended groups are left out."
+  },
+  "Length limits for group names and descriptions": {
+    "type": "Fix",
+    "description": "A group name can be at most 80 characters and a description at most 1000; a longer value cannot be saved."
+  },
+  "Group contacts accept only links that open": {
+    "type": "Fix",
+    "description": "The website field accepts only an http:// or https:// link (a value without a scheme is read as https), Telegram accepts an @handle, an http(s) link or a tg: link, and a link carrying a user name or password is refused."
+  },
+  "Saving title templates": {
+    "type": "Fix",
+    "description": "A custom title template saves only when its rule passes the syntax check (known variables only) and is at most 500 characters; a group can have at most 20 custom templates, and a template name is at most 100 characters. See Release Title Templates in Getting Started."
+  },
+  "Template variable isEpisodeRange": {
+    "type": "Feature",
+    "description": "Title templates gain the boolean variable isEpisodeRange, true when the episode is a range such as 01-12, and a rule copied from a built-in template now produces the same title as that built-in, keeping the [V2] version tag and the same batch wording."
+  },
+  "Connection tests show their result": {
+    "type": "Improvement",
+    "description": "When a site sync Test Connection finishes, the page says whether it passed or failed, with the reason for a failure."
+  },
+  "Retrying a failed image upload": {
+    "type": "Fix",
+    "description": "Retry on a failed image host upload now starts an expired upload over from the beginning, and an image that cannot be processed shows only the reason, with no retry."
+  },
+  "Leaving the publish page stops the queue": {
+    "type": "Fix",
+    "description": "If you leave the publish page while the publish wizard is sending, the item already sent finishes and is recorded in the draft, and the remaining items are not sent."
+  },
+  "Items over a length limit are no longer Ready": {
+    "type": "Fix",
+    "description": "An item whose title exceeds 500 characters, notes 50,000, episode key 40 or version 20, or that has more than 100 tags or a tag over 200 characters, shows the reason on its card and is not Ready."
+  },
+  "Items without a match signature show as failed": {
+    "type": "Fix",
+    "description": "An item for which the publish wizard cannot obtain a signed match shows as failed with the reason, instead of Ready."
+  },
+  "Movies get the MOVIE episode key": {
+    "type": "Fix",
+    "description": "When you pick the anime for a movie in the publish wizard, the episode key is filled with MOVIE, and a value you change afterwards stays."
+  },
+  "2160p is no longer filled as 4K": {
+    "type": "Fix",
+    "description": "Autofill sets the resolution to 2160p for a title that says 2160p or 3840x2160, and to 4K only when the title says 4K."
+  },
+  "Proxying to Nyaa needs a category": {
+    "type": "Fix",
+    "description": "Publishing cannot start while Proxy to Nyaa is checked and no category is selected."
+  },
+  "Passwords are 8–128 characters everywhere": {
+    "type": "Fix",
+    "description": "Sign-up, password reset and password change all require 8–128 characters, and the form tells you right away when a password is outside that range. See Account & Authentication."
+  },
+  "Clearer Bangumi sync errors": {
+    "type": "Improvement",
+    "description": "The latest error of the Bangumi sync on the subscriptions page now reads as one of three messages: the authorization has expired and needs reconnecting, it could not be renewed just now so sync again later, or the last sync did not finish."
+  },
+  "robots.txt closes signed-in pages": {
+    "type": "Improvement",
+    "description": "robots.txt now blocks the signed-in areas /groups, /dashboard, /profile and /subscriptions and their /zh-hant/ and /en/ forms, while the public group pages under /group/… stay crawlable. See LLM & Agent Integration."
+  },
+  "Other release views count like anime release views": {
+    "type": "Fix",
+    "description": "An other-release detail page now counts a view the way the anime release page does: after 30 seconds with the page visible, or on a download."
+  },
+  "[Movies] titles no longer need a manual anime pick": {
+    "type": "Fix",
+    "description": "A movie release whose title has [Movies] and also says Movie or 剧场版 no longer ends up needing the anime chosen by hand because of conflicting markers."
+  },
+}} />
+
 ## November 13, 2026
 
 <TypeTable type={{

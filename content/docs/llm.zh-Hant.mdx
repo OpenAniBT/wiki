@@ -107,7 +107,7 @@ noindex 頁面（沒有關鍵字或沒有結果的搜尋、帶 q 關鍵字的 `/
 
 ### robots.txt
 
-`https://anibt.net/robots.txt` 不禁止抓取 `/magnets` 與 `/search`，也不禁止它們的 `/zh-hant/`、`/en/` 形式。`/api/` 下只允許抓取 `/api/torrent/` 和 `/api/other-torrent/`；其他介面、`/rss/`、登入和後台路徑禁止抓取。後台、登入和註冊路徑的 `/zh-hant/`、`/en/` 形式（例如 `/en/admin/`、`/zh-hant/auth/`、`/en/sign-in`）同樣禁止抓取；介面和 RSS 沒有語言前綴。
+`https://anibt.net/robots.txt` 不禁止抓取 `/magnets` 與 `/search`，也不禁止它們的 `/zh-hant/`、`/en/` 形式。`/api/` 下只允許抓取 `/api/torrent/` 和 `/api/other-torrent/`；其他介面、`/rss/`、登入和後台路徑禁止抓取。登入後才能存取的 `/dashboard`、`/groups`（字幕組後台）、`/profile`、`/subscriptions` 也禁止抓取；公開的字幕組主頁 `/group/<slug>` 不受影響。後台、登入後頁面、登入和註冊路徑的 `/zh-hant/`、`/en/` 形式（例如 `/en/admin/`、`/zh-hant/groups`、`/zh-hant/auth/`、`/en/sign-in`）同樣禁止抓取；介面和 RSS 沒有語言前綴。
 
 ### 網站地圖
 

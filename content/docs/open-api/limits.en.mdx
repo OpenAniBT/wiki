@@ -52,7 +52,7 @@ These are application defaults; deployment settings and edge rules may impose di
   },
   "API publishing": {
     "type": "120 per kind / 60 seconds / IP",
-    "description": "Default body limits: JSON 1 MiB; multipart 8 MiB. Throttled requests return 429 RATE_LIMIT_EXCEEDED. If the rate-limit service is unavailable, requests return 503 SERVICE_UNAVAILABLE. Both include Retry-After in seconds; wait before retrying. GET whoami does not spend this limit."
+    "description": "Default body limits: JSON 1 MiB; multipart 8 MiB. Throttled requests return 429 RATE_LIMIT_EXCEEDED. If the rate limiter temporarily cannot count, requests return 503 SERVICE_UNAVAILABLE with Retry-After fixed at 15. Both include Retry-After in seconds; wait before retrying. GET whoami does not spend this limit."
   },
   "Deletion and deletion status": {
     "type": "30 / 120 per 60 seconds / key",
@@ -67,5 +67,7 @@ These are application defaults; deployment settings and edge rules may impose di
 Public RSS limit accepts a single decimal integer from 1 to 100 without leading zeros. Duplicate, empty, or malformed values return 400. Explicit limit=100 is normalized to a URL without the default parameter. Personal RSS has separate defaults and rules.
 
 RSS q/search and Torznab q are limited to 160 UTF-8 bytes after normalization, and `/magnets` q to 300 characters. For matching rules, see [Release search](/en/docs/open-api#release-search). Bangumi search, seasonal title queries, and title matching have their own character limits. Public RSS has no cursor/page pagination; Torznab uses bounded offset.
+
+When the rate limiter of a JSON endpoint or a torrent download temporarily cannot count, the response is `503 SERVICE_UNAVAILABLE` with `Retry-After: 15` and `Cache-Control: no-store`, not 429. It does not mean you sent too many requests; wait, then retry. Public RSS and Torznab do not follow this rule.
 
 For 429, honor Retry-After in seconds. A public RSS 503 means the backend is temporarily unavailable; it is not a rate limit. The application's 503 carries Retry-After: 30 and Cache-Control: no-store and is never replaced by an empty feed; wait, then retry. Do not assume every error includes Retry-After. Poll normal RSS at intervals of at least five minutes and avoid concurrent requests. Conditional requests returning 304 may still consume rate limits.

@@ -20,7 +20,7 @@ description: "按响应类型、状态码和字段定位问题。"
   },
   "401 / 403": {
     "type": "鉴权",
-    "description": "401 检查 Key 是否有效；403 检查所需 scope 或会话成员身份。whoami 和 /me 不要求 releases:publish。"
+    "description": "401 检查 Key 是否有效；403 检查所需 scope 或会话成员身份。whoami 和 /me 不要求 releases:publish。发布返回 403 还可能是字幕组不是「活跃」状态、创建 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销。"
   },
   "422 / TORRENT_REQUIRED": {
     "type": "发布输入",
@@ -28,7 +28,7 @@ description: "按响应类型、状态码和字段定位问题。"
   },
   "422 / VALIDATION_ERROR": {
     "type": "字段",
-    "description": "番剧 JSON 的 anime 和 bgmId 不是兼容字段；使用 animeIdType 与 animeId。其他字段按端点 Schema 校验。"
+    "description": "番剧 JSON 的 anime 和 bgmId 不是兼容字段；使用 animeIdType 与 animeId。其他字段按端点 Schema 校验。发布时 Idempotency-Key 超过 256 字符、episode 与 episodeKey 不一致、torrentStorageId 不属于本组，或字段超过长度上限，也返回此码；error.message 说明原因，原样重试不会成功。"
   },
   "番剧搜索返回 422 / VALIDATION_ERROR": {
     "type": "cursor",
@@ -45,6 +45,10 @@ description: "按响应类型、状态码和字段定位问题。"
   "搜索返回 503": {
     "type": "暂不可用",
     "description": "搜索超时或暂时无法完成，不代表没有结果。按 Retry-After 等待后重试。"
+  },
+  "JSON 接口返回 503 SERVICE_UNAVAILABLE，Retry-After 为 15": {
+    "type": "暂不可用",
+    "description": "限流服务暂时无法计数，不是请求过多。等待 15 秒后重试。"
   },
   "标题匹配返回 decision.kind=unavailable": {
     "type": "暂不可用",
@@ -64,7 +68,7 @@ description: "按响应类型、状态码和字段定位问题。"
   },
   "发布返回 500 UPLOAD_FAILED": {
     "type": "提交失败",
-    "description": "不能假定未写入，也不要立即批量重试。核查现有资源并保留 error.requestId；重试同一次普通发布时复用原 Idempotency-Key。"
+    "description": "不能假定未写入，也不要立即批量重试。核查现有资源并保留 error.requestId；重试同一次普通发布时复用原 Idempotency-Key。集数、磁力、torrentStorageId 和字段长度这类输入错误返回 422 VALIDATION_ERROR，不会是 500。"
   },
   "站内删除后外站仍存在": {
     "type": "操作范围",

@@ -9,6 +9,119 @@ description: 記錄 AniBT 平台面向使用者與字幕組的功能變更、最
   更新日誌按時間倒序排列。如果你在日常使用中發現了異常問題，歡迎透過 [支援信箱](/zh-Hant/docs/contact) 向我們回饋。
 </Callout>
 
+## 2026 年 11 月 14 日
+
+<TypeTable type={{
+  "釋出 API 對可修正的輸入回傳 422": {
+    "type": "Fix",
+    "description": "釋出番劇或其他類資源時，episode 與 episodeKey 不一致、磁力連結的 btih 無效、torrentStorageId 不存在或不屬於本組，或欄位超過長度上限，現在回傳 422 VALIDATION_ERROR，error.message 說明違反的規則，不再回傳 500 UPLOAD_FAILED。見「介面約定與鑑權」。"
+  },
+  "Key 失去釋出資格時回傳 403": {
+    "type": "Fix",
+    "description": "字幕組不是「活躍」狀態、建立 Key 的成員已離開字幕組，或 Key 在請求處理期間被撤銷時，釋出一律回傳 403 FORBIDDEN。"
+  },
+  "過長的 Idempotency-Key 回傳 422": {
+    "type": "Fix",
+    "description": "Idempotency-Key 去除首尾空白後超過 256 字元時，釋出回傳 422 VALIDATION_ERROR（error.details 為 header 與 maxLength），不讀取請求本文；先前過長的鍵會被靜默忽略，重試得不到冪等保護。"
+  },
+  "小數集數鍵統一寫法": {
+    "type": "Fix",
+    "description": "episodeKey 的小數集號依規範寫法儲存，05.5 和 5.50 都存為 5.5，與釋出頁的自動填寫一致；整數集號和範圍的儲存方式不變。"
+  },
+  "限流服務無法計數時回傳 503": {
+    "type": "Improvement",
+    "description": "JSON 介面與種子下載的限流服務暫時無法計數時，統一回傳 503 SERVICE_UNAVAILABLE，帶 Retry-After: 15 與 Cache-Control: no-store，先前多數介面回傳 429；釋出介面此時的 Retry-After 也固定為 15，超過限額仍回傳 429。見「限流與參數上限」。"
+  },
+  "四個錯誤代碼不會再出現": {
+    "type": "Improvement",
+    "description": "沒有任何介面回傳 TOKEN_EXPIRED、MISSING_BODY、UPLOAD_NOT_FOUND 或 UPLOAD_EXPIRED，用戶端無需處理這四個錯誤代碼。"
+  },
+  "自訂 Nyaa 說明最多 10,240 個字元": {
+    "type": "Fix",
+    "description": "自訂 Nyaa 說明（API 的 sitePublish.nyaa.description 與 nyaaDescription，以及釋出頁的自訂說明）上限從 20,000 改為 10,240 個字元，與 Nyaa 本身的上限一致，按字元計、首尾空白不計，超出時請求會被拒絕。見「Nyaa 平台代發」。"
+  },
+  "番劇×字幕組 RSS 的頻道連結指向字幕組主頁": {
+    "type": "Fix",
+    "description": "帶 groupSlug 的番劇 RSS（/rss/anime.xml?bgmId=…&groupSlug=…）的頻道 <link> 改為公開的字幕組主頁 /group/<slug>，先前指向需要登入的字幕組後台。"
+  },
+  "不存在的 RSS 回傳統一的 404": {
+    "type": "Improvement",
+    "description": "不存在的 RSS（例如字幕組或分類不存在）統一回傳 404，不帶 ETag，字幕組或分類出現後最多約兩分鐘即可讀取；不帶篩選條件的 RSS 現在要求瀏覽器每次重用前先向伺服器驗證。見「HTTP 快取與條件請求」。"
+  },
+  "「不活躍」字幕組的資源回到 RSS": {
+    "type": "Fix",
+    "description": "狀態為「不活躍」的字幕組，其資源重新出現在 /rss/magnets.xml、/rss/other/<分類>.xml 和番劇×字幕組 RSS 中，它自己的 /rss/group/<slug>.xml 也可以訂閱，與 /magnets、關鍵字 RSS 和 Torznab 一致；只有「已停用」的字幕組不會出現。"
+  },
+  "字幕組名稱與簡介的長度上限": {
+    "type": "Fix",
+    "description": "字幕組名稱最多 80 個字元，簡介最多 1000 個字元，超出時無法儲存。"
+  },
+  "字幕組聯絡方式只接受可以開啟的連結": {
+    "type": "Fix",
+    "description": "網站只接受 http:// 或 https:// 連結（未寫協定時按 https 處理），Telegram 接受 @使用者名稱、http(s) 連結或 tg: 連結，帶使用者名稱或密碼的連結不接受。"
+  },
+  "標題範本的儲存規則": {
+    "type": "Fix",
+    "description": "自訂標題範本的規則通過語法檢查（只能使用已知變數）且不超過 500 個字元才能儲存；每個字幕組最多 20 條自訂範本，範本名稱最多 100 個字元。見「開始使用」的「釋出標題範本」。"
+  },
+  "範本變數 isEpisodeRange": {
+    "type": "Feature",
+    "description": "標題範本新增布林變數 isEpisodeRange，表示集數是否為 01-12 這樣的範圍；從內建範本複製出的規則現在與內建範本產生的標題一致，保留 [V2] 版本標記，合集寫法也相同。"
+  },
+  "測試連線直接顯示結果": {
+    "type": "Improvement",
+    "description": "站點同步的「測試連線」結束後直接提示通過或失敗，失敗時給出原因。"
+  },
+  "圖床上傳失敗後的重試": {
+    "type": "Fix",
+    "description": "圖床上傳失敗後點選「重試」，已逾期的上傳會從頭重新開始；無法處理的圖片只顯示原因，不再提供重試。"
+  },
+  "離開釋出頁時停止後續傳送": {
+    "type": "Fix",
+    "description": "釋出精靈傳送途中離開釋出頁時，已經送出的那一條照常完成並記入草稿，其餘條目不再傳送。"
+  },
+  "超出長度上限的條目不再顯示就緒": {
+    "type": "Fix",
+    "description": "標題超過 500、備註超過 50,000、集號超過 40、版本超過 20 個字元，或標籤超過 100 個、單一標籤超過 200 個字元時，條目卡片顯示原因，不算「就緒」。"
+  },
+  "取不到匹配簽章的條目顯示失敗": {
+    "type": "Fix",
+    "description": "釋出精靈無法取得匹配簽章的條目顯示為失敗並給出原因，不再顯示為就緒。"
+  },
+  "劇場版自動填寫 MOVIE 集號": {
+    "type": "Fix",
+    "description": "在釋出精靈中為劇場版選定番劇時，集號自動填為 MOVIE，之後手動改過的值會保留。"
+  },
+  "2160p 不再自動填成 4K": {
+    "type": "Fix",
+    "description": "自動填寫解析度時，標題寫 2160p 或 3840x2160 填 2160p，只有寫 4K 才填 4K。"
+  },
+  "代發至 Nyaa 需要先選分類": {
+    "type": "Fix",
+    "description": "勾選代發至 Nyaa 但沒有選擇分類時，無法開始釋出。"
+  },
+  "密碼長度統一為 8–128 個字元": {
+    "type": "Fix",
+    "description": "註冊、重設密碼和修改密碼都要求密碼為 8–128 個字元，超出範圍時表單直接提示。見「帳號與認證」。"
+  },
+  "Bangumi 同步的錯誤說明": {
+    "type": "Improvement",
+    "description": "「我的訂閱」頁 Bangumi 同步的「最近錯誤」改為三種說明：授權失效、需要重新連線；暫時無法續期、請稍後再同步；上次同步未完成。"
+  },
+  "robots.txt 關閉登入後頁面": {
+    "type": "Improvement",
+    "description": "robots.txt 禁止抓取登入後才能存取的 /groups、/dashboard、/profile、/subscriptions 及其 /zh-hant/、/en/ 形式，公開的字幕組主頁 /group/… 不受影響。見「LLM 與 Agent 對接」。"
+  },
+  "其他類資源的瀏覽數與番劇資源同口徑": {
+    "type": "Fix",
+    "description": "其他類資源詳情頁的瀏覽數改為與番劇資源詳情頁相同：頁面可見停留 30 秒或下載時才記一次。"
+  },
+  "標題帶 [Movies] 的劇場版不再要求手動選番": {
+    "type": "Fix",
+    "description": "標題帶 [Movies]、同時寫有 Movie 或 劇場版 的劇場版資源，不再因標記衝突而需要手動選擇番劇。"
+  },
+}} />
+
 ## 2026 年 11 月 13 日
 
 <TypeTable type={{

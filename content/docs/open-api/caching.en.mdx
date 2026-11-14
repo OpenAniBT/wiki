@@ -16,7 +16,7 @@ Store the complete response body with its ETag, then send If-None-Match on subse
   },
   "Public RSS": {
     "type": "GET / HEAD / 304",
-    "description": "Anime, group, magnet, and other-category feeds support conditional requests. Follow Location on 308."
+    "description": "Anime, group, magnet, and other-category feeds support conditional requests. Follow Location on 308. A feed without filters or keywords in the default order (a limit alone counts) returns 200 with max-age=0 and must-revalidate in Cache-Control, so a browser revalidates it with the ETag before every reuse."
   },
   "Torrent downloads": {
     "type": "GET / HEAD / 304",
@@ -31,6 +31,8 @@ Store the complete response body with its ETag, then send If-None-Match on subse
     "description": "Personal RSS has no public ETag. Torznab HTTP responses prohibit caching; this does not mean each request produces fresh results."
   }
 }} />
+
+A public feed that does not exist, for example one for an unknown group or category, returns 404 with `Cache-Control: public, max-age=0, s-maxage=120, must-revalidate` and no ETag. When the group or category appears later, its feed becomes readable within about two minutes.
 
 A 304 has no body: reuse the previously stored representation of the same URL. Do not send an old ETag if the local body is missing. Prefer If-None-Match. Conditional requests may still consume rate limits.
 

@@ -20,7 +20,7 @@ Check the URL, HTTP method, Content-Type, and response body first.
   },
   "401 / 403": {
     "type": "Authentication",
-    "description": "401: check key validity. 403: check scope or session membership. whoami and /me do not require releases:publish."
+    "description": "401: check key validity. 403: check scope or session membership. whoami and /me do not require releases:publish. A 403 on publish can also mean the group is not Active, the member who created the key has left the group, or the key was revoked while the request was running."
   },
   "422 / TORRENT_REQUIRED": {
     "type": "Publish input",
@@ -28,7 +28,7 @@ Check the URL, HTTP method, Content-Type, and response body first.
   },
   "422 / VALIDATION_ERROR": {
     "type": "Fields",
-    "description": "anime and bgmId are not accepted aliases in anime publish JSON. Use animeIdType and animeId."
+    "description": "anime and bgmId are not accepted aliases in anime publish JSON. Use animeIdType and animeId. Publishing also returns this code for an Idempotency-Key longer than 256 characters, episode and episodeKey that disagree, a torrentStorageId that is not this group's, or a field over its length limit. error.message names the cause; retrying unchanged won't succeed."
   },
   "Anime search returns 422 / VALIDATION_ERROR": {
     "type": "cursor",
@@ -45,6 +45,10 @@ Check the URL, HTTP method, Content-Type, and response body first.
   "Search returns 503": {
     "type": "Temporarily unavailable",
     "description": "The search timed out or couldn't complete; this doesn't mean there are no results. Wait for Retry-After, then retry."
+  },
+  "A JSON endpoint returns 503 SERVICE_UNAVAILABLE with Retry-After 15": {
+    "type": "Temporarily unavailable",
+    "description": "The rate limiter temporarily cannot count; you did not send too many requests. Wait 15 seconds, then retry."
   },
   "Title matching returns decision.kind=unavailable": {
     "type": "Temporarily unavailable",
@@ -64,7 +68,7 @@ Check the URL, HTTP method, Content-Type, and response body first.
   },
   "500 UPLOAD_FAILED on publish": {
     "type": "Failed submission",
-    "description": "Do not assume no write occurred or immediately retry a batch. Check existing releases and keep error.requestId. Reuse the original Idempotency-Key when retrying the same normal publish request."
+    "description": "Do not assume no write occurred or immediately retry a batch. Check existing releases and keep error.requestId. Reuse the original Idempotency-Key when retrying the same normal publish request. Input errors such as the episode fields, the magnet, torrentStorageId or a field length return 422 VALIDATION_ERROR, never 500."
   },
   "External copy remains after deletion": {
     "type": "Scope",

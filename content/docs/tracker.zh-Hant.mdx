@@ -182,7 +182,7 @@ AniBT 為全站公開資源提供直接的 `.torrent` 二進位檔案下載路�
     },
     'SERVICE_UNAVAILABLE': {
       type: 'HTTP 503',
-      description: '暫時無法確認資源是否公開，整個請求失敗。依 Retry-After（秒）等待後重試。',
+      description: '暫時無法確認資源是否公開，或限流服務暫時無法計數（此時 Retry-After 為 15），整個請求失敗。依 Retry-After（秒）等待後重試。',
     },
     'UPSTREAM_ERROR': {
       type: 'HTTP 502',
