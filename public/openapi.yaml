@@ -1748,6 +1748,8 @@ paths:
 
         multipart 必须上传 torrent，title 省略时使用种子内部名；JSON 必须提供 title 和属于当前字幕组的 torrentStorageId。JSON 还必须提供 magnetBase64。
 
+        请求里的磁力链接须含 v1 infohash，即 xt=urn:btih 后接 40 位十六进制或 32 位 base32。xt 键不区分大小写，XT=urn:btih:… 同样接受；同时带 urn:btmh 的混合磁链，urn:btmh 写在 urn:btih 前面也接受。没有 xt=urn:btih 或其中不是合法的 v1 infohash 时返回 422 VALIDATION_ERROR。
+
         成功发布返回 { ok: true, result: { releaseId, revision, torrentObjectId? } }。发布回执不包含 groupId、groupName、groupSlug、animeId 或 fileSize；发布前用 GET 同一路径核验身份。
 
         preview=true 返回顶层 previewUrl、previewToken、expiresAt 和 Key 身份信息，10 分钟后过期；不创建公开发布。
@@ -1755,6 +1757,8 @@ paths:
         未显式提供的集数、画质、语言、字幕、格式和版本先从标题、再从种子内部名推断；无法推断集数时需传 episode 或 episodeKey。
 
         集数键的推断：标题只写了一个集数范围的合集存为该范围，[01-13 合集] 为 1-13，[01-12 Fin] 为 1-12；标题写了两个不同范围（[01-12][13-24]）时为 BATCH。括号外两侧带空格的横线后面的数字是单集：Season 2 - 05 为 5，Part 3 - 26 为 26。S03E05 为 5；S01E01-E12 是标题里唯一的范围时为 1-12；第 0 季的特别篇（S00E..）不按这种写法推断。传入的 episodeKey 为 BATCH、合集或全集，而标题只写了一个集数范围时，存为该范围。范围的 episode 是它的第一集。
+
+        分辨率的推断：只从标题里写明分辨率的片段识别，即 1080p、1080P、1080i 这类行数加 p 或 i，1920x1080、3840x2160 这类宽 × 高，以及独立成词的 4K。2160p 与 3840x2160 识别为 2160p，写明 4K 时才是 4K。集数、不带 p 或 i 的裸数字（如 1080、720、2160）、校验码里的数字，以及粘在单词里的 4K（如 Show4Kids）都不算分辨率：[Group] One Piece - 1080 [720p].mkv 识别为 720p。标题里识别不出时，按同样的规则读取种子内部名，仍识别不出时为 1080p。
 
         notes 最多 50000 字符。JSON 请求上限默认 1 MiB，multipart 默认 8 MiB，单个 .torrent 文件最多 5 MiB。
 
@@ -1854,7 +1858,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "422":
-          description: 字段、种子或发布规则校验失败；包括 bgm animeId 不是 ID、外部 ID 对应多部公开番剧。以下情况返回 VALIDATION_ERROR：集数键为空（error.message 为 episode key is required）；种子的磁力链接里没有 infohash（release torrent requires a magnet link for its info hash）；没有种子，又缺少大于 0 的文件大小或 infohash（durable release requires content evidence）；episode 与 episodeKey 不一致（episode key mismatch、episode range mismatch、custom episode key requires zero ordinal）；磁力链接的 btih 不是有效的 v1 infohash（invalid magnet hash）；torrentStorageId 不存在或不属于本组（torrent ownership mismatch）；字段超过长度上限（Invalid release input，error.details.fieldErrors 列出字段）；Idempotency-Key 超过 256 字符（error.details 含 header 与 maxLength）。
+          description: 字段、种子或发布规则校验失败；包括 bgm animeId 不是 ID、外部 ID 对应多部公开番剧。以下情况返回 VALIDATION_ERROR：集数键为空（error.message 为 episode key is required）；种子的磁力链接里没有 infohash（release torrent requires a magnet link for its info hash）；没有种子，又缺少大于 0 的文件大小或 infohash（durable release requires content evidence）；episode 与 episodeKey 不一致（episode key mismatch、episode range mismatch、custom episode key requires zero ordinal）；磁力链接没有 xt=urn:btih，或其中不是 40 位十六进制或 32 位 base32 的 v1 infohash（磁力链接缺少 xt=urn:btih，或其中不是合法的 v1 infohash…）；torrentStorageId 不存在或不属于本组（torrent ownership mismatch）；字段超过长度上限（Invalid release input，error.details.fieldErrors 列出字段）；Idempotency-Key 超过 256 字符（error.details 含 header 与 maxLength）。
           content:
             application/json:
               schema:
@@ -1922,6 +1926,8 @@ paths:
         其他类发布必须指定 category，不关联番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。重放及 503 重试规则见「接口约定与鉴权」。
 
         multipart 必须上传 torrent，title 省略时使用种子内部名；JSON 必须提供 title 和属于当前字幕组的 torrentStorageId。
+
+        提供磁力链接（magnetLink、magnet 或 magnetBase64）时，须含 v1 infohash，即 xt=urn:btih 后接 40 位十六进制或 32 位 base32。xt 键不区分大小写，XT=urn:btih:… 同样接受；同时带 urn:btmh 的混合磁链，urn:btmh 写在 urn:btih 前面也接受。没有 xt=urn:btih 或其中不是合法的 v1 infohash 时返回 422 VALIDATION_ERROR。
 
         成功发布返回 { ok: true, result: { releaseId, revision, torrentObjectId? } }。发布回执不包含 groupId、groupName、groupSlug、animeId 或 fileSize；发布前用 GET 同一路径核验身份。
 
@@ -2010,7 +2016,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "422":
-          description: 字段、种子或发布规则校验失败，返回 VALIDATION_ERROR，error.message 说明原因。包括：磁力链接的 btih 不是有效的 v1 infohash（invalid magnet hash）；torrentStorageId 不存在或不属于本组（torrent ownership mismatch）；字段超过长度上限（Invalid release input，error.details.fieldErrors 列出字段）；Idempotency-Key 超过 256 字符（error.details 含 header 与 maxLength）。
+          description: 字段、种子或发布规则校验失败，返回 VALIDATION_ERROR，error.message 说明原因。包括：磁力链接没有 xt=urn:btih，或其中不是 40 位十六进制或 32 位 base32 的 v1 infohash（磁力链接缺少 xt=urn:btih，或其中不是合法的 v1 infohash…）；torrentStorageId 不存在或不属于本组（torrent ownership mismatch）；字段超过长度上限（Invalid release input，error.details.fieldErrors 列出字段）；Idempotency-Key 超过 256 字符（error.details 含 header 与 maxLength）。
           content:
             application/json:
               schema:
@@ -2049,7 +2055,9 @@ paths:
 
         默认 30 次 / 60 秒 / API Key；pending 按 Retry-After 轮询状态。
 
-        创建 Key 的普通成员只能删除自己的发布；owner/admin 可删除本组发布。
+        创建 Key 的普通成员只能删除自己的发布；owner/admin 可删除本组发布。普通成员的 Key 删除同组其他成员的发布时返回 404 NOT_FOUND（Release not found），应答与资源不存在时完全相同。
+
+        字幕组状态不是「活跃」（为「不活跃」或「已停用」）、创建该 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销时，返回 403 FORBIDDEN，不会删除。
       security:
         - bearerAuth: []
         - apiKeyAuth: []
@@ -2114,9 +2122,17 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthorized"
         "403":
-          $ref: "#/components/responses/Forbidden"
+          description: 无权限或缺少 releases:delete。字幕组状态不是「活跃」（为「不活跃」或「已停用」）、创建该 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销时，返回 FORBIDDEN，不会删除。
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
         "404":
-          $ref: "#/components/responses/NotFound"
+          description: 资源不存在、属于其他字幕组，或普通成员的 Key 删除同组其他成员的发布时，返回 NOT_FOUND，error.message 为 Release not found；这几种情况的应答相同。
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
         "422":
           description: releaseId 或查询参数校验失败
           content:
@@ -3526,7 +3542,7 @@ components:
         magnetBase64:
           type: string
           minLength: 1
-          description: 省略时从上传种子提取。
+          description: 省略时从上传种子提取。传入时须含 v1 infohash（xt=urn:btih 后接 40 位十六进制或 32 位 base32，xt 键不区分大小写，可与 urn:btmh 同用且不论先后）；不合法时返回 422 VALIDATION_ERROR。
         notes:
           type: string
           maxLength: 50000
@@ -3548,6 +3564,7 @@ components:
           maxLength: 20
         resolution:
           type: string
+          description: 省略时只从标题里写明分辨率的片段推断（如 1080p、1920x1080、独立成词的 4K），集数和裸数字不算；标题里没有时再看种子内部名，都没有时为 1080p。规则见端点说明。
           enum:
             - 4K
             - 2160p
@@ -3630,7 +3647,7 @@ components:
         magnetBase64:
           type: string
           minLength: 1
-          description: "原始 magnet: 链接或其 UTF-8 Base64；必须与存储种子的 infohash 一致。"
+          description: "原始 magnet: 链接或其 UTF-8 Base64；须含 v1 infohash（xt=urn:btih 后接 40 位十六进制或 32 位 base32，xt 键不区分大小写，可与 urn:btmh 同用且不论先后），并与存储种子的 infohash 一致。不合法时返回 422 VALIDATION_ERROR。"
         notes:
           type: string
           maxLength: 50000
@@ -3662,6 +3679,7 @@ components:
           maxLength: 20
         resolution:
           type: string
+          description: 省略时只从标题里写明分辨率的片段推断（如 1080p、1920x1080、独立成词的 4K），集数和裸数字不算；标题里没有时再看种子内部名，都没有时为 1080p。规则见端点说明。
           enum:
             - 4K
             - 2160p
@@ -3773,10 +3791,12 @@ components:
         magnetLink:
           type: string
           maxLength: 8192
+          description: 可选。须含 v1 infohash（xt=urn:btih 后接 40 位十六进制或 32 位 base32，xt 键不区分大小写，可与 urn:btmh 同用且不论先后）；不合法时返回 422 VALIDATION_ERROR。
         magnetBase64:
           type: string
           minLength: 1
           maxLength: 12000
+          description: "磁力链接的 UTF-8 Base64，或原始 magnet: 链接；规则与 magnetLink 相同。"
         trackers:
           type: string
           description: 单个表单字段，换行分隔或 JSON 数组字符串；最多 50 项。
@@ -3852,10 +3872,12 @@ components:
         magnetLink:
           type: string
           maxLength: 8192
+          description: 可选。须含 v1 infohash（xt=urn:btih 后接 40 位十六进制或 32 位 base32，xt 键不区分大小写，可与 urn:btmh 同用且不论先后）；不合法时返回 422 VALIDATION_ERROR。
         magnetBase64:
           type: string
           minLength: 1
           maxLength: 12000
+          description: "磁力链接的 UTF-8 Base64，或原始 magnet: 链接；规则与 magnetLink 相同。"
         trackers:
           maxItems: 50
           type: array

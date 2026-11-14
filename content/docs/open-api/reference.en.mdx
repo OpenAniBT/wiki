@@ -65,11 +65,13 @@ When the group already has a release of the same anime with the same episode key
 
 Publishing returns `403 FORBIDDEN` when the group's status is not Active (it is Inactive or Suspended), when the member who created the key has left the group, or when the key is revoked while the request is running.
 
+A magnet link in the request must carry a v1 infohash: `xt=urn:btih:` followed by 40 hexadecimal or 32 base32 characters. The `xt` key is case-insensitive, so `XT=urn:btih:…` is accepted too, and a hybrid magnet that also carries `urn:btmh` is accepted even when `urn:btmh` comes before `urn:btih`.
+
 These requests return `422 VALIDATION_ERROR`, and `error.message` names the rule they break:
 
 - an empty episode key;
 - `episode` and `episodeKey` that disagree;
-- a magnet btih that is not a valid v1 infohash, or a torrent whose magnet link carries no infohash;
+- a magnet link with no `xt=urn:btih`, or whose btih is not a valid v1 infohash, or a torrent whose magnet link carries no infohash;
 - a request with no torrent that also lacks a file size above 0 or an infohash;
 - a `torrentStorageId` that does not exist or belongs to another group;
 - a field over its length limit, with the fields listed in `error.details.fieldErrors`.
@@ -78,4 +80,12 @@ Retrying these requests unchanged or with a new key won't succeed.
 
 A numeric episode key is stored in one form: without leading zeros, and a decimal also without trailing zeros. `05.5` and `5.50` are both stored as `5.5`, `01` as `1`, and `01-13` as `1-13`.
 
+When an anime release is published without `resolution`, the resolution is read only from the parts of the title that state one: `1080p`, `1080P` or `1080i`, a width × height such as `1920x1080` or `3840x2160`, and `4K` as a word of its own. `2160p` and `3840x2160` are read as `2160p`; only a title that says `4K` gets `4K`. Episode numbers, bare numbers without `p` or `i` (such as `1080`, `720` or `2160`), digits inside a checksum, and a `4K` inside a word (such as `Show4Kids`) are not a resolution, so `[Group] One Piece - 1080 [720p].mkv` is read as `720p`. When the title states no resolution, the torrent's internal name is read by the same rule, and if that has none either, the resolution is `1080p`.
+
 For `429 RATE_LIMIT_EXCEEDED`, wait for the number of seconds in `Retry-After`. A busy publishing service, a rate limiter that temporarily cannot count, or an unconfirmed upload result can return `503 SERVICE_UNAVAILABLE`; when the rate limiter cannot count, `Retry-After` is always 15. When a `503` includes `Retry-After`, wait and retry the same request with its original key. Without that header, check existing releases and keep `error.requestId` first. A failure or lost connection does not prove that nothing was written. Avoid immediate batch retries or repeatedly switching keys for an uncertain result.
+
+## Refused deletions
+
+`DELETE /api/releases/{releaseId}` returns `404 NOT_FOUND` with `error.message` set to `Release not found` when the release does not exist, belongs to another group, or was published by another member of the same group and the key belongs to a plain member. These cases return exactly the same response. A plain member's key can delete only that member's own releases; an owner's or admin's key can delete any release of the group.
+
+Deletion returns `403 FORBIDDEN` and deletes nothing when the group's status is not Active (it is Inactive or Suspended), when the member who created the key has left the group, or when the key is revoked while the request is running.

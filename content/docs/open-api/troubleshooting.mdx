@@ -20,7 +20,7 @@ description: "按响应类型、状态码和字段定位问题。"
   },
   "401 / 403": {
     "type": "鉴权",
-    "description": "401 检查 Key 是否有效；403 检查所需 scope 或会话成员身份。whoami 和 /me 不要求 releases:publish。发布返回 403 还可能是字幕组不是「活跃」状态、创建 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销。"
+    "description": "401 检查 Key 是否有效；403 检查所需 scope 或会话成员身份。whoami 和 /me 不要求 releases:publish。发布或删除返回 403 还可能是字幕组不是「活跃」状态、创建 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销。"
   },
   "422 / TORRENT_REQUIRED": {
     "type": "发布输入",
@@ -28,7 +28,7 @@ description: "按响应类型、状态码和字段定位问题。"
   },
   "422 / VALIDATION_ERROR": {
     "type": "字段",
-    "description": "番剧 JSON 的 anime 和 bgmId 不是兼容字段；使用 animeIdType 与 animeId。其他字段按端点 Schema 校验。发布时 Idempotency-Key 超过 256 字符、episode 与 episodeKey 不一致、torrentStorageId 不属于本组，或字段超过长度上限，也返回此码；error.message 说明原因，原样重试不会成功。"
+    "description": "番剧 JSON 的 anime 和 bgmId 不是兼容字段；使用 animeIdType 与 animeId。其他字段按端点 Schema 校验。发布时 Idempotency-Key 超过 256 字符、episode 与 episodeKey 不一致、磁力链接没有合法的 v1 infohash（xt=urn:btih 后接 40 位十六进制或 32 位 base32）、torrentStorageId 不属于本组，或字段超过长度上限，也返回此码；error.message 说明原因，原样重试不会成功。"
   },
   "番剧搜索返回 422 / VALIDATION_ERROR": {
     "type": "cursor",
@@ -94,4 +94,4 @@ description: "按响应类型、状态码和字段定位问题。"
 
 应用 JSON 错误的追踪值是 `error.requestId`，响应头通常也有 `X-Request-ID`。纯文本、XML、重定向或边缘响应不保证携带该字段。反馈时提供端点、时间、HTTP 状态和可用的请求 ID，不要附带 Key、Cookie 或私人 RSS URL。
 
-有权限再次 DELETE 已删除的发布时，返回原来那一次删除操作。若 DELETE 返回 404，表示资源从未存在或当前调用方无权访问，不要据此认定删除完成；可用同一 releaseId 查询 `/deletion`。
+有权限再次 DELETE 已删除的发布时，返回原来那一次删除操作。若 DELETE 返回 404，表示资源从未存在、属于其他字幕组，或当前 Key 无权删除（普通成员的 Key 删除同组其他成员发布的资源时，响应与资源不存在时相同），不要据此认定删除完成；可用同一 releaseId 查询 `/deletion`。

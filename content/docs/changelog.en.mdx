@@ -9,6 +9,35 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   Entries are listed in reverse chronological order. If you encounter any bugs during regular use, feel free to report them via our [Support Email](/en/docs/contact).
 </Callout>
 
+## November 15, 2026
+
+<TypeTable type={{
+  "The delete API no longer answers 500 for a release you may not delete": {
+    "type": "Fix",
+    "description": "When a plain member's key deletes a release that another member of the same group published, DELETE /api/releases/{releaseId} now returns 404 NOT_FOUND, exactly the response for a release that does not exist; when the group is not Active, the member who created the key has left the group, or the key is revoked while the request is running, it returns 403 FORBIDDEN. Both cases used to return 500. See Conventions and authentication."
+  },
+  "The publish API accepts more magnet spellings": {
+    "type": "Improvement",
+    "description": "When publishing an anime or other release, the magnet link's xt key is case-insensitive (XT=urn:btih:… is accepted), and a hybrid magnet is accepted even when its urn:btmh comes before urn:btih; when the btih is not a valid v1 infohash, the 422 VALIDATION_ERROR message states that it must be 40 hexadecimal or 32 base32 characters. See Conventions and authentication."
+  },
+  "API publishing no longer reads an episode number as the resolution": {
+    "type": "Fix",
+    "description": "When an anime is published through the API without resolution, the resolution is read only from the parts of the title that state one (1080p, 1080i, 1920x1080, 2160p, 3840x2160, or 4K as a word of its own); bare numbers such as an episode 1080, 720 or 2160, digits in a checksum, and the 4K inside a word such as Show4Kids no longer count, so [Group] One Piece - 1080 [720p].mkv is read as 720p instead of 1080p. A title without a resolution still falls back to the torrent's internal name, then to 1080p. See Conventions and authentication."
+  },
+  "Refused edits and deletions say why": {
+    "type": "Improvement",
+    "description": "When editing or deleting a release in the group console or the admin console is refused, the page names the reason: the release does not exist; an edit cannot change a release's group or publisher, nor an anime release's anime, file size or category; or an anime release's episode cannot be emptied. Previously only a generic error appeared. See Getting Started."
+  },
+  "A failed admin deletion keeps its dialog open": {
+    "type": "Fix",
+    "description": "When deleting a group, a release or an anime in the admin console fails, the confirmation dialog stays open so you can retry right away."
+  },
+  "The image host refuses AVIF, HEIC and HEIF": {
+    "type": "Fix",
+    "description": "Choosing an AVIF, HEIC or HEIF image on the image host now shows \"Image format or dimensions are not supported.\" right away and nothing is uploaded, and the upload endpoint POST /api/image-host/upload answers 400 UNSUPPORTED_IMAGE_TYPE for these formats; previously they could be chosen and uploaded but always failed during processing. JPEG, PNG, WebP, GIF and BMP are not affected. See Fansub Image Hosting."
+  },
+}} />
+
 ## November 14, 2026
 
 <TypeTable type={{

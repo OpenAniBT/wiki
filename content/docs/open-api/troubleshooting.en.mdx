@@ -20,7 +20,7 @@ Check the URL, HTTP method, Content-Type, and response body first.
   },
   "401 / 403": {
     "type": "Authentication",
-    "description": "401: check key validity. 403: check scope or session membership. whoami and /me do not require releases:publish. A 403 on publish can also mean the group is not Active, the member who created the key has left the group, or the key was revoked while the request was running."
+    "description": "401: check key validity. 403: check scope or session membership. whoami and /me do not require releases:publish. A 403 on publish or deletion can also mean the group is not Active, the member who created the key has left the group, or the key was revoked while the request was running."
   },
   "422 / TORRENT_REQUIRED": {
     "type": "Publish input",
@@ -28,7 +28,7 @@ Check the URL, HTTP method, Content-Type, and response body first.
   },
   "422 / VALIDATION_ERROR": {
     "type": "Fields",
-    "description": "anime and bgmId are not accepted aliases in anime publish JSON. Use animeIdType and animeId. Publishing also returns this code for an Idempotency-Key longer than 256 characters, episode and episodeKey that disagree, a torrentStorageId that is not this group's, or a field over its length limit. error.message names the cause; retrying unchanged won't succeed."
+    "description": "anime and bgmId are not accepted aliases in anime publish JSON. Use animeIdType and animeId. Publishing also returns this code for an Idempotency-Key longer than 256 characters, episode and episodeKey that disagree, a magnet link without a valid v1 infohash (xt=urn:btih followed by 40 hexadecimal or 32 base32 characters), a torrentStorageId that is not this group's, or a field over its length limit. error.message names the cause; retrying unchanged won't succeed."
   },
   "Anime search returns 422 / VALIDATION_ERROR": {
     "type": "cursor",
@@ -94,4 +94,4 @@ Check the URL, HTTP method, Content-Type, and response body first.
 
 Application JSON errors identify the request in error.requestId, usually also in X-Request-ID. Plain text, XML, redirects, and edge responses do not guarantee this field. Report the endpoint, time, HTTP status, and available request ID; never include keys, cookies, or private RSS URLs.
 
-An authorized DELETE of an already deleted release returns the original deletion operation. If DELETE returns 404, the release never existed or this caller cannot access it. Do not treat that 404 as proof of completion. Read `/deletion` for the same releaseId.
+An authorized DELETE of an already deleted release returns the original deletion operation. If DELETE returns 404, the release never existed, belongs to another group, or this key may not delete it (a plain member's key that targets another member's release gets the same response as for a release that does not exist). Do not treat that 404 as proof of completion. Read `/deletion` for the same releaseId.

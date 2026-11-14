@@ -9,6 +9,35 @@ description: 記錄 AniBT 平台面向使用者與字幕組的功能變更、最
   更新日誌按時間倒序排列。如果你在日常使用中發現了異常問題，歡迎透過 [支援信箱](/zh-Hant/docs/contact) 向我們回饋。
 </Callout>
 
+## 2026 年 11 月 15 日
+
+<TypeTable type={{
+  "刪除 API 不再對無權刪除的資源回傳 500": {
+    "type": "Fix",
+    "description": "普通成員的 Key 刪除同組其他成員釋出的資源時，DELETE /api/releases/{releaseId} 回傳 404 NOT_FOUND，與資源不存在時的回應完全相同；字幕組不是「活躍」狀態、建立 Key 的成員已離開字幕組，或 Key 在請求處理期間被撤銷時回傳 403 FORBIDDEN。先前這兩種情況都回傳 500。見「介面約定與鑑權」。"
+  },
+  "釋出 API 接受更多磁力連結寫法": {
+    "type": "Improvement",
+    "description": "釋出番劇或其他類資源時，磁力連結的 xt 鍵不再區分大小寫（XT=urn:btih:… 也接受），同時帶 urn:btmh 的混合磁力連結即使 urn:btmh 寫在前面也接受；btih 不是合法的 v1 infohash 時，422 VALIDATION_ERROR 的 error.message 會寫明須為 40 位十六進位或 32 位 base32。見「介面約定與鑑權」。"
+  },
+  "API 釋出不再把集數當成解析度": {
+    "type": "Fix",
+    "description": "透過 API 釋出番劇且未傳 resolution 時，只從標題裡寫明解析度的片段辨識（1080p、1080i、1920x1080、2160p、3840x2160、獨立成詞的 4K），集數裡的 1080、720、2160 這類裸數字、校驗碼裡的數字和 Show4Kids 這類單字裡的 4K 不再算作解析度：[Group] One Piece - 1080 [720p].mkv 辨識為 720p，先前為 1080p。標題裡辨識不出時仍先看種子內部名稱，再用預設值 1080p。見「介面約定與鑑權」。"
+  },
+  "編輯或刪除資源被拒絕時說明原因": {
+    "type": "Improvement",
+    "description": "在字幕組後台或管理後台編輯、刪除資源被拒絕時，頁面會顯示具體原因：資源不存在；編輯不能變更資源所屬的字幕組或釋出者，番劇資源也不能變更番劇、檔案大小或分類；番劇資源的集數不能清空。先前只顯示通用錯誤。見「開始使用」。"
+  },
+  "管理後台刪除失敗時保留確認對話框": {
+    "type": "Fix",
+    "description": "管理後台刪除字幕組、資源或番劇失敗時，確認對話框保持開啟，可以直接重試。"
+  },
+  "圖床不再接受 AVIF、HEIC、HEIF": {
+    "type": "Fix",
+    "description": "在圖床選擇 AVIF、HEIC 或 HEIF 圖片時會直接提示「圖片格式或尺寸不受支援」，不會上傳，上傳介面 POST /api/image-host/upload 對這三種格式回傳 400 UNSUPPORTED_IMAGE_TYPE；先前這些圖片可以選擇並上傳，但處理時必然失敗。JPEG、PNG、WebP、GIF、BMP 不受影響。見「字幕組專屬圖床」。"
+  },
+}} />
+
 ## 2026 年 11 月 14 日
 
 <TypeTable type={{

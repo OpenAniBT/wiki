@@ -65,11 +65,13 @@ description: "按端点识别鉴权、响应包装和错误正文。"
 
 字幕组状态不是「活跃」（为「不活跃」或「已停用」）、创建该 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销时，发布返回 `403 FORBIDDEN`。
 
+请求里的磁力链接须含 v1 infohash：`xt=urn:btih:` 后接 40 位十六进制或 32 位 base32。`xt` 键不区分大小写，`XT=urn:btih:…` 同样接受；同时带 `urn:btmh` 的混合磁链，`urn:btmh` 写在 `urn:btih` 前面也接受。
+
 以下请求返回 `422 VALIDATION_ERROR`，`error.message` 说明违反的规则：
 
 - 集数键为空；
 - `episode` 与 `episodeKey` 不一致；
-- 磁力链接的 btih 不是有效的 v1 infohash，或种子的磁力链接里没有 infohash；
+- 磁力链接没有 `xt=urn:btih`，或其中不是有效的 v1 infohash，或种子的磁力链接里没有 infohash；
 - 没有种子，又缺少大于 0 的文件大小或 infohash；
 - `torrentStorageId` 不存在或不属于本组；
 - 字段超过长度上限，`error.details.fieldErrors` 列出超限的字段。
@@ -78,4 +80,12 @@ description: "按端点识别鉴权、响应包装和错误正文。"
 
 数字集数键按规范写法保存：去掉前导零，小数再去掉末尾的零。`05.5` 和 `5.50` 都存为 `5.5`，`01` 存为 `1`，`01-13` 存为 `1-13`。
 
+番剧发布未传 `resolution` 时，只从标题里写明分辨率的片段识别：`1080p`、`1080P`、`1080i`，`1920x1080`、`3840x2160` 这样的宽 × 高，以及独立成词的 `4K`。`2160p` 与 `3840x2160` 识别为 `2160p`，写明 `4K` 时才是 `4K`。集数、不带 `p` 或 `i` 的裸数字（如 `1080`、`720`、`2160`）、校验码里的数字，以及粘在单词里的 `4K`（如 `Show4Kids`）都不算分辨率：`[Group] One Piece - 1080 [720p].mkv` 识别为 `720p`。标题里识别不出时，按同样的规则读取种子内部名，仍识别不出时为 `1080p`。
+
 收到 `429 RATE_LIMIT_EXCEEDED` 时，按 `Retry-After` 的秒数等待。发布暂时繁忙、限流服务暂时无法计数或上传结果待确认时可返回 `503 SERVICE_UNAVAILABLE`；限流服务无法计数时 `Retry-After` 固定为 15。`503` 带 `Retry-After` 时按它等待，再用原 key 重试同一请求；没有该头时先核查现有发布并保留 `error.requestId`。失败或连接中断不证明未写入，不要立即批量重试，也不要为一次不确定的结果反复换新 key。
+
+## 删除被拒绝时的响应
+
+`DELETE /api/releases/{releaseId}` 在资源不存在、属于其他字幕组，或普通成员的 Key 删除同组其他成员发布的资源时，返回 `404 NOT_FOUND`，`error.message` 为 `Release not found`；这几种情况的响应完全相同。普通成员的 Key 只能删除自己发布的资源，owner/admin 的 Key 可以删除本组所有资源。
+
+字幕组状态不是「活跃」（为「不活跃」或「已停用」）、创建该 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销时，删除返回 `403 FORBIDDEN`，资源不会被删除。

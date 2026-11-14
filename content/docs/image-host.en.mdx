@@ -6,7 +6,7 @@ description: Learn about the AniBT dedicated image host for fansub groups, anti-
 AniBT provides dedicated image hosting for approved fansub groups to host high-resolution posters, episode preview screenshots, and release notes graphics.
 
 <Callout type="info">
-  The image host is accessible to fansub group members at `/groups/<slug>/image-host`. It supports all common image formats up to **10 MiB** per file.
+  The image host is accessible to fansub group members at `/groups/<slug>/image-host`. It supports common image formats such as JPEG, PNG, WebP, GIF and BMP, up to **10 MiB** per file. AVIF, HEIC and HEIF are not supported.
 </Callout>
 
 ## Uploading and Preventing Layout Shifts (CLS)
@@ -23,6 +23,8 @@ The image library uses thumbnails. Cards show whether a thumbnail is processing,
   <Step>
     ### Open Image Host Console
     Sign in and navigate to your fansub console at `/groups/<slug>/image-host`. Drag and drop your image files into the upload zone.
+
+    An AVIF, HEIC or HEIF image shows "Image format or dimensions are not supported." as soon as you choose it, and it is not uploaded. Convert it to JPEG, PNG or WebP first.
 
     If an upload fails, click "Retry": an upload that has expired starts over from the beginning. An image that cannot be processed shows only the reason, with no retry.
   </Step>
