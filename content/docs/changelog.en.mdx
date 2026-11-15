@@ -12,6 +12,14 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
 ## November 15, 2026
 
 <TypeTable type={{
+  "The API playground no longer has a Send Request button that sent nothing": {
+    "type": "Fix",
+    "description": "The API playground on a group's API keys page had a Send Request button that never sent a request and only showed a fixed sample response. The button and the sample response are gone; generating and copying the request code work as before. To test the API, run the generated code in a terminal."
+  },
+  "Traditional Chinese wording is consistent": {
+    "type": "Improvement",
+    "description": "The Traditional Chinese interface now writes 發布 for publishing and 帳號 for account everywhere, and a few other terms that appeared in two spellings use one."
+  },
   "The delete API no longer answers 500 for a release you may not delete": {
     "type": "Fix",
     "description": "When a plain member's key deletes a release that another member of the same group published, DELETE /api/releases/{releaseId} now returns 404 NOT_FOUND, exactly the response for a release that does not exist; when the group is not Active, the member who created the key has left the group, or the key is revoked while the request is running, it returns 403 FORBIDDEN. Both cases used to return 500. See Conventions and authentication."
