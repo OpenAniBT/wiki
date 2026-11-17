@@ -38,11 +38,11 @@ const localeTitles: Record<
   me: {
     en: {
       title: 'Current group',
-      description: 'GET /api/subtitle-groups/me — inspect the current group, scopes, and stats. The key creator must still be a group member; a key retained after leaving returns 401.',
+      description: 'GET /api/subtitle-groups/me — inspect the current group, scopes, and stats. The key creator must still be a group member; when a member leaves or is removed, their keys of that group are revoked and return 401, even after the member rejoins. Every request is counted per source before the key is checked.',
     },
     'zh-Hant': {
       title: '字幕組自身資訊',
-      description: 'GET /api/subtitle-groups/me —— 目前 Key 所屬字幕組、scope 與統計。建立 Key 的使用者必須仍為組員；離組後保留的 Key 回傳 401。',
+      description: 'GET /api/subtitle-groups/me —— 目前 Key 所屬字幕組、scope 與統計。建立 Key 的使用者必須仍為組員；成員離開或被移出字幕組時，他在該組的 Key 隨即撤銷並回傳 401，重新加入也不會恢復。每個請求都在校驗 Key 之前依來源計數。',
     },
   },
   'bgm-search': {
@@ -148,11 +148,11 @@ const localeTitles: Record<
   'releases-publish': {
     en: {
       title: 'Publish anime',
-      description: 'POST /api/releases/publish — publish with an API Key. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. Publishing a version the group already has returns 409 CONFLICT with error.reason RELEASE_VERSION_EXISTS. See Conventions and authentication for replay and 503 retry rules.',
+      description: 'POST /api/releases/publish — publish with an API Key. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. Publishing a version the group already has returns 409 CONFLICT with error.reason RELEASE_VERSION_EXISTS. A torrentStorageId whose torrent another release or another user\'s unexpired preview already uses returns 409 CONFLICT with error.reason TORRENT_IN_USE. See Conventions and authentication for replay and 503 retry rules.',
     },
     'zh-Hant': {
       title: '釋出番劇資源',
-      description: 'POST /api/releases/publish —— 字幕組用 API Key 釋出種子。Idempotency-Key 自首次受理起綁定完整請求。同鍵變更參數回傳 409 CONFLICT；缺少綁定的舊未完成上傳請求回傳 legacy_request_binding_missing，兩者均須使用新鍵。本組已有的同一版本再次釋出回傳 409 CONFLICT，error.reason 為 RELEASE_VERSION_EXISTS。回放與 503 重試規則見「介面約定與鑑權」。',
+      description: 'POST /api/releases/publish —— 字幕組用 API Key 釋出種子。Idempotency-Key 自首次受理起綁定完整請求。同鍵變更參數回傳 409 CONFLICT；缺少綁定的舊未完成上傳請求回傳 legacy_request_binding_missing，兩者均須使用新鍵。本組已有的同一版本再次釋出回傳 409 CONFLICT，error.reason 為 RELEASE_VERSION_EXISTS。torrentStorageId 指向的種子已被其他資源或他人未逾期的預覽使用時回傳 409 CONFLICT，error.reason 為 TORRENT_IN_USE。回放與 503 重試規則見「介面約定與鑑權」。',
     },
   },
   'other-releases-publish-whoami': {
@@ -168,11 +168,11 @@ const localeTitles: Record<
   'other-releases-publish': {
     en: {
       title: 'Publish other',
-      description: 'POST /api/other-releases/publish — non-anime categories; torrent required. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. See Conventions and authentication for replay and 503 retry rules.',
+      description: 'POST /api/other-releases/publish — non-anime categories; torrent required. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. A torrentStorageId whose torrent another release or another user\'s unexpired preview already uses returns 409 CONFLICT with error.reason TORRENT_IN_USE. See Conventions and authentication for replay and 503 retry rules.',
     },
     'zh-Hant': {
       title: '釋出其他類資源',
-      description: 'POST /api/other-releases/publish —— category 與 title 必填。Idempotency-Key 自首次受理起綁定完整請求。同鍵變更參數回傳 409 CONFLICT；缺少綁定的舊未完成上傳請求回傳 legacy_request_binding_missing，兩者均須使用新鍵。回放與 503 重試規則見「介面約定與鑑權」。',
+      description: 'POST /api/other-releases/publish —— category 與 title 必填。Idempotency-Key 自首次受理起綁定完整請求。同鍵變更參數回傳 409 CONFLICT；缺少綁定的舊未完成上傳請求回傳 legacy_request_binding_missing，兩者均須使用新鍵。torrentStorageId 指向的種子已被其他資源或他人未逾期的預覽使用時回傳 409 CONFLICT，error.reason 為 TORRENT_IN_USE。回放與 503 重試規則見「介面約定與鑑權」。',
     },
   },
   'releases-delete': {

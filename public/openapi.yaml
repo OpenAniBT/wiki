@@ -102,7 +102,8 @@ paths:
       summary: 字幕组自身信息
       description: |
         返回当前 API Key 所属字幕组的 organizationId、name、slug、ACTIVE 状态、统计和 scopes。
-        使用有效 Key 即可，不要求 releases:publish。创建 Key 的用户必须仍然存在且仍为该组成员，Key 未撤销且字幕组为 ACTIVE；离组后即使未撤销 Key 也返回 401。响应 private, no-store。apiKeySuffix 不能用于鉴权。
+        使用有效 Key 即可，不要求 releases:publish。创建 Key 的用户必须仍然存在且仍为该组成员，Key 未撤销且字幕组为 ACTIVE，否则返回 401。成员离开或被移出字幕组时，他在该组的 Key 随即撤销，重新加入也不会恢复。响应 private, no-store。apiKeySuffix 不能用于鉴权。
+        每个请求都在校验 Key 之前按来源计数，默认 60 次 / 60 秒；没带 Key 的请求和带 Key 的请求（不论 Key 是否有效）分开计数。超限返回 429 RATE_LIMIT_EXCEEDED；限流服务暂时无法计数时返回 503 SERVICE_UNAVAILABLE，Retry-After 为 15。
       security:
         - bearerAuth: []
         - apiKeyAuth: []
@@ -135,7 +136,7 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthorized"
         "429":
-          description: 未认证请求过于频繁
+          description: 请求过于频繁。每个请求都在校验 Key 之前按来源计数，按 Retry-After 等待后重试。
           content:
             application/json:
               schema:
@@ -1706,6 +1707,7 @@ paths:
       summary: 发布身份
       description: |
         不写库。不要求 `releases:publish`。批量发布前确认 `groupSlug` 与 `scopes`。
+        带 Key 的请求在校验 Key 之前按来源计数（无论 Key 是否有效），默认 120 次 / 60 秒，与 POST 发布分开计数，不占用发布的额度；没带 Key 的请求直接返回 401，不计数。超限返回 429 RATE_LIMIT_EXCEEDED；限流服务暂时无法计数时返回 503 SERVICE_UNAVAILABLE，Retry-After 为 15。
       security:
         - bearerAuth: []
         - apiKeyAuth: []
@@ -1734,13 +1736,17 @@ paths:
                       kind: anime
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
     post:
       tags:
         - publish
       operationId: releases-publish
       summary: 发布番剧资源
       description: >
-        番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。本组已有的同一版本再次发布返回 409 CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS。重放及 503 重试规则见「接口约定与鉴权」。
+        番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。本组已有的同一版本再次发布返回 409 CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS。torrentStorageId 指向的种子已被其他资源或他人未过期的预览使用时返回 409 CONFLICT，error.reason 为 TORRENT_IN_USE。重放及 503 重试规则见「接口约定与鉴权」。
 
         animeId 按来源规范化：接受全角数字、前导零和该来源站点的番剧链接（bgm.tv / bangumi.tv / chii.in、myanimelist.net、anidb.net、anilist.co）。已合并的旧 BGM ID 发布到合并后的番剧。发布只解析站内已收录的番剧，不会新收录。
 
@@ -1748,11 +1754,13 @@ paths:
 
         multipart 必须上传 torrent，title 省略时使用种子内部名；JSON 必须提供 title 和属于当前字幕组的 torrentStorageId。JSON 还必须提供 magnetBase64。
 
+        一个已存储的种子只能用于一条资源。torrentStorageId 指向的种子已被另一条番剧资源、其他类资源或他人未过期的预览使用时，发布和预览都返回 409 CONFLICT，error.reason 为 TORRENT_IN_USE，error.message 为 torrent is already used by another release，不写入任何内容；请改用 multipart 上传种子文件。同一发布者重发内容相同的番剧资源时仍返回已有资源；自己预览过的种子可以直接正式发布。
+
         请求里的磁力链接须含 v1 infohash，即 xt=urn:btih 后接 40 位十六进制或 32 位 base32。xt 键不区分大小写，XT=urn:btih:… 同样接受；同时带 urn:btmh 的混合磁链，urn:btmh 写在 urn:btih 前面也接受。没有 xt=urn:btih 或其中不是合法的 v1 infohash 时返回 422 VALIDATION_ERROR。
 
         成功发布返回 { ok: true, result: { releaseId, revision, torrentObjectId? } }。发布回执不包含 groupId、groupName、groupSlug、animeId 或 fileSize；发布前用 GET 同一路径核验身份。
 
-        preview=true 返回顶层 previewUrl、previewToken、expiresAt 和 Key 身份信息，10 分钟后过期；不创建公开发布。
+        preview=true 返回顶层 previewUrl、previewToken、expiresAt 和 Key 身份信息，10 分钟后过期；不创建公开发布。预览所用的种子正式发布后，预览随即失效。
 
         未显式提供的集数、画质、语言、字幕、格式和版本先从标题、再从种子内部名推断；无法推断集数时需传 episode 或 episodeKey。
 
@@ -1768,7 +1776,7 @@ paths:
 
         200 表示本站发布已写入，不保证外站同步或下游读取已经完成。
 
-        发布请求达到限额时返回 429 RATE_LIMIT_EXCEEDED。发布暂时繁忙、限流服务暂时无法计数或上传结果仍待确认时，可返回 503 SERVICE_UNAVAILABLE（限流服务无法计数时 Retry-After 固定为 15）；限流拒绝发生在发布前，其他失败不能据此推断未写入。响应带 Retry-After 时按其秒数等待；没有该头时先核查现有发布并保留 error.requestId，不要立即批量重试。
+        带 Key 的发布请求在校验 Key 之前按来源计数（无论 Key 是否有效），默认 120 次 / 60 秒，GET 同一路径另行计数；没带 Key 的请求直接返回 401，不计数。发布请求达到限额时返回 429 RATE_LIMIT_EXCEEDED。发布暂时繁忙、限流服务暂时无法计数或上传结果仍待确认时，可返回 503 SERVICE_UNAVAILABLE（限流服务无法计数时 Retry-After 固定为 15）；限流拒绝发生在发布前，其他失败不能据此推断未写入。响应带 Retry-After 时按其秒数等待；没有该头时先核查现有发布并保留 error.requestId，不要立即批量重试。
 
         普通发布可发送 Idempotency-Key（去除首尾空白后为 1–256 字符）。同一 API Key、同一发布端点的同一请求重试复用原值；已成功的命令返回原回执，不重复发布。即使原资源已删除，旧命令仍返回旧回执，不恢复资源。删除后有意重新发布时使用新的 Idempotency-Key；从首次受理开始，同一键绑定完整请求；切换发布与预览，或改变资源内容、Nyaa 选项、显式发布时间、上传文件时，请使用新键。同键改参返回 409 CONFLICT，上传完成或已有回执不能绕过绑定。
 
@@ -1834,7 +1842,7 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthorized"
         "403":
-          description: 无权限或缺少 scope。字幕组状态不是「活跃」（为「不活跃」或「已停用」）时返回 FORBIDDEN，error.message 为 subtitle group is not active。创建该 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销时，同样返回 FORBIDDEN。
+          description: 无权限或缺少 scope。字幕组状态不是「活跃」（为「不活跃」或「已停用」）时返回 FORBIDDEN，error.message 为 subtitle group is not active。Key 在请求处理期间被撤销（包括创建该 Key 的成员在此期间离开或被移出字幕组）时，同样返回 FORBIDDEN。成员离开或被移出字幕组后，他在该组的 Key 已撤销，之后的请求返回 401。
           content:
             application/json:
               schema:
@@ -1846,7 +1854,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "409":
-          description: 资源或命令冲突，包括同一 Idempotency-Key 改参。缺少完整绑定的旧未完成上传请求返回 CONFLICT，error.reason 为 legacy_request_binding_missing；使用新键重新提交完整请求。本组在同一番剧下已有集数键、版本、字幕类型、分辨率、语言都相同且种子相同的资源时返回 CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS，error.message 为 release version already exists，error.i18n.key 为 error_release_version_exists；不要重试同一请求。
+          description: 资源或命令冲突，包括同一 Idempotency-Key 改参。缺少完整绑定的旧未完成上传请求返回 CONFLICT，error.reason 为 legacy_request_binding_missing；使用新键重新提交完整请求。本组在同一番剧下已有集数键、版本、字幕类型、分辨率、语言都相同且种子相同的资源时返回 CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS，error.message 为 release version already exists，error.i18n.key 为 error_release_version_exists；不要重试同一请求。torrentStorageId 指向的种子已被另一条番剧资源、其他类资源或他人未过期的预览使用时，发布和预览都返回 CONFLICT，error.reason 为 TORRENT_IN_USE，error.message 为 torrent is already used by another release；请改用 multipart 上传种子文件。
           content:
             application/json:
               schema:
@@ -1889,6 +1897,7 @@ paths:
       summary: 其他类发布身份
       description: |
         `kind` 为 `other`。不写库。
+        带 Key 的请求在校验 Key 之前按来源计数（无论 Key 是否有效），默认 120 次 / 60 秒，与 POST 发布分开计数，不占用发布的额度；没带 Key 的请求直接返回 401，不计数。超限返回 429 RATE_LIMIT_EXCEEDED；限流服务暂时无法计数时返回 503 SERVICE_UNAVAILABLE，Retry-After 为 15。
       security:
         - bearerAuth: []
         - apiKeyAuth: []
@@ -1917,15 +1926,21 @@ paths:
                       kind: other
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/Unavailable'
     post:
       tags:
         - publish
       operationId: other-releases-publish
       summary: 发布其他类资源
       description: >
-        其他类发布必须指定 category，不关联番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。重放及 503 重试规则见「接口约定与鉴权」。
+        其他类发布必须指定 category，不关联番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。torrentStorageId 指向的种子已被其他资源或他人未过期的预览使用时返回 409 CONFLICT，error.reason 为 TORRENT_IN_USE。重放及 503 重试规则见「接口约定与鉴权」。
 
         multipart 必须上传 torrent，title 省略时使用种子内部名；JSON 必须提供 title 和属于当前字幕组的 torrentStorageId。
+
+        一个已存储的种子只能用于一条资源。torrentStorageId 指向的种子已被番剧资源、另一条其他类资源或他人未过期的预览使用时，返回 409 CONFLICT，error.reason 为 TORRENT_IN_USE，error.message 为 torrent is already used by another release，不写入任何内容；请改用 multipart 上传种子文件。
 
         提供磁力链接（magnetLink、magnet 或 magnetBase64）时，须含 v1 infohash，即 xt=urn:btih 后接 40 位十六进制或 32 位 base32。xt 键不区分大小写，XT=urn:btih:… 同样接受；同时带 urn:btmh 的混合磁链，urn:btmh 写在 urn:btih 前面也接受。没有 xt=urn:btih 或其中不是合法的 v1 infohash 时返回 422 VALIDATION_ERROR。
 
@@ -1939,7 +1954,7 @@ paths:
 
         200 表示本站发布已写入，不保证外站同步或下游读取已经完成。
 
-        发布请求达到限额时返回 429 RATE_LIMIT_EXCEEDED。发布暂时繁忙、限流服务暂时无法计数或上传结果仍待确认时，可返回 503 SERVICE_UNAVAILABLE（限流服务无法计数时 Retry-After 固定为 15）；限流拒绝发生在发布前，其他失败不能据此推断未写入。响应带 Retry-After 时按其秒数等待；没有该头时先核查现有发布并保留 error.requestId，不要立即批量重试。
+        带 Key 的发布请求在校验 Key 之前按来源计数（无论 Key 是否有效），默认 120 次 / 60 秒，GET 同一路径另行计数；没带 Key 的请求直接返回 401，不计数。发布请求达到限额时返回 429 RATE_LIMIT_EXCEEDED。发布暂时繁忙、限流服务暂时无法计数或上传结果仍待确认时，可返回 503 SERVICE_UNAVAILABLE（限流服务无法计数时 Retry-After 固定为 15）；限流拒绝发生在发布前，其他失败不能据此推断未写入。响应带 Retry-After 时按其秒数等待；没有该头时先核查现有发布并保留 error.requestId，不要立即批量重试。
 
         普通发布可发送 Idempotency-Key（去除首尾空白后为 1–256 字符）。同一 API Key、同一发布端点的同一请求重试复用原值；已成功的命令返回原回执，不重复发布。即使原资源已删除，旧命令仍返回旧回执，不恢复资源。删除后有意重新发布时使用新的 Idempotency-Key；从首次受理开始，同一键绑定完整请求；切换发布与预览，或改变资源内容、Nyaa 选项、显式发布时间、上传文件时，请使用新键。同键改参返回 409 CONFLICT，上传完成或已有回执不能绕过绑定。
 
@@ -1992,7 +2007,7 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthorized"
         "403":
-          description: 无权限或缺少 scope。字幕组状态不是「活跃」（为「不活跃」或「已停用」）、创建该 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销时，返回 FORBIDDEN。
+          description: 无权限或缺少 scope。字幕组状态不是「活跃」（为「不活跃」或「已停用」），或 Key 在请求处理期间被撤销（包括创建该 Key 的成员在此期间离开或被移出字幕组）时，返回 FORBIDDEN。成员离开或被移出字幕组后，他在该组的 Key 已撤销，之后的请求返回 401。
           content:
             application/json:
               schema:
@@ -2004,7 +2019,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "409":
-          description: 资源或命令冲突，包括同一 Idempotency-Key 改参。缺少完整绑定的旧未完成上传请求返回 CONFLICT，error.reason 为 legacy_request_binding_missing；使用新键重新提交完整请求。
+          description: 资源或命令冲突，包括同一 Idempotency-Key 改参。缺少完整绑定的旧未完成上传请求返回 CONFLICT，error.reason 为 legacy_request_binding_missing；使用新键重新提交完整请求。torrentStorageId 指向的种子已被番剧资源、另一条其他类资源或他人未过期的预览使用时返回 CONFLICT，error.reason 为 TORRENT_IN_USE，error.message 为 torrent is already used by another release；请改用 multipart 上传种子文件。
           content:
             application/json:
               schema:
@@ -2057,7 +2072,7 @@ paths:
 
         创建 Key 的普通成员只能删除自己的发布；owner/admin 可删除本组发布。普通成员的 Key 删除同组其他成员的发布时返回 404 NOT_FOUND（Release not found），应答与资源不存在时完全相同。
 
-        字幕组状态不是「活跃」（为「不活跃」或「已停用」）、创建该 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销时，返回 403 FORBIDDEN，不会删除。
+        字幕组状态不是「活跃」（为「不活跃」或「已停用」），或 Key 在请求处理期间被撤销（包括创建该 Key 的成员在此期间离开或被移出字幕组）时，返回 403 FORBIDDEN，不会删除。成员离开或被移出字幕组后，他在该组的 Key 已撤销，之后的请求返回 401。
       security:
         - bearerAuth: []
         - apiKeyAuth: []
@@ -2122,7 +2137,7 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthorized"
         "403":
-          description: 无权限或缺少 releases:delete。字幕组状态不是「活跃」（为「不活跃」或「已停用」）、创建该 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销时，返回 FORBIDDEN，不会删除。
+          description: 无权限或缺少 releases:delete。字幕组状态不是「活跃」（为「不活跃」或「已停用」），或 Key 在请求处理期间被撤销（包括创建该 Key 的成员在此期间离开或被移出字幕组）时，返回 FORBIDDEN，不会删除。
           content:
             application/json:
               schema:
@@ -2262,7 +2277,7 @@ paths:
 
         需要 `releases:sync:read`。
 
-        不接受 query 或请求体。默认 120 次 / 60 秒 / API Key；超限按 Retry-After 退避。
+        不接受 query 或请求体。每个请求都先在校验 Key 之前按来源计数，默认 300 次 / 60 秒；Key 有效时再按 Key 计数，默认 120 次 / 60 秒。超限返回 429 RATE_LIMIT_EXCEEDED，按 Retry-After 退避；限流服务暂时无法计数时返回 503 SERVICE_UNAVAILABLE，Retry-After 为 15。
       security:
         - bearerAuth: []
         - apiKeyAuth: []

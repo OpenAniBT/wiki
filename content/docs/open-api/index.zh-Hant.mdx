@@ -74,7 +74,7 @@ AniBT 提供公開查詢與訂閱介面，以及透過字幕組 API Key 呼叫�
 
 ### 番劇搜尋的分頁
 
-`/api/animes/search` 接受 `q`、`format`、`status`、`seasonYear`、`limit`（預設 24，1–50）與 `cursor`，直接回傳 `page`、`isDone`、`continueCursor`，沒有 `ok` 或 `data` 包裝。
+`/api/animes/search` 接受 `q`、`format`、`status`、`seasonYear`、`limit`（預設 24，1–50）與 `cursor`，直接回傳 `page`、`isDone`、`continueCursor`，沒有 `ok` 或 `data` 包裝。`q` 與搜尋頁的輸入框一樣最多 300 個字元，更長時回傳 422 `VALIDATION_ERROR`。
 
 <Callout type="warn">
   `continueCursor` 是不透明的權杖，最後一頁為空字串。翻頁時原樣傳回，不要解析或自行拼接。

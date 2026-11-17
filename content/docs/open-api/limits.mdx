@@ -32,7 +32,7 @@ description: "各端点的默认限额、参数范围与退避方式。"
   },
   "番剧搜索": {
     "type": "120 次 / 60 秒 / IP",
-    "description": "/api/animes/search；limit 默认 24，1–50。翻页只接受上一页返回的 continueCursor。"
+    "description": "/api/animes/search；limit 默认 24，1–50；q 最多 300 字符，超出返回 422 VALIDATION_ERROR。翻页只接受上一页返回的 continueCursor。"
   },
   "资源搜索词数": {
     "type": "16 个正向词 / 8 个排除词",
@@ -52,15 +52,23 @@ description: "各端点的默认限额、参数范围与退避方式。"
   },
   "API 发布": {
     "type": "每类 120 次 / 60 秒 / IP",
-    "description": "JSON 默认上限 1 MiB，multipart 默认上限 8 MiB。超限返回 429 RATE_LIMIT_EXCEEDED；限流服务暂时无法计数时返回 503 SERVICE_UNAVAILABLE，Retry-After 固定为 15。两者均带 Retry-After（秒），等待后重试。GET whoami 不消耗此额度。"
+    "description": "带 Key 的 POST 在校验 Key 之前计数，Key 无效也计数；没带 Key 的请求直接返回 401，不计数。JSON 默认上限 1 MiB，multipart 默认上限 8 MiB。超限返回 429 RATE_LIMIT_EXCEEDED；限流服务暂时无法计数时返回 503 SERVICE_UNAVAILABLE，Retry-After 固定为 15。两者均带 Retry-After（秒），等待后重试。"
+  },
+  "发布身份（GET whoami）": {
+    "type": "每类 120 次 / 60 秒 / IP",
+    "description": "GET /api/releases/publish 与 GET /api/other-releases/publish 单独计数，不占用 API 发布的额度。带 Key 的请求在校验 Key 之前计数，Key 无效也计数；没带 Key 的请求直接返回 401，不计数。"
+  },
+  "字幕组自身信息": {
+    "type": "60 次 / 60 秒 / IP",
+    "description": "GET /api/subtitle-groups/me。每个请求都在校验 Key 之前计数；没带 Key 的请求和带 Key 的请求（不论 Key 是否有效）分开计数。"
   },
   "删除与删除状态": {
     "type": "30 / 120 次 / 60 秒 / Key",
     "description": "DELETE 默认 30 次，GET /deletion 默认 120 次。"
   },
   "同步状态": {
-    "type": "120 次 / 60 秒 / Key",
-    "description": "GET /sync-status。"
+    "type": "300 次 / 60 秒 / IP，120 次 / 60 秒 / Key",
+    "description": "GET /sync-status。每个请求都先在校验 Key 之前按来源计数（300 次），Key 有效时再按 Key 计数（120 次）。"
   }
 }} />
 
@@ -68,6 +76,6 @@ description: "各端点的默认限额、参数范围与退避方式。"
 
 RSS 的 q/search 与 Torznab 的 q 规范化后最多 160 个 UTF-8 字节，`/magnets` 的 q 最多 300 字符。资源搜索的匹配规则见[资源搜索](/docs/open-api#资源搜索)。Bangumi 搜索、季度标题查询和标题匹配各有字符数限制，不能共用一个长度规则。公开 RSS 没有 cursor/page 分页；Torznab 使用有界 offset。
 
-JSON 接口和种子下载的限流服务暂时无法计数时，返回 `503 SERVICE_UNAVAILABLE`，带 `Retry-After: 15` 和 `Cache-Control: no-store`，不返回 429。这不表示请求过多，等待后重试即可。公开 RSS 和 Torznab 不适用此规则。
+JSON 接口和种子下载的限流服务暂时无法计数时，返回 `503 SERVICE_UNAVAILABLE`，带 `Retry-After: 15` 和 `Cache-Control: no-store`，不返回 429。这不表示请求过多，等待后重试即可。发布端点（含 whoami）、`/api/subtitle-groups/me` 和同步状态在校验 Key 之前计数，因此带有效 Key 的请求也可能收到这个 503。公开 RSS 和 Torznab 不适用此规则。
 
 收到 429 时按 Retry-After 等待；该字段存在时单位为秒。公开 RSS 的 503 表示后端暂时不可用，不是限流：应用返回的 503 带 `Retry-After: 30` 和 `Cache-Control: no-store`，不会以空 feed 代替，等待后重试即可。没有该字段的错误不能假定 2 秒后成功。普通 RSS 建议至少间隔 5 分钟，并避免并发请求；304 仍可能消耗额度。

@@ -9,6 +9,47 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   Entries are listed in reverse chronological order. If you encounter any bugs during regular use, feel free to report them via our [Support Email](/en/docs/contact).
 </Callout>
 
+## November 17, 2026
+
+<TypeTable type={{
+  "The image host accepts only JPEG, PNG, GIF, WebP and BMP": {
+    "type": "Fix",
+    "description": "The image host accepts only these five formats; SVG, TIFF and ICO are no longer accepted either (AVIF, HEIC and HEIF already were not). Choosing one of them shows \"Image format or dimensions are not supported.\" right away, and the upload endpoint POST /api/image-host/upload answers 400 UNSUPPORTED_IMAGE_TYPE. The image host judges a file by its actual content: a file whose content is not one of the five formats is refused during processing, even when its name or file type says it is. Deleting an image now also clears the share page from the cache at all three language addresses (Simplified Chinese, Traditional Chinese and English). See Fansub Image Hosting."
+  },
+  "Bangumi sign-in no longer uses the email in your Bangumi profile": {
+    "type": "Fix",
+    "description": "Signing in with Bangumi no longer reads the email in your Bangumi profile and no longer reaches the AniBT account that has that email. An account created through Bangumi sign-in has no email on AniBT: its profile and account menu show \"No email linked\", and it receives no account emails. Other third-party sign-ins reach an existing account by email only when the provider has confirmed the address and the AniBT account's email is verified too; to use a third-party sign-in on an existing account, sign in and link it under \"Sign-in Methods\" in your profile. See Account & Authentication."
+  },
+  "One answer for every failed code, and no one else can use up your email allowance": {
+    "type": "Improvement",
+    "description": "A wrong code, an expired code, and a code whose 5 attempts are used up all show \"Wrong or expired code. If it keeps failing, request a new one\". The success message for a code or reset email comes back before the email is sent, so registered and unregistered addresses wait the same time for it. One address still accepts at most 5 email requests in any rolling 24 hours, but requests without proof (no bot verification passed on that request, and not sent by the address's own signed-in account) can take at most 3 of them, at most 2 from one source; the remaining 2 or more are kept for requests that passed the bot verification or come from the signed-in owner. IPv6 sources are counted per /64 network. See Account & Authentication."
+  },
+  "The publish API refuses a stored torrent that is already in use": {
+    "type": "Fix",
+    "description": "A stored torrent can back only one release. When the torrentStorageId of a publish or a preview names a torrent that another anime release, an other release, or another user's unexpired preview already uses, the answer is 409 CONFLICT with error.reason TORRENT_IN_USE and nothing is written; upload the torrent file with multipart instead. Previously, two releases sharing one torrent could then neither be deleted. The same publisher republishing an anime release with the same content still gets the existing release, a torrent you previewed yourself can be published directly, and once it is published its previews stop working. See Conventions and authentication."
+  },
+  "The Open API counts a request before it checks the key": {
+    "type": "Improvement",
+    "description": "POST and GET (whoami) on both publish endpoints, GET /api/subtitle-groups/me and the sync status read now count every request per source before the key is checked, including requests whose key is invalid, and over the limit they answer 429 directly. GET whoami now has its own allowance (120 per kind / 60 seconds / IP) and does not spend the publishing allowance; /me allows 60 per source per 60 seconds; sync status allows 300 per source per 60 seconds, then 120 per key when the key is valid. When the rate limiter temporarily cannot count, these endpoints answer 503 SERVICE_UNAVAILABLE with Retry-After: 15, also for a valid key. Also, q on /api/animes/search is at most 300 characters, and a longer one returns 422 VALIDATION_ERROR. See Rate limits and parameter bounds."
+  },
+  "A member's API keys end when they leave the group": {
+    "type": "Improvement",
+    "description": "When a member leaves or is removed from a group, their API keys of that group are revoked at the same time, and later requests with those keys return 401. The keys stay revoked even if the member joins the group again; create a new key. Keys left behind by members who had already left are revoked too. Changing a member's role does not affect their keys. See Conventions and authentication."
+  },
+  "An Inactive or Suspended group can only clean up": {
+    "type": "Improvement",
+    "description": "While a group's status is Inactive or Suspended, its console can no longer publish or edit releases, upload images, change the group's settings or external site credentials, test connections, retry or resend sync, create claims or invite members. Only deleting releases and image host images, revoking API keys, removing members and leaving the group remain. External publishing tasks that start running from then on, including ones queued earlier, are not sent to external sites. Images already uploaded stay available. See Multi-Site Sync Overview."
+  },
+  "Magnet-only releases send external sites a torrent without third-party cache additions": {
+    "type": "Fix",
+    "description": "For a release published with only a magnet link, AniBT fetches the torrent through the magnet link and sends it to external sites. That torrent is now the same one viewers download from AniBT: it keeps only the file information of the torrent, its trackers are the AniBT tracker plus AniBT's default tracker list, and it no longer carries trackers, web seeds or a comment added by third-party torrent caches. The infohash does not change. See Multi-Site Sync Overview."
+  },
+  "A claim needs a Bangumi title, and one bad entry no longer holds up public pages": {
+    "type": "Fix",
+    "description": "A claim now needs a non-empty Bangumi title, and claims saved earlier with an empty title have been deleted. One group's faulty claim no longer stops the public Fansubbing Plans page from updating for every group. An anime whose Bangumi episode count, title or synopsis is out of range no longer stops the airing times of its whole season (the home page's weekly schedule and the seasonal anime page) from updating; the other anime update as usual."
+  },
+}} />
+
 ## November 15, 2026
 
 <TypeTable type={{

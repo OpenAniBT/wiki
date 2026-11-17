@@ -20,7 +20,11 @@ description: "按响应类型、状态码和字段定位问题。"
   },
   "401 / 403": {
     "type": "鉴权",
-    "description": "401 检查 Key 是否有效；403 检查所需 scope 或会话成员身份。whoami 和 /me 不要求 releases:publish。发布或删除返回 403 还可能是字幕组不是「活跃」状态、创建 Key 的成员已离开字幕组，或 Key 在请求处理期间被撤销。"
+    "description": "401 检查 Key 是否有效：成员离开或被移出字幕组时，他在该组的 Key 随即撤销，重新加入也不会恢复，需要新建 Key。403 检查所需 scope 或会话成员身份。whoami 和 /me 不要求 releases:publish。发布或删除返回 403 还可能是字幕组不是「活跃」状态，或 Key 在请求处理期间被撤销。"
+  },
+  "409 / TORRENT_IN_USE": {
+    "type": "发布输入",
+    "description": "torrentStorageId 指向的种子已被另一条资源或他人未过期的预览使用。一个已存储的种子只能用于一条资源，换新键重试也不会成功；请改用 multipart 上传种子文件。"
   },
   "422 / TORRENT_REQUIRED": {
     "type": "发布输入",
@@ -33,6 +37,10 @@ description: "按响应类型、状态码和字段定位问题。"
   "番剧搜索返回 422 / VALIDATION_ERROR": {
     "type": "cursor",
     "description": "cursor 不是上一页为相同查询和过滤条件返回的 continueCursor，例如自行拼接的 ts_page:N 或更新前保存的值。去掉 cursor，从第一页重新开始。"
+  },
+  "番剧搜索 q 过长返回 422 / VALIDATION_ERROR": {
+    "type": "参数上限",
+    "description": "/api/animes/search 的 q 最多 300 个字符，与搜索页的输入框相同。缩短查询；原样重试不会成功。"
   },
   "资源搜索返回 422 / 400 / 错误 201": {
     "type": "词数上限",

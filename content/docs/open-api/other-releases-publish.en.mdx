@@ -1,6 +1,6 @@
 ---
 title: "Publish other"
-description: "POST /api/other-releases/publish — non-anime categories; torrent required. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. See Conventions and authentication for replay and 503 retry rules."
+description: "POST /api/other-releases/publish — non-anime categories; torrent required. Idempotency-Key binds the complete request from first acceptance. Changed requests return 409 CONFLICT; unfinished legacy uploads without a binding return legacy_request_binding_missing. Use a new key for either case. A torrentStorageId whose torrent another release or another user's unexpired preview already uses returns 409 CONFLICT with error.reason TORRENT_IN_USE. See Conventions and authentication for replay and 503 retry rules."
 full: true
 _openapi:
   preload:

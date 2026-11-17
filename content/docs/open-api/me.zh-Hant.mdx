@@ -1,6 +1,6 @@
 ---
 title: "字幕組自身資訊"
-description: "GET /api/subtitle-groups/me —— 目前 Key 所屬字幕組、scope 與統計。建立 Key 的使用者必須仍為組員；離組後保留的 Key 回傳 401。"
+description: "GET /api/subtitle-groups/me —— 目前 Key 所屬字幕組、scope 與統計。建立 Key 的使用者必須仍為組員；成員離開或被移出字幕組時，他在該組的 Key 隨即撤銷並回傳 401，重新加入也不會恢復。每個請求都在校驗 Key 之前依來源計數。"
 full: true
 _openapi:
   preload:

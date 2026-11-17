@@ -74,7 +74,7 @@ AniBT 提供公开查询与订阅接口，以及通过字幕组 API Key 调用�
 
 ### 番剧搜索的分页
 
-`/api/animes/search` 接受 `q`、`format`、`status`、`seasonYear`、`limit`（默认 24，1–50）和 `cursor`，直接返回 `page`、`isDone`、`continueCursor`，没有 `ok` 或 `data` 包装。
+`/api/animes/search` 接受 `q`、`format`、`status`、`seasonYear`、`limit`（默认 24，1–50）和 `cursor`，直接返回 `page`、`isDone`、`continueCursor`，没有 `ok` 或 `data` 包装。`q` 与搜索页的输入框一样最多 300 个字符，更长时返回 422 `VALIDATION_ERROR`。
 
 <Callout type="warn">
   `continueCursor` 是不透明的令牌，最后一页为空字符串。翻页时原样传回，不要解析或自行拼接。

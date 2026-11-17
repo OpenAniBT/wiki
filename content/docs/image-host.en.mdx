@@ -6,7 +6,7 @@ description: Learn about the AniBT dedicated image host for fansub groups, anti-
 AniBT provides dedicated image hosting for approved fansub groups to host high-resolution posters, episode preview screenshots, and release notes graphics.
 
 <Callout type="info">
-  The image host is accessible to fansub group members at `/groups/<slug>/image-host`. It supports common image formats such as JPEG, PNG, WebP, GIF and BMP, up to **10 MiB** per file. AVIF, HEIC and HEIF are not supported.
+  The image host is accessible to fansub group members at `/groups/<slug>/image-host`. It accepts exactly five image formats, JPEG, PNG, GIF, WebP and BMP, up to **10 MiB** per file. Every other format, such as SVG, TIFF, ICO, AVIF, HEIC or HEIF, is refused.
 </Callout>
 
 ## Uploading and Preventing Layout Shifts (CLS)
@@ -24,9 +24,11 @@ The image library uses thumbnails. Cards show whether a thumbnail is processing,
     ### Open Image Host Console
     Sign in and navigate to your fansub console at `/groups/<slug>/image-host`. Drag and drop your image files into the upload zone.
 
-    An AVIF, HEIC or HEIF image shows "Image format or dimensions are not supported." as soon as you choose it, and it is not uploaded. Convert it to JPEG, PNG or WebP first.
+    An image in any other format (for example SVG, TIFF, ICO, AVIF, HEIC or HEIF) shows "Image format or dimensions are not supported." as soon as you choose it, and it is not uploaded. Convert it to JPEG, PNG or WebP first. The image host judges a file by its actual content: a file whose content is not one of the five formats is refused during processing, even when its name or file type says it is.
 
     If an upload fails, click "Retry": an upload that has expired starts over from the beginning. An image that cannot be processed shows only the reason, with no retry.
+
+    While the group's status is Inactive or Suspended, no new images can be uploaded; images already uploaded stay available and can still be deleted.
   </Step>
 
   <Step>
@@ -89,7 +91,7 @@ If an image was uploaded by mistake or is no longer needed, the original uploade
     },
     'complete': {
       type: 'Status',
-      description: 'Purging finished; internal shortlinks and direct i.anibt.net links return 404 / 410.',
+      description: 'Purging finished; internal shortlinks (the share page in all three languages, Simplified Chinese, Traditional Chinese and English, is cleared from the cache) and direct i.anibt.net links return 404 / 410.',
     },
     'failed': {
       type: 'Status',

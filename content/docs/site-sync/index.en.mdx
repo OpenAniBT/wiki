@@ -22,6 +22,8 @@ Once a release is accepted on AniBT, asynchronous tasks are queued for each enab
   <Step>
     ### Automated Dispatch on Release
     When submitting anime or other releases, AniBT automatically schedules uploads to all enabled external sites. Each upload is processed independently in background queues; temporary connection dips on one site do not affect others.
+
+    For a release published with only a magnet link and no torrent file, AniBT fetches the torrent through the magnet link before sending it to external sites. The torrent sent to external sites is the same one viewers download from AniBT: it keeps only the file information of the torrent, its trackers are the AniBT tracker plus AniBT's default tracker list, and it carries no trackers, web seeds or comment added by third-party torrent caches. The infohash does not change.
   </Step>
 
   <Step>
@@ -33,6 +35,10 @@ Once a release is accepted on AniBT, asynchronous tasks are queued for each enab
 </Steps>
 
 Sync logs refresh about every 5 seconds while tasks are queued or running, and check about every 30 seconds while idle. Tasks started from another page or device may appear at the next check; this does not delay their execution.
+
+<Callout type="warn">
+  While a group's status is Inactive or Suspended, no external publishing task that starts running from then on is sent to an external site, including tasks queued before the status changed. The console cannot publish or edit releases, upload images, import anime, change the group's profile or settings, save external site credentials, test connections, retry or resend sync, create claims, manage title templates, create API keys, invite members or change member roles, and the group's API keys cannot do anything. Only clean-up remains: deleting releases and image host images, revoking API keys, removing members and leaving the group, each with the same permissions as before.
+</Callout>
 
 ## Supported Distribution Platforms
 

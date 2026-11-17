@@ -1,6 +1,6 @@
 ---
 title: "Current group"
-description: "GET /api/subtitle-groups/me — inspect the current group, scopes, and stats. The key creator must still be a group member; a key retained after leaving returns 401."
+description: "GET /api/subtitle-groups/me — inspect the current group, scopes, and stats. The key creator must still be a group member; when a member leaves or is removed, their keys of that group are revoked and return 401, even after the member rejoins. Every request is counted per source before the key is checked."
 full: true
 _openapi:
   preload:

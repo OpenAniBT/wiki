@@ -74,7 +74,7 @@ Limits:
 
 ### Anime search pagination
 
-`/api/animes/search` accepts `q`, `format`, `status`, `seasonYear`, `limit` (default 24, range 1–50), and `cursor`. It returns `page`, `isDone`, and `continueCursor` directly, without an `ok` or `data` wrapper.
+`/api/animes/search` accepts `q`, `format`, `status`, `seasonYear`, `limit` (default 24, range 1–50), and `cursor`. It returns `page`, `isDone`, and `continueCursor` directly, without an `ok` or `data` wrapper. Like the search page's input, `q` is at most 300 characters; a longer one returns 422 `VALIDATION_ERROR`.
 
 <Callout type="warn">
   `continueCursor` is an opaque token and an empty string on the last page. Pass it back unchanged; don't parse it or build your own.

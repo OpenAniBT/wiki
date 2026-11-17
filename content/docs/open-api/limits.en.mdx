@@ -32,7 +32,7 @@ These are application defaults; deployment settings and edge rules may impose di
   },
   "Anime search": {
     "type": "120 / 60 seconds / IP",
-    "description": "/api/animes/search: limit defaults to 24, range 1–50. Pagination accepts only the continueCursor from the previous page."
+    "description": "/api/animes/search: limit defaults to 24, range 1–50; q is at most 300 characters, and a longer one returns 422 VALIDATION_ERROR. Pagination accepts only the continueCursor from the previous page."
   },
   "Release search terms": {
     "type": "16 positive terms / 8 exclusions",
@@ -52,15 +52,23 @@ These are application defaults; deployment settings and edge rules may impose di
   },
   "API publishing": {
     "type": "120 per kind / 60 seconds / IP",
-    "description": "Default body limits: JSON 1 MiB; multipart 8 MiB. Throttled requests return 429 RATE_LIMIT_EXCEEDED. If the rate limiter temporarily cannot count, requests return 503 SERVICE_UNAVAILABLE with Retry-After fixed at 15. Both include Retry-After in seconds; wait before retrying. GET whoami does not spend this limit."
+    "description": "A POST that presents a key is counted before the key is checked, even when the key is invalid; a request without a key gets 401 and is not counted. Default body limits: JSON 1 MiB; multipart 8 MiB. Throttled requests return 429 RATE_LIMIT_EXCEEDED. If the rate limiter temporarily cannot count, requests return 503 SERVICE_UNAVAILABLE with Retry-After fixed at 15. Both include Retry-After in seconds; wait before retrying."
+  },
+  "Publish identity (GET whoami)": {
+    "type": "120 per kind / 60 seconds / IP",
+    "description": "GET /api/releases/publish and GET /api/other-releases/publish are counted separately and do not spend the API publishing limit. A request that presents a key is counted before the key is checked, even when the key is invalid; a request without a key gets 401 and is not counted."
+  },
+  "Current group": {
+    "type": "60 / 60 seconds / IP",
+    "description": "GET /api/subtitle-groups/me. Every request is counted before the key is checked; requests without a key and requests with a key (valid or not) are counted separately."
   },
   "Deletion and deletion status": {
     "type": "30 / 120 per 60 seconds / key",
     "description": "DELETE defaults to 30; GET /deletion defaults to 120."
   },
   "Sync status": {
-    "type": "120 / 60 seconds / key",
-    "description": "GET /sync-status."
+    "type": "300 / 60 seconds / IP; 120 / 60 seconds / key",
+    "description": "GET /sync-status. Every request is first counted per source before the key is checked (300), then per key when the key is valid (120)."
   }
 }} />
 
@@ -68,6 +76,6 @@ Public RSS limit accepts a single decimal integer from 1 to 100 without leading 
 
 RSS q/search and Torznab q are limited to 160 UTF-8 bytes after normalization, and `/magnets` q to 300 characters. For matching rules, see [Release search](/en/docs/open-api#release-search). Bangumi search, seasonal title queries, and title matching have their own character limits. Public RSS has no cursor/page pagination; Torznab uses bounded offset.
 
-When the rate limiter of a JSON endpoint or a torrent download temporarily cannot count, the response is `503 SERVICE_UNAVAILABLE` with `Retry-After: 15` and `Cache-Control: no-store`, not 429. It does not mean you sent too many requests; wait, then retry. Public RSS and Torznab do not follow this rule.
+When the rate limiter of a JSON endpoint or a torrent download temporarily cannot count, the response is `503 SERVICE_UNAVAILABLE` with `Retry-After: 15` and `Cache-Control: no-store`, not 429. It does not mean you sent too many requests; wait, then retry. The publish endpoints (whoami included), `/api/subtitle-groups/me` and sync status count a request before checking its key, so a request with a valid key can get this 503 too. Public RSS and Torznab do not follow this rule.
 
 For 429, honor Retry-After in seconds. A public RSS 503 means the backend is temporarily unavailable; it is not a rate limit. The application's 503 carries Retry-After: 30 and Cache-Control: no-store and is never replaced by an empty feed; wait, then retry. Do not assume every error includes Retry-After. Poll normal RSS at intervals of at least five minutes and avoid concurrent requests. Conditional requests returning 304 may still consume rate limits.

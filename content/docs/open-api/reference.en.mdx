@@ -63,7 +63,11 @@ An unfinished request uploaded before the upgrade may lack a complete binding. I
 
 When the group already has a release of the same anime with the same episode key, version, subtitle type, resolution, languages, and torrent, publishing it again returns `409 CONFLICT` with `error.reason` set to `RELEASE_VERSION_EXISTS`. That torrent is already published as this version, and retrying with a new key won't succeed either.
 
-Publishing returns `403 FORBIDDEN` when the group's status is not Active (it is Inactive or Suspended), when the member who created the key has left the group, or when the key is revoked while the request is running.
+A stored torrent can back only one release. When the `torrentStorageId` of a JSON request names a torrent that another anime release, an other release, or another user's unexpired preview already uses, both publishing and previewing return `409 CONFLICT` with `error.reason` set to `TORRENT_IN_USE`, and nothing is written; upload the torrent file with multipart instead. The same publisher republishing an anime release with the same content still gets the existing release, and a torrent you previewed yourself can be published directly. Once it is published, its previews stop working.
+
+Publishing returns `403 FORBIDDEN` when the group's status is not Active (it is Inactive or Suspended), or when the key is revoked while the request is running.
+
+When a member leaves or is removed from the group, their API keys of that group are revoked at the same time, and later requests with those keys return `401`. The keys stay revoked even if the member joins the group again; create a new key. Changing a member's role does not affect their keys.
 
 A magnet link in the request must carry a v1 infohash: `xt=urn:btih:` followed by 40 hexadecimal or 32 base32 characters. The `xt` key is case-insensitive, so `XT=urn:btih:…` is accepted too, and a hybrid magnet that also carries `urn:btmh` is accepted even when `urn:btmh` comes before `urn:btih`.
 
@@ -82,10 +86,12 @@ A numeric episode key is stored in one form: without leading zeros, and a decima
 
 When an anime release is published without `resolution`, the resolution is read only from the parts of the title that state one: `1080p`, `1080P` or `1080i`, a width × height such as `1920x1080` or `3840x2160`, and `4K` as a word of its own. `2160p` and `3840x2160` are read as `2160p`; only a title that says `4K` gets `4K`. Episode numbers, bare numbers without `p` or `i` (such as `1080`, `720` or `2160`), digits inside a checksum, and a `4K` inside a word (such as `Show4Kids`) are not a resolution, so `[Group] One Piece - 1080 [720p].mkv` is read as `720p`. When the title states no resolution, the torrent's internal name is read by the same rule, and if that has none either, the resolution is `1080p`.
 
+POST and GET (whoami) on the publish endpoints are counted per source before the key is checked, including requests whose key is invalid; over the limit, the answer is `429` and the key is not checked. whoami is counted separately and does not spend the publishing allowance. See [Rate limits and parameter bounds](/en/docs/open-api/limits) for the numbers.
+
 For `429 RATE_LIMIT_EXCEEDED`, wait for the number of seconds in `Retry-After`. A busy publishing service, a rate limiter that temporarily cannot count, or an unconfirmed upload result can return `503 SERVICE_UNAVAILABLE`; when the rate limiter cannot count, `Retry-After` is always 15. When a `503` includes `Retry-After`, wait and retry the same request with its original key. Without that header, check existing releases and keep `error.requestId` first. A failure or lost connection does not prove that nothing was written. Avoid immediate batch retries or repeatedly switching keys for an uncertain result.
 
 ## Refused deletions
 
 `DELETE /api/releases/{releaseId}` returns `404 NOT_FOUND` with `error.message` set to `Release not found` when the release does not exist, belongs to another group, or was published by another member of the same group and the key belongs to a plain member. These cases return exactly the same response. A plain member's key can delete only that member's own releases; an owner's or admin's key can delete any release of the group.
 
-Deletion returns `403 FORBIDDEN` and deletes nothing when the group's status is not Active (it is Inactive or Suspended), when the member who created the key has left the group, or when the key is revoked while the request is running.
+Deletion returns `403 FORBIDDEN` and deletes nothing when the group's status is not Active (it is Inactive or Suspended), or when the key is revoked while the request is running. Once a member has left or been removed from the group, their keys of that group are revoked and a deletion returns `401`.

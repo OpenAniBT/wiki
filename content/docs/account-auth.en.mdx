@@ -23,10 +23,12 @@ New email registrations accept these exact domains, excluding their subdomains:
 Existing accounts can still verify their original address and reset their password, including addresses on custom domains outside this list. Third-party sign-in is unaffected.
 
 - Requests for the same mailbox must be at least **60 seconds apart**, with at most **5 in any rolling 24-hour period**. Registration, verification and password-reset requests share this allowance.
-- A source IP can make at most **10 eligible email requests in any rolling hour**. People sharing an office, school or home network may share this allowance.
+- Of those 5, requests **without proof** can take at most **3** in total, and at most **2** of them can come from one source; the remaining 2 or more are kept for requests **with proof**. A request has proof when it passed the bot verification (requesting a sign-up code, "Forgot password", or "Set Password" in your profile) or when the account that owns the address sends it while signed in. Everything else has no proof, for example a send from the email verification page, or a sign-up resend within 10 minutes that skips the bot verification. So someone else can use up at most 3 of your requests, and you still receive mail after passing the bot verification or signing in.
+- A source (an IPv4 address, or the /64 network of an IPv6 address) can make at most **10 eligible email requests in any rolling hour**. People sharing an office, school or home network may share this allowance.
 - Gmail dot variants, plus aliases and `googlemail.com` share one allowance without changing the account address.
 - Wait before retrying a limited request. A rejected resend does not invalidate the previously sent code; expired or already used codes remain invalid.
-- Failed or unconfirmed sends can still consume the allowance. A successful request does not guarantee delivery.
+- A wrong code, an expired code, and a code whose 5 attempts are used up all show "Wrong or expired code. If it keeps failing, request a new one". If it keeps failing, request a new code.
+- Failed or unconfirmed sends can still consume the allowance. The success message comes back before the email is sent, so it does not confirm that an email was sent or delivered.
 - Emails use the language of the page you sent the request from: English pages (`/en/…`) send English, Traditional Chinese pages (`/zh-hant/…`) send Traditional Chinese, and every other page sends Simplified Chinese.
 
 ## Registration Steps
@@ -65,7 +67,9 @@ Existing accounts can still verify their original address and reset their passwo
   <Tab value="Third-Party Auth">
     The sign-in page displays currently supported third-party providers (e.g., GitHub / OIDC).
 
-    - Click the provider icon to authorize and connect.
+    - Click the provider icon to authorize and sign in; the first sign-in creates an account.
+    - A third-party sign-in reaches an existing account by email only when the provider has confirmed that address and the AniBT account's email is verified too. To use a third-party sign-in on an existing account, sign in first, then click "Link" under "Sign-in Methods" in your profile.
+    - Bangumi sign-in does not use the email in your Bangumi profile and never reaches an existing account by email. An account created through Bangumi sign-in has no email on AniBT, and its profile shows "No email linked". An account without an email receives no verification codes, password resets or other account emails, so it cannot set or reset a password by email.
     - OAuth callback links are one-time credentials. If redirect errors occur, return to the sign-in page and start over rather than refreshing the callback URL.
   </Tab>
 

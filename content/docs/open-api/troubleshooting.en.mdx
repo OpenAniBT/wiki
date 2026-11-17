@@ -20,7 +20,11 @@ Check the URL, HTTP method, Content-Type, and response body first.
   },
   "401 / 403": {
     "type": "Authentication",
-    "description": "401: check key validity. 403: check scope or session membership. whoami and /me do not require releases:publish. A 403 on publish or deletion can also mean the group is not Active, the member who created the key has left the group, or the key was revoked while the request was running."
+    "description": "401: check key validity. When a member leaves or is removed from the group, their keys of that group are revoked at once and stay revoked if they rejoin; create a new key. 403: check scope or session membership. whoami and /me do not require releases:publish. A 403 on publish or deletion can also mean the group is not Active, or the key was revoked while the request was running."
+  },
+  "409 / TORRENT_IN_USE": {
+    "type": "Publish input",
+    "description": "The torrent that torrentStorageId names is already used by another release or by another user's unexpired preview. A stored torrent can back only one release, and retrying with a new key won't succeed; upload the torrent file with multipart instead."
   },
   "422 / TORRENT_REQUIRED": {
     "type": "Publish input",
@@ -33,6 +37,10 @@ Check the URL, HTTP method, Content-Type, and response body first.
   "Anime search returns 422 / VALIDATION_ERROR": {
     "type": "cursor",
     "description": "The cursor is not the continueCursor the previous page returned for the same query and filters, for example a self-built ts_page:N or a value saved before the update. Drop cursor and start again from the first page."
+  },
+  "Anime search returns 422 / VALIDATION_ERROR for a long q": {
+    "type": "Parameter bound",
+    "description": "q on /api/animes/search is at most 300 characters, the same as the search page's input. Shorten the query; retrying unchanged won't succeed."
   },
   "Release search returns 422 / 400 / error 201": {
     "type": "Term limit",

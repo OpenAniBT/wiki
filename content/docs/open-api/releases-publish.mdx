@@ -3,7 +3,9 @@ title: 发布番剧资源
 description: 番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。 Idempotency-Key
   从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回
   legacy_request_binding_missing，两者均须使用新键。本组已有的同一版本再次发布返回 409
-  CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS。重放及 503 重试规则见「接口约定与鉴权」。
+  CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS。torrentStorageId
+  指向的种子已被其他资源或他人未过期的预览使用时返回 409 CONFLICT，error.reason 为 TORRENT_IN_USE。重放及 503
+  重试规则见「接口约定与鉴权」。
 full: true
 _openapi:
   preload:
@@ -15,13 +17,14 @@ _openapi:
     headings: []
     contents:
       - content: |
-          番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。本组已有的同一版本再次发布返回 409 CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS。重放及 503 重试规则见「接口约定与鉴权」。
+          番剧发布必须指定 animeIdType 与 animeId，不按标题匹配番剧。 Idempotency-Key 从首次受理起绑定完整请求。同键改参返回 409 CONFLICT；缺少绑定的旧未完成上传请求返回 legacy_request_binding_missing，两者均须使用新键。本组已有的同一版本再次发布返回 409 CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS。torrentStorageId 指向的种子已被其他资源或他人未过期的预览使用时返回 409 CONFLICT，error.reason 为 TORRENT_IN_USE。重放及 503 重试规则见「接口约定与鉴权」。
           animeId 按来源规范化：接受全角数字、前导零和该来源站点的番剧链接（bgm.tv / bangumi.tv / chii.in、myanimelist.net、anidb.net、anilist.co）。已合并的旧 BGM ID 发布到合并后的番剧。发布只解析站内已收录的番剧，不会新收录。
           bgm 的 animeId 不是 ID 时返回 422；mal、anidb、anilist 的 animeId 不是 ID、站内没有，或只有被管理员隐藏、被 bgm.tv 标记为 NSFW 的番剧持有该 ID 时返回 404；同一个外部 ID 对应多部公开番剧时返回 422（Anime identifier is ambiguous），请改用 bgm ID。
           multipart 必须上传 torrent，title 省略时使用种子内部名；JSON 必须提供 title 和属于当前字幕组的 torrentStorageId。JSON 还必须提供 magnetBase64。
+          一个已存储的种子只能用于一条资源。torrentStorageId 指向的种子已被另一条番剧资源、其他类资源或他人未过期的预览使用时，发布和预览都返回 409 CONFLICT，error.reason 为 TORRENT_IN_USE，error.message 为 torrent is already used by another release，不写入任何内容；请改用 multipart 上传种子文件。同一发布者重发内容相同的番剧资源时仍返回已有资源；自己预览过的种子可以直接正式发布。
           请求里的磁力链接须含 v1 infohash，即 xt=urn:btih 后接 40 位十六进制或 32 位 base32。xt 键不区分大小写，XT=urn:btih:… 同样接受；同时带 urn:btmh 的混合磁链，urn:btmh 写在 urn:btih 前面也接受。没有 xt=urn:btih 或其中不是合法的 v1 infohash 时返回 422 VALIDATION_ERROR。
           成功发布返回 { ok: true, result: { releaseId, revision, torrentObjectId? } }。发布回执不包含 groupId、groupName、groupSlug、animeId 或 fileSize；发布前用 GET 同一路径核验身份。
-          preview=true 返回顶层 previewUrl、previewToken、expiresAt 和 Key 身份信息，10 分钟后过期；不创建公开发布。
+          preview=true 返回顶层 previewUrl、previewToken、expiresAt 和 Key 身份信息，10 分钟后过期；不创建公开发布。预览所用的种子正式发布后，预览随即失效。
           未显式提供的集数、画质、语言、字幕、格式和版本先从标题、再从种子内部名推断；无法推断集数时需传 episode 或 episodeKey。
           集数键的推断：标题只写了一个集数范围的合集存为该范围，[01-13 合集] 为 1-13，[01-12 Fin] 为 1-12；标题写了两个不同范围（[01-12][13-24]）时为 BATCH。括号外两侧带空格的横线后面的数字是单集：Season 2 - 05 为 5，Part 3 - 26 为 26。S03E05 为 5；S01E01-E12 是标题里唯一的范围时为 1-12；第 0 季的特别篇（S00E..）不按这种写法推断。传入的 episodeKey 为 BATCH、合集或全集，而标题只写了一个集数范围时，存为该范围。范围的 episode 是它的第一集。
           分辨率的推断：只从标题里写明分辨率的片段识别，即 1080p、1080P、1080i 这类行数加 p 或 i，1920x1080、3840x2160 这类宽 × 高，以及独立成词的 4K。2160p 与 3840x2160 识别为 2160p，写明 4K 时才是 4K。集数、不带 p 或 i 的裸数字（如 1080、720、2160）、校验码里的数字，以及粘在单词里的 4K（如 Show4Kids）都不算分辨率：[Group] One Piece - 1080 [720p].mkv 识别为 720p。标题里识别不出时，按同样的规则读取种子内部名，仍识别不出时为 1080p。
@@ -29,7 +32,7 @@ _openapi:
           Nyaa 需要字幕组白名单和有效分类，种子必须包含 http://nyaa.tracker.wf:7777/announce。Nyaa 代发应使用 multipart，确保从上传种子提取 tracker。
           Nyaa 的结构化 sitePublish.nyaa 仅用于 JSON；multipart 使用 nyaa、nyaaCategory、nyaaComplete 等独立字段。
           200 表示本站发布已写入，不保证外站同步或下游读取已经完成。
-          发布请求达到限额时返回 429 RATE_LIMIT_EXCEEDED。发布暂时繁忙、限流服务暂时无法计数或上传结果仍待确认时，可返回 503 SERVICE_UNAVAILABLE（限流服务无法计数时 Retry-After 固定为 15）；限流拒绝发生在发布前，其他失败不能据此推断未写入。响应带 Retry-After 时按其秒数等待；没有该头时先核查现有发布并保留 error.requestId，不要立即批量重试。
+          带 Key 的发布请求在校验 Key 之前按来源计数（无论 Key 是否有效），默认 120 次 / 60 秒，GET 同一路径另行计数；没带 Key 的请求直接返回 401，不计数。发布请求达到限额时返回 429 RATE_LIMIT_EXCEEDED。发布暂时繁忙、限流服务暂时无法计数或上传结果仍待确认时，可返回 503 SERVICE_UNAVAILABLE（限流服务无法计数时 Retry-After 固定为 15）；限流拒绝发生在发布前，其他失败不能据此推断未写入。响应带 Retry-After 时按其秒数等待；没有该头时先核查现有发布并保留 error.requestId，不要立即批量重试。
           普通发布可发送 Idempotency-Key（去除首尾空白后为 1–256 字符）。同一 API Key、同一发布端点的同一请求重试复用原值；已成功的命令返回原回执，不重复发布。即使原资源已删除，旧命令仍返回旧回执，不恢复资源。删除后有意重新发布时使用新的 Idempotency-Key；从首次受理开始，同一键绑定完整请求；切换发布与预览，或改变资源内容、Nyaa 选项、显式发布时间、上传文件时，请使用新键。同键改参返回 409 CONFLICT，上传完成或已有回执不能绕过绑定。
           升级前已上传但尚未完成的请求若缺少完整绑定，返回 409 CONFLICT，error.reason 为 legacy_request_binding_missing；请使用新键重新提交完整请求。已完成的旧请求仍按原回执重放。
           Idempotency-Key 未提供或为空时，本次请求按新命令处理，不能依赖命令回放。超过 256 字符时返回 422 VALIDATION_ERROR，error.details 为 {"header": "Idempotency-Key", "maxLength": 256}；服务端不读取请求体，也不发布。跨站浏览器预检目前不允许此请求头；需要该重试保证的客户端应从服务端调用。
