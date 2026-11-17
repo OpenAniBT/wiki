@@ -26,7 +26,7 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   },
   "The publish API refuses a stored torrent that is already in use": {
     "type": "Fix",
-    "description": "A stored torrent can back only one release. When the torrentStorageId of a publish or a preview names a torrent that another anime release, an other release, or another user's unexpired preview already uses, the answer is 409 CONFLICT with error.reason TORRENT_IN_USE and nothing is written; upload the torrent file with multipart instead. Previously, two releases sharing one torrent could then neither be deleted. The same publisher republishing an anime release with the same content still gets the existing release, a torrent you previewed yourself can be published directly, and once it is published its previews stop working. See Conventions and authentication."
+    "description": "A stored torrent can back only one release. When the torrentStorageId of a publish or a preview names a torrent that another anime release, an other release, or another user's unexpired preview already uses, the answer is 409 CONFLICT with error.reason TORRENT_IN_USE and nothing is written; upload the torrent file with multipart instead. This stops two releases from sharing one torrent, which left neither of them deletable; releases that already share a torrent stay as they are and still cannot be deleted. The same publisher republishing an anime release with the same content still gets the existing release, a torrent you previewed yourself can be published directly, and once it is published its previews stop working. See Conventions and authentication."
   },
   "The Open API counts a request before it checks the key": {
     "type": "Improvement",
