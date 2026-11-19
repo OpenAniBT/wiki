@@ -36,6 +36,18 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
     "type": "Fix",
     "description": "Anime and other release detail pages count one view 30 seconds after they open. If the tab is in the background at that moment, the view is counted when you return to the tab; previously it was not counted. A download still counts the view at once, and one visit counts at most one view."
   },
+  "Accounts without an email no longer show Set Password": {
+    "type": "Fix",
+    "description": "An account without an email, such as one created through Bangumi sign-in whose profile shows \"No email linked\", no longer shows the Set Password card in its profile. Set Password works by mailing a setup link to the account email, which such an account cannot receive; previously the card was still shown, but no email came after you submitted it. An account whose email can receive mail still shows the card, and an account that already has a password can still change it under Change Password. See Account & Authentication."
+  },
+  "Inactive or suspended groups no longer offer Resend or Retry": {
+    "type": "Fix",
+    "description": "While a group's status is Inactive or Suspended, the group console no longer shows \"Retry sync\" or \"Resync\", and \"Resend\" in the \"Resend and sync progress\" dialog is unavailable, with the note \"This group is inactive or suspended, so its releases cannot be resent.\" This applies to site administrators too. Previously these buttons were still shown, but what they started never reached the external site. Once the group is Active again, they are offered as before. See Multi-Site Sync Overview."
+  },
+  "Uploads the image host refuses give the reason in the page language": {
+    "type": "Fix",
+    "description": "When the image host refuses an image during processing (for example, a file named and typed as PNG whose content is SVG), its row in the upload area now shows the image host's own message in the page's language, such as \"Image format or dimensions are not supported.\", the same message you see when you choose an unsupported format. Other reasons read the same way, such as \"The file is larger than the size limit.\", \"The image dimensions are larger than the limit.\" or \"The image could not be processed.\" Previously the row showed the processing error as written, in English, such as \"Unsupported image type\". A refused image still offers no retry. See Fansub Image Hosting."
+  },
 }} />
 
 ## November 17, 2026
