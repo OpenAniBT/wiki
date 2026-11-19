@@ -9,6 +9,35 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   Entries are listed in reverse chronological order. If you encounter any bugs during regular use, feel free to report them via our [Support Email](/en/docs/contact).
 </Callout>
 
+## November 19, 2026
+
+<TypeTable type={{
+  "The publish API answers 400 for a body it cannot read": {
+    "type": "Fix",
+    "description": "On both publish endpoints (POST /api/releases/publish and POST /api/other-releases/publish), a Content-Length header with anything other than digits (such as 1e3, 1.5 or -1) returns 400 INVALID_BODY, and the body is not read. A body that cannot be read to the end (for example, the upload breaks off) returns 400 INVALID_BODY; previously it returned 500 UPLOAD_FAILED. Nothing is published in either case. A body over the size limit still returns 413 SIZE_EXCEEDED, and key and rate-limit answers are unchanged. See Conventions and authentication."
+  },
+  "The publish wizard refuses torrents with only a v2 infohash": {
+    "type": "Fix",
+    "description": "When you choose a torrent in the publish wizard that has only a BitTorrent v2 infohash and no v1 infohash, it is not added to the queue, and a message says it can't be published and should be recreated as a v1 or hybrid (v1+v2) torrent. Previously such a torrent entered the queue and always failed at publishing. v1 and hybrid torrents are not affected."
+  },
+  "Test Connection shows the result of that test": {
+    "type": "Fix",
+    "description": "After you click Test Connection in the site sync settings, the pass or fail message comes from that test itself. Previously, when another test of the same site was running at the same time (in another tab, or started by another manager), the message could show that other test's result."
+  },
+  "An action that did not go through asks you to retry when you are still signed in": {
+    "type": "Fix",
+    "description": "When an action such as saving or deleting is refused because of the sign-in state, and the check that follows finds you are still signed in, the page shows \"That action didn't go through. Please try again.\" Previously some actions showed nothing in this case."
+  },
+  "The image host upload note says which images become WebP": {
+    "type": "Fix",
+    "description": "The note in the image host upload area now says that static JPEG and PNG images convert to WebP, and that GIF, BMP, animated images and static WebP files that need no resize keep their original format. The old note said static GIF and BMP images convert to WebP too, which is not what happens; how images are processed has not changed."
+  },
+  "A release page opened in a background tab still counts its view": {
+    "type": "Fix",
+    "description": "Anime and other release detail pages count one view 30 seconds after they open. If the tab is in the background at that moment, the view is counted when you return to the tab; previously it was not counted. A download still counts the view at once, and one visit counts at most one view."
+  },
+}} />
+
 ## November 17, 2026
 
 <TypeTable type={{

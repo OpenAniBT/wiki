@@ -74,9 +74,13 @@ Check the URL, HTTP method, Content-Type, and response body first.
     "type": "Stop polling",
     "description": "DELETE can return 500 RELEASE_DELETION_FAILED with a receipt in error.details. Status reads can return 200 with result.state=failed."
   },
+  "400 INVALID_BODY on publish": {
+    "type": "Request body",
+    "description": "The JSON body is not an object, the multipart body cannot be parsed, Content-Length is not digits only, or the body could not be read to the end (for example, the upload broke off). Nothing was published for any of these; check the request and send it again. A body over the size limit returns 413 SIZE_EXCEEDED."
+  },
   "500 UPLOAD_FAILED on publish": {
     "type": "Failed submission",
-    "description": "Do not assume no write occurred or immediately retry a batch. Check existing releases and keep error.requestId. Reuse the original Idempotency-Key when retrying the same normal publish request. Input errors such as the episode fields, the magnet, torrentStorageId or a field length return 422 VALIDATION_ERROR, never 500."
+    "description": "Do not assume no write occurred or immediately retry a batch. Check existing releases and keep error.requestId. Reuse the original Idempotency-Key when retrying the same normal publish request. Input errors such as the episode fields, the magnet, torrentStorageId or a field length return 422 VALIDATION_ERROR, and a body that could not be read to the end returns 400 INVALID_BODY; neither is ever 500."
   },
   "External copy remains after deletion": {
     "type": "Scope",

@@ -1834,7 +1834,7 @@ paths:
                     apiKeyId: sgak_example
                     apiKeySuffix: abcd1234
         "400":
-          description: 无效 JSON 或请求体
+          description: 无效 JSON 或请求体，返回 INVALID_JSON 或 INVALID_BODY，不会发布。Content-Length 只能由数字组成，否则返回 INVALID_BODY（Invalid Content-Length），不读取请求体；有些写法在到达应用之前就会被拒绝，同样是 400，但正文不一定是 JSON。请求体没有读完（例如上传中途断开）时返回 INVALID_BODY（Request body could not be read），不是 500。
           content:
             application/json:
               schema:
@@ -1999,7 +1999,7 @@ paths:
                       revision: 1
                       torrentObjectId: obj_example
         "400":
-          description: 无效 JSON 或请求体
+          description: 无效 JSON 或请求体，返回 INVALID_JSON 或 INVALID_BODY，不会发布。Content-Length 只能由数字组成，否则返回 INVALID_BODY（Invalid Content-Length），不读取请求体；有些写法在到达应用之前就会被拒绝，同样是 400，但正文不一定是 JSON。请求体没有读完（例如上传中途断开）时返回 INVALID_BODY（Request body could not be read），不是 500。
           content:
             application/json:
               schema:

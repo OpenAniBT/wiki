@@ -74,9 +74,13 @@ description: "依回應類型、狀態碼與欄位定位問題。"
     "type": "停止輪詢",
     "description": "DELETE 可回傳 500 RELEASE_DELETION_FAILED，回執在 error.details；狀態查詢可回傳 200 + result.state=failed。"
   },
+  "釋出回傳 400 INVALID_BODY": {
+    "type": "請求本文",
+    "description": "JSON 請求本文不是物件、multipart 無法解析、Content-Length 不是純數字，或請求本文沒有讀完（例如上傳中途中斷）。這些請求都沒有釋出，檢查請求後重新傳送即可。請求本文超過上限回傳 413 SIZE_EXCEEDED。"
+  },
   "釋出回傳 500 UPLOAD_FAILED": {
     "type": "提交失敗",
-    "description": "不能假定未寫入，也不要立即批次重試。核查現有資源並保留 error.requestId；重試同一次一般釋出時沿用原 Idempotency-Key。集數、磁力、torrentStorageId 與欄位長度這類輸入錯誤回傳 422 VALIDATION_ERROR，不會是 500。"
+    "description": "不能假定未寫入，也不要立即批次重試。核查現有資源並保留 error.requestId；重試同一次一般釋出時沿用原 Idempotency-Key。集數、磁力、torrentStorageId 與欄位長度這類輸入錯誤回傳 422 VALIDATION_ERROR，請求本文沒有讀完回傳 400 INVALID_BODY，都不會是 500。"
   },
   "站內刪除後外站仍存在": {
     "type": "操作範圍",

@@ -74,9 +74,13 @@ description: "按响应类型、状态码和字段定位问题。"
     "type": "停止轮询",
     "description": "DELETE 可返回 500 RELEASE_DELETION_FAILED，回执在 error.details；状态查询可返回 200 + result.state=failed。"
   },
+  "发布返回 400 INVALID_BODY": {
+    "type": "请求体",
+    "description": "JSON 请求体不是对象、multipart 无法解析、Content-Length 不是纯数字，或请求体没有读完（例如上传中途断开）。这些请求都没有发布，检查请求后重新发送即可。请求体超过上限返回 413 SIZE_EXCEEDED。"
+  },
   "发布返回 500 UPLOAD_FAILED": {
     "type": "提交失败",
-    "description": "不能假定未写入，也不要立即批量重试。核查现有资源并保留 error.requestId；重试同一次普通发布时复用原 Idempotency-Key。集数、磁力、torrentStorageId 和字段长度这类输入错误返回 422 VALIDATION_ERROR，不会是 500。"
+    "description": "不能假定未写入，也不要立即批量重试。核查现有资源并保留 error.requestId；重试同一次普通发布时复用原 Idempotency-Key。集数、磁力、torrentStorageId 和字段长度这类输入错误返回 422 VALIDATION_ERROR，请求体没有读完返回 400 INVALID_BODY，都不会是 500。"
   },
   "站内删除后外站仍存在": {
     "type": "操作范围",
