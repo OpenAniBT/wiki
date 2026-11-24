@@ -9,6 +9,13 @@ description: 记录 AniBT 平台面向用户与字幕组的功能变更、优化
   更新日志按时间倒序排列。如果你在日常使用中发现了异常问题，欢迎通过 [支持邮箱](/docs/contact) 向我们反馈。
 </Callout>
 
+## 2026 年 11 月 24 日
+
+<TypeTable type={{
+  "动漫花园同步会核对实际发布的主题": { type: "Fix", description: "花园返回跳转、重复提示或不明确的回执时，AniBT 会按种子和发布身份核对公开主题。查证期间不会再次提交，无法确认的记录保留待核对状态。" },
+  "种子上传结果待确认": { type: "Fix", description: "发布 API 返回 409 CONFLICT 且原因为 RAW_UPLOAD_UNCONFIRMED 时，请停止自动重试，保留原 Idempotency-Key 和请求 ID 联系支持。收到带 Retry-After 的 503 时，按指定时间用原键重试。" }
+}} />
+
 ## 2026 年 11 月 19 日
 
 <TypeTable type={{

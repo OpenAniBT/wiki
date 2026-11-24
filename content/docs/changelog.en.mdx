@@ -9,6 +9,13 @@ This page logs user-facing features, enhancements, and fixes for visitors, anime
   Entries are listed in reverse chronological order. If you encounter any bugs during regular use, feel free to report them via our [Support Email](/en/docs/contact).
 </Callout>
 
+## November 24, 2026
+
+<TypeTable type={{
+  "DMHY sync verifies the published topic": { type: "Fix", description: "When DMHY returns a redirect, a duplicate notice, or an unclear acknowledgement, AniBT checks the public topic against the torrent and publisher. It only reads the site during verification. An unconfirmed submission remains pending review." },
+  "Unconfirmed torrent uploads": { type: "Fix", description: "If the publishing API returns 409 CONFLICT with reason RAW_UPLOAD_UNCONFIRMED, stop automatic retries and contact support with the original Idempotency-Key and request ID. For a 503 with Retry-After, wait and retry with the same key." }
+}} />
+
 ## November 19, 2026
 
 <TypeTable type={{

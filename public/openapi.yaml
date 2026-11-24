@@ -1854,7 +1854,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "409":
-          description: 资源或命令冲突，包括同一 Idempotency-Key 改参。缺少完整绑定的旧未完成上传请求返回 CONFLICT，error.reason 为 legacy_request_binding_missing；使用新键重新提交完整请求。本组在同一番剧下已有集数键、版本、字幕类型、分辨率、语言都相同且种子相同的资源时返回 CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS，error.message 为 release version already exists，error.i18n.key 为 error_release_version_exists；不要重试同一请求。torrentStorageId 指向的种子已被另一条番剧资源、其他类资源或他人未过期的预览使用时，发布和预览都返回 CONFLICT，error.reason 为 TORRENT_IN_USE，error.message 为 torrent is already used by another release；请改用 multipart 上传种子文件。
+          description: 资源或命令冲突，包括同一 Idempotency-Key 改参。缺少完整绑定的旧未完成上传请求返回 CONFLICT，error.reason 为 legacy_request_binding_missing；使用新键重新提交完整请求。本组在同一番剧下已有集数键、版本、字幕类型、分辨率、语言都相同且种子相同的资源时返回 CONFLICT，error.reason 为 RELEASE_VERSION_EXISTS，error.message 为 release version already exists，error.i18n.key 为 error_release_version_exists；不要重试同一请求。torrentStorageId 指向的种子已被另一条番剧资源、其他类资源或他人未过期的预览使用时，发布和预览都返回 CONFLICT，error.reason 为 TORRENT_IN_USE，error.message 为 torrent is already used by another release；请改用 multipart 上传种子文件。 原始种子的上一次写入结果待确认时返回 409 CONFLICT，error.reason 为 RAW_UPLOAD_UNCONFIRMED，error.retryable 为 false。停止自动重试并保留原命令键和请求 ID。
           content:
             application/json:
               schema:
@@ -2019,7 +2019,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
         "409":
-          description: 资源或命令冲突，包括同一 Idempotency-Key 改参。缺少完整绑定的旧未完成上传请求返回 CONFLICT，error.reason 为 legacy_request_binding_missing；使用新键重新提交完整请求。torrentStorageId 指向的种子已被番剧资源、另一条其他类资源或他人未过期的预览使用时返回 CONFLICT，error.reason 为 TORRENT_IN_USE，error.message 为 torrent is already used by another release；请改用 multipart 上传种子文件。
+          description: 资源或命令冲突，包括同一 Idempotency-Key 改参。缺少完整绑定的旧未完成上传请求返回 CONFLICT，error.reason 为 legacy_request_binding_missing；使用新键重新提交完整请求。torrentStorageId 指向的种子已被番剧资源、另一条其他类资源或他人未过期的预览使用时返回 CONFLICT，error.reason 为 TORRENT_IN_USE，error.message 为 torrent is already used by another release；请改用 multipart 上传种子文件。 原始种子的上一次写入结果待确认时返回 409 CONFLICT，error.reason 为 RAW_UPLOAD_UNCONFIRMED，error.retryable 为 false。停止自动重试并保留原命令键和请求 ID。
           content:
             application/json:
               schema:

@@ -9,6 +9,13 @@ description: 記錄 AniBT 平台面向使用者與字幕組的功能變更、最
   更新日誌按時間倒序排列。如果你在日常使用中發現了異常問題，歡迎透過 [支援信箱](/zh-Hant/docs/contact) 向我們回饋。
 </Callout>
 
+## 2026 年 11 月 24 日
+
+<TypeTable type={{
+  "動漫花園同步會核對實際釋出的主題": { type: "Fix", description: "花園回傳重新導向、重複提示或不明確的回應時，AniBT 會依種子與釋出身分核對公開主題。查證期間不會再次提交，無法確認的紀錄會保留待核對狀態。" },
+  "種子上傳結果待確認": { type: "Fix", description: "釋出 API 回傳 409 CONFLICT，原因為 RAW_UPLOAD_UNCONFIRMED 時，請停止自動重試，保留原 Idempotency-Key 和請求 ID 並聯絡支援。收到含 Retry-After 的 503 時，請依指定時間使用原鍵重試。" }
+}} />
+
 ## 2026 年 11 月 19 日
 
 <TypeTable type={{
