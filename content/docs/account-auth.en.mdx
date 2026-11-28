@@ -81,6 +81,12 @@ Existing accounts can still verify their original address and reset their passwo
   </Tab>
 </Tabs>
 
+## Syncing Bangumi collections
+
+Open My Subscriptions to see your Bangumi connection and last sync time. When sync is enabled, AniBT reads the collection types you selected (Wish or Watching) and updates subscriptions for shows it can match.
+
+If Bangumi stops responding, AniBT keeps your connection and subscriptions. A pending sync can retry, and selecting sync again reuses the pending run. The last successful sync time advances after AniBT reads and applies the complete collection. If the page asks you to reconnect, authorize Bangumi again.
+
 ## Session State & Multi-Device Security
 
 - **Page Redirects**: Visiting the sign-in page while already signed in redirects back to your previous page. When an existing session expires, the page stays on the sign-in form without bouncing. If your session has expired or been revoked but the browser still holds its Cookie, opening a page that needs sign-in, such as `/dashboard`, `/profile`, `/subscriptions`, `/admin` or fansub group management, takes you to the sign-in page and back to that page after you sign in.
